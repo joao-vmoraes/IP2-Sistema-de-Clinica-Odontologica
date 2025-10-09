@@ -2,8 +2,8 @@ public abstract class Pessoa {
     protected String nome;
     protected String cpf;
     protected String email;
-    protected String telefone;
     protected String endereco;
+    protected String telefone;
 
     // CONSTRUTOR
     public Pessoa(String nome, String cpf, String telefone, String email, String endereco) {

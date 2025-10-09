@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class Dentista extends Pessoa {
     private String especialidade;
+    private StatusDentista status;
     private List<Agendamento> agenda = new ArrayList<>();
     private LocalTime horarioTrabalhoInicio; 
     private LocalTime horarioTrabalhoFim;
@@ -18,6 +19,7 @@ public class Dentista extends Pessoa {
     public Dentista(String nome, String cpf, String telefone, String email, String endereco, String especialidade, LocalTime inicio, LocalTime fim) {
         super(nome, cpf, telefone, email, endereco);
         this.especialidade = especialidade;
+        this.status = StatusDentista.DISPONIVEL;
         this.horarioTrabalhoInicio = inicio;
         this.horarioTrabalhoFim = fim;
         diasDeFolga.add(DayOfWeek.SATURDAY); 
