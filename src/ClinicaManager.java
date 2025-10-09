@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ClinicaManager {
-    private List<Paciente> pacientes = new ArrayList<>();
-    private List<Dentista> dentistas = new ArrayList<>();
-    private List<Agendamento> agendamentos = new ArrayList<>();
-    private List<Procedimento> procedimentosCatalogo = new ArrayList<>();
-    private List<Pagamento> historicoPagamentos = new ArrayList<>();
-    private List<Consulta> historicoConsultas = new ArrayList<>();
+    protected static List<Paciente> pacientes = new ArrayList<>();
+    protected static List<Dentista> dentistas = new ArrayList<>();
+    protected static List<Agendamento> agendamentos = new ArrayList<>();
+    protected static List<Procedimento> procedimentosCatalogo = new ArrayList<>();
+    protected static List<Pagamento> historicoPagamentos = new ArrayList<>();
+    protected static List<Consulta> historicoConsultas = new ArrayList<>();
 
     public List<Paciente> getPacientes() {
         return this.pacientes;

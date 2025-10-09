@@ -1,18 +1,11 @@
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class Cadastrador {
-    private ClinicaManager manager;
-    private List<Paciente> pacientes = new ArrayList<>();
-    private List<Dentista> dentistas = new ArrayList<>();
-    private List<Procedimento> procedimentos = new ArrayList<>();
+public class Cadastrador extends ClinicaManager {
+    //private ClinicaManager manager;
 
     public Cadastrador(ClinicaManager manager) {
-        this.manager = manager;
-        this.pacientes = manager.getPacientes();
-        this.dentistas = manager.getDentistas();
-        this.procedimentos = manager.getProcedimentos();
+        //this.manager = manager;
+        //this.pacientes = manager.getPacientes();
+        //this.dentistas = manager.getDentistas();
+        //this.procedimentos = manager.getProcedimentos();
     }
 
     //Métodos CRUD básicos (REQ01, REQ04)
@@ -65,15 +58,15 @@ public class Cadastrador {
     }
 
     public void adicionarProcedimentoAoCatalogo(Procedimento proc) {
-        if(!procedimentos.contains(proc))
-            procedimentos.add(proc);
+        if(!procedimentosCatalogo.contains(proc))
+            procedimentosCatalogo.add(proc);
         else
             System.err.println("Procedimento ja existe");
     }
 
     public void removerProcedimentoDoCatalogo(Procedimento proc) {
-        if(procedimentos.contains(proc))
-            procedimentos.remove(proc);
+        if(procedimentosCatalogo.contains(proc))
+            procedimentosCatalogo.remove(proc);
         else
             System.err.println("Procedimento nao encontrado");
     }

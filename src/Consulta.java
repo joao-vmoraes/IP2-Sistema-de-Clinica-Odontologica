@@ -1,9 +1,6 @@
 import java.time.LocalDateTime;
 
-public class Consulta {
-    private Paciente paciente;
-    private Dentista dentista;
-    private Procedimento procedimento;
+public class Consulta extends Atendimento {
     private StatusConsulta statusConsulta;
     private LocalDateTime dataHora;
 

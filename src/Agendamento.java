@@ -1,9 +1,6 @@
 import java.time.LocalDateTime;
 
-public class Agendamento {
-    private Paciente paciente;
-    private Dentista dentista;
-    private Procedimento procedimento;
+public class Agendamento extends Atendimento {
     private LocalDateTime dataHora;
     private Pagamento pagamento;
     private String salaAtendimento;
