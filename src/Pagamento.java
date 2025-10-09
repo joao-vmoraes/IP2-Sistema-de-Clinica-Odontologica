@@ -1,14 +1,20 @@
 import java.time.LocalDateTime;
 
+enum MetodoPagamento {
+    Dinehiro,
+    Cartao,
+    PIX,
+}
+
 public class Pagamento {
     private double valor;
-    private String metodo;
+    private MetodoPagamento metodo;
     private boolean confirmado;
     private LocalDateTime dataPagamento;
     private Procedimento referenciaProcedimento;
 
     //CONSTRUTOR
-    public Pagamento(double valor, String metodo, Procedimento referenciaProcedimento) {
+    public Pagamento(double valor, MetodoPagamento metodo, Procedimento referenciaProcedimento) {
         this.valor = valor;
         this.metodo = metodo;
         this.confirmado = false;

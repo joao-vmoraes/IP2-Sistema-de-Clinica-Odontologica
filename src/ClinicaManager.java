@@ -24,7 +24,7 @@ public class ClinicaManager {
     
     public boolean marcarConsulta(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String sala) {
         //Bloquear agendamento de paciente com pagamento pendente (REQ24)
-        if (paciente.isPossuiPagamentoPendente()) {
+        if (paciente.temPagamentoPendente()) {
             System.out.println("Erro: Paciente possui pagamentos pendentes. Agendamento bloqueado.");
             return false;
         }
@@ -38,7 +38,7 @@ public class ClinicaManager {
         Agendamento novoAgendamento = new Agendamento(paciente, dentista, procedimento, dataHora, sala);
         agendamentos.add(novoAgendamento);
         dentista.adicionarAgendamento(novoAgendamento);
-        paciente.adicionarHistorico(novoAgendamento);
+        paciente.adicionarAgendamento(novoAgendamento);
         System.out.println("Consulta agendada com sucesso!");
         return true;
     }

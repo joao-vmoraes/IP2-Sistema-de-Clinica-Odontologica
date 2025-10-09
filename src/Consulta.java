@@ -7,14 +7,7 @@ public class Consulta {
     private StatusConsulta statusConsulta;
     private LocalDateTime dataHora;
 
-    public void atualizarConsulta(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora,  StatusConsulta statusConsulta) {
-        this.paciente = paciente;
-        this.dentista = dentista;
-        this.procedimento = procedimento;
-        this.dataHora = dataHora;
-        this.statusConsulta = statusConsulta;
-    }
-
+    //Construtor
     public Consulta(LocalDateTime dataHora, StatusConsulta statusConsulta, Dentista dentista, Paciente paciente, Procedimento procedimento) {
         this.dataHora = dataHora;
         this.statusConsulta = statusConsulta.PLANEJADO;
@@ -23,6 +16,7 @@ public class Consulta {
         this.procedimento = procedimento;
     }
 
+    //Getters e Setters
     public Paciente getPaciente() {
         return paciente;
     }
@@ -62,4 +56,15 @@ public class Consulta {
     public void setDentista(Dentista dentista) {
         this.dentista = dentista;
     }
+
+    //Métodos
+    public void atualizarConsulta(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora,  StatusConsulta statusConsulta) {
+        this.paciente = paciente;
+        this.dentista = dentista;
+        this.procedimento = procedimento;
+        this.dataHora = dataHora;
+        this.statusConsulta = statusConsulta;
+    }
+    //Os Setters são redundantes, atualizarConsulta faz todo o trabalho deles.
+    //Vou deixar pois eu os vejo sendo úteis dependendo do contexto
 }

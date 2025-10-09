@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Paciente extends Pessoa {
-    private List<Agendamento> historicoProcedimentos = new ArrayList<>(); 
+    private List<Agendamento> agenda = new ArrayList<>(); 
+    private List<Consulta> historicoProcedimentos = new ArrayList<>(); 
     private boolean possuiPagamentoPendente; 
 
     //CONSTRUTOR
@@ -11,20 +12,34 @@ public class Paciente extends Pessoa {
         this.possuiPagamentoPendente = false; 
     }
 
-    public List<Agendamento> getHistoricoProcedimentos() {
+    //Getters e Setters
+    public List<Consulta> getHistoricoProcedimentos() {
         return historicoProcedimentos;
     }
 
-    public void adicionarHistorico(Agendamento agendamento) {
-        this.historicoProcedimentos.add(agendamento);
+    public List<Agendamento> getAgenda() {
+        return agenda;
     }
 
-    public boolean isPossuiPagamentoPendente() {
+    public boolean temPagamentoPendente() {
         return possuiPagamentoPendente;
     }
 
+    //Métodos
     public void setPossuiPagamentoPendente(boolean possuiPagamentoPendente) {
         this.possuiPagamentoPendente = possuiPagamentoPendente;
+    }
+
+    public void adicionarAgendamento(Agendamento agendamento) {
+        this.agenda.add(agendamento);
+    }
+    
+    public void removerAgendamento(Agendamento agendamento) {
+        this.agenda.remove(agendamento);
+    }
+
+    public void AdicionarNoHistorico(Consulta consulta) {
+        this.historicoProcedimentos.add(consulta);
     }
 
     public void atualizarInformacoes(String telefone, String email, String endereco) {
@@ -32,4 +47,5 @@ public class Paciente extends Pessoa {
         this.setEmail(email);
         this.setEndereco(endereco);
     }
+
 }

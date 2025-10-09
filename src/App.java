@@ -17,7 +17,7 @@ public class App {
         LocalDateTime dataConsulta = LocalDateTime.now().plusDays(1).withHour(10).withMinute(0).withSecond(0).withNano(0);
         manager.marcarConsulta(p1, d1, pr1, dataConsulta, "Sala 1");
         
-        Pagamento pg1 = new Pagamento(pr1.getPreco(), "PIX", pr1);
+        Pagamento pg1 = new Pagamento(pr1.getPreco(), MetodoPagamento.PIX, pr1);
         
         Agendamento agendamentoPendente = d1.getAgenda().get(0);
         agendamentoPendente.setPagamento(pg1);

@@ -10,6 +10,7 @@ public class Dentista extends Pessoa {
     private String especialidade;
     private StatusDentista status;
     private List<Agendamento> agenda = new ArrayList<>();
+    private List<Consulta> historicoConsultas = new ArrayList<>();
     private LocalTime horarioTrabalhoInicio; 
     private LocalTime horarioTrabalhoFim;
     private List<DayOfWeek> diasDeFolga = new ArrayList<>();
@@ -22,11 +23,11 @@ public class Dentista extends Pessoa {
         this.status = StatusDentista.DISPONIVEL;
         this.horarioTrabalhoInicio = inicio;
         this.horarioTrabalhoFim = fim;
-        diasDeFolga.add(DayOfWeek.SATURDAY); 
-        diasDeFolga.add(DayOfWeek.SUNDAY);
+        //diasDeFolga.add(DayOfWeek.SATURDAY); Fiz métodos específicos pra gerenciar isso
+        diasDeFolga.add(DayOfWeek.SUNDAY); //Vou manter só domingo no automatico pq ngm é de ferro
     }
 
-    //MÉTODOS
+    //Getters e Setters
     public String getEspecialidade() {
         return especialidade;
     }
@@ -35,8 +36,8 @@ public class Dentista extends Pessoa {
         return agenda;
     }
 
-    public void adicionarAgendamento(Agendamento agendamento) {
-        this.agenda.add(agendamento);
+    public List<Consulta> getHistorico() {
+        return historicoConsultas;
     }
 
     public LocalTime getHorarioTrabalhoInicio() {
@@ -50,12 +51,43 @@ public class Dentista extends Pessoa {
     public List<DayOfWeek> getDiasDeFolga() {
         return diasDeFolga;
     }
+
+    public StatusDentista getStatus() {
+        return status;
+    }
     
+    //Métodos
+    public void adicionarAgendamento(Agendamento agendamento) {
+        this.agenda.add(agendamento);
+    }
+
+    public void removerAgendamento(Agendamento agendamento) {
+        this.agenda.remove(agendamento);
+    }
+
+    public void adicionarNoHistorico(Consulta consulta) {
+        this.historicoConsultas.add(consulta);
+    }
+
+    public void AdicionarDiaDeFolga(DayOfWeek leDia) {
+        if(!this.diasDeFolga.contains(leDia))
+            this.diasDeFolga.add(leDia);
+        else
+            System.err.println("Dia ja esta registrado como folga.");
+    }
+
+    public void RemoverDiaDeFolga(DayOfWeek leDia) {
+        if(this.diasDeFolga.contains(leDia))
+            this.diasDeFolga.remove(leDia);
+        else
+            System.err.println("Dia nao esta registrado como folga.");
+    }
+
     public void registrarAusencia(LocalDate data, String motivo) {
         periodosAusencia.put(data, motivo);
     }
 
-    public boolean estaAusente(LocalDate data) { 
+    public boolean estaAusente(LocalDate data) {
         return periodosAusencia.containsKey(data);
     }
 }
