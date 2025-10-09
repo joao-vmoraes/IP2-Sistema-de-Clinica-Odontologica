@@ -17,25 +17,27 @@ public class Pagamento {
 
     //MÉTODOS
     public boolean isConfirmado() {
-        return confirmado;
+        return this.confirmado;
     }
     public double getValor() {
-        return valor;
+        return this.valor;
     }
 
     public void confirmarPagamento() {
         this.confirmado = true;
-        this.dataPagamento = LocalDateTime.now();
     }
 
-    public void realizarPagamento() {
+    public void realizarPagamento(/*contaDevedora, contaRecebedora*/) {
         if(!isConfirmado())
         {
             System.err.println("Erro ao realizar pagamento. Pagamento nao confirmado.");
             return;
         }
 
+        //fazer a checagem pra ver se ambas as contas estão disponíveis, caso não: return
+
         //Realiza pagamento k
+        this.dataPagamento = LocalDateTime.now();
         System.err.println("Pagamento realizado");
     }
 }

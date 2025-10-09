@@ -29,31 +29,31 @@ public class Dentista extends Pessoa {
 
     //Getters e Setters
     public String getEspecialidade() {
-        return especialidade;
+        return this.especialidade;
     }
 
     public List<Agendamento> getAgenda() {
-        return agenda;
+        return this.agenda;
     }
 
     public List<Consulta> getHistorico() {
-        return historicoConsultas;
+        return this.historicoConsultas;
     }
 
     public LocalTime getHorarioTrabalhoInicio() {
-        return horarioTrabalhoInicio;
+        return this.horarioTrabalhoInicio;
     }
 
     public LocalTime getHorarioTrabalhoFim() {
-        return horarioTrabalhoFim;
+        return this.horarioTrabalhoFim;
     }
 
     public List<DayOfWeek> getDiasDeFolga() {
-        return diasDeFolga;
+        return this.diasDeFolga;
     }
 
     public StatusDentista getStatus() {
-        return status;
+        return this.status;
     }
     
     //Métodos

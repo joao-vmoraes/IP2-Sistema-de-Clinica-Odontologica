@@ -7,19 +7,26 @@ public class ClinicaManager {
     private List<Paciente> pacientes = new ArrayList<>();
     private List<Dentista> dentistas = new ArrayList<>();
     private List<Agendamento> agendamentos = new ArrayList<>();
-    private List<Procedimento> procedimentosCatalogo = new ArrayList<>(); 
+    private List<Procedimento> procedimentosCatalogo = new ArrayList<>();
+    private List<Pagamento> historicoPagamentos = new ArrayList<>();
+    private List<Consulta> historicoConsultas = new ArrayList<>();
 
-    //Métodos CRUD básicos (REQ01, REQ04)
-    public void cadastrarPaciente(Paciente p) {
-        pacientes.add(p);
+    public List<Paciente> getPacientes() {
+        return this.pacientes;
+    }
+    public List<Dentista> getDentistas() {
+        return this.dentistas;
+    }
+    public List<Procedimento> getProcedimentos() {
+        return this.procedimentosCatalogo;
     }
 
-    public void cadastrarDentista(Dentista d) {
-        dentistas.add(d);
+    public void registrarPagamento(Pagamento pagamento) {
+        historicoPagamentos.add(pagamento);
     }
 
-    public void adicionarProcedimentoAoCatalogo(Procedimento proc) {
-        procedimentosCatalogo.add(proc);
+    public void registrarConsulta(Consulta consulta) {
+        historicoConsultas.add(consulta);
     }
     
     public boolean marcarConsulta(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String sala) {

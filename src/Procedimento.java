@@ -15,15 +15,15 @@ public class Procedimento {
 
     //MÉTODOS
     public double getPreco() {
-        return preco;
+        return this.preco;
     }
 
     public String getDescricao() {
-        return descricao;
+        return this.descricao;
     }
 
     public int getDuracaoEmMinutos() {
-        return duracaoEmMinutos;
+        return this.duracaoEmMinutos;
     }
 
     public void setDentistaExecutor(Dentista dentistaExecutor) {

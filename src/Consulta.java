@@ -18,7 +18,7 @@ public class Consulta {
 
     //Getters e Setters
     public Paciente getPaciente() {
-        return paciente;
+        return this.paciente;
     }
 
     public void setPaciente(Paciente paciente) {
@@ -26,7 +26,7 @@ public class Consulta {
     }
 
     public LocalDateTime getDataHora() {
-        return dataHora;
+        return this.dataHora;
     }
 
     public void setDataHora(LocalDateTime dataHora) {
@@ -34,7 +34,7 @@ public class Consulta {
     }
 
     public StatusConsulta getStatusConsulta() {
-        return statusConsulta;
+        return this.statusConsulta;
     }
 
     public void setStatusConsulta(StatusConsulta statusConsulta) {
@@ -42,7 +42,7 @@ public class Consulta {
     }
 
     public Procedimento getProcedimento() {
-        return procedimento;
+        return this.procedimento;
     }
 
     public void setProcedimento(Procedimento procedimento) {
@@ -50,7 +50,7 @@ public class Consulta {
     }
 
     public Dentista getDentista() {
-        return dentista;
+        return this.dentista;
     }
 
     public void setDentista(Dentista dentista) {

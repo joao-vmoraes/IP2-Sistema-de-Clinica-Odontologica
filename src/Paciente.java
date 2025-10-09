@@ -14,15 +14,15 @@ public class Paciente extends Pessoa {
 
     //Getters e Setters
     public List<Consulta> getHistoricoProcedimentos() {
-        return historicoProcedimentos;
+        return this.historicoProcedimentos;
     }
 
     public List<Agendamento> getAgenda() {
-        return agenda;
+        return this.agenda;
     }
 
     public boolean temPagamentoPendente() {
-        return possuiPagamentoPendente;
+        return this.possuiPagamentoPendente;
     }
 
     //Métodos
