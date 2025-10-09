@@ -1,11 +1,5 @@
 import java.time.LocalDateTime;
 
-enum MetodoPagamento {
-    Dinehiro,
-    Cartao,
-    PIX,
-}
-
 public class Pagamento {
     private double valor;
     private MetodoPagamento metodo;
@@ -32,5 +26,16 @@ public class Pagamento {
     public void confirmarPagamento() {
         this.confirmado = true;
         this.dataPagamento = LocalDateTime.now();
+    }
+
+    public void realizarPagamento() {
+        if(!isConfirmado())
+        {
+            System.err.println("Erro ao realizar pagamento. Pagamento nao confirmado.");
+            return;
+        }
+
+        //Realiza pagamento k
+        System.err.println("Pagamento realizado");
     }
 }

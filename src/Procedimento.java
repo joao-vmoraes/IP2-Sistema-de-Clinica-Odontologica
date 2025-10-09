@@ -2,16 +2,15 @@ public class Procedimento {
     private String descricao;
     private double preco;
     private int duracaoEmMinutos;
-    private String status;
     private Dentista dentistaExecutor;
     private Paciente pacienteAlvo;
 
     //CONSTRUTOR
-    public Procedimento(String descricao, double preco, int duracaoEmMinutos) {
+    public Procedimento(String descricao, double preco, int duracaoEmMinutos, Dentista dentista) {
         this.descricao = descricao;
         this.preco = preco;
         this.duracaoEmMinutos = duracaoEmMinutos;
-        this.status = "Planejado";
+        this.dentistaExecutor = dentista;
     }
 
     //MÉTODOS
@@ -27,24 +26,11 @@ public class Procedimento {
         return duracaoEmMinutos;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
     public void setDentistaExecutor(Dentista dentistaExecutor) {
         this.dentistaExecutor = dentistaExecutor;
     }
 
     public void setPacienteAlvo(Paciente pacienteAlvo) {
         this.pacienteAlvo = pacienteAlvo;
-    }
-
-    //atualizar status (REQ12, REQ26)
-    public void atualizarStatus(String novoStatus) {
-        if (this.status.equals("Concluído") && novoStatus.equals("Cancelado")) {
-            System.out.println("Erro: Procedimento concluído não pode ser cancelado sem registro de justificativa.");
-            return;
-        }
-        this.status = novoStatus;
     }
 }

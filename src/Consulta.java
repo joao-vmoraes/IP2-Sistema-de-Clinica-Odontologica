@@ -64,7 +64,16 @@ public class Consulta {
         this.procedimento = procedimento;
         this.dataHora = dataHora;
         this.statusConsulta = statusConsulta;
+        //Os Setters são redundantes, atualizarConsulta faz todo o trabalho deles.
+        //Vou deixar pois eu os vejo sendo úteis dependendo do contexto
     }
-    //Os Setters são redundantes, atualizarConsulta faz todo o trabalho deles.
-    //Vou deixar pois eu os vejo sendo úteis dependendo do contexto
+
+    //atualizar status (REQ12, REQ26)
+    public void atualizarStatus(StatusConsulta novoStatus) {
+        if (this.statusConsulta.equals(statusConsulta.CONCLUIDO) || novoStatus.equals(statusConsulta.CANCELADO)) {
+            System.out.println("Erro: Procedimento concluído não pode ser cancelado.");
+            return;
+        }
+        this.statusConsulta = novoStatus;
+    }
 }

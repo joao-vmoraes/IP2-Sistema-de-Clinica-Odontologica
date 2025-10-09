@@ -8,7 +8,7 @@ public class App {
         
         Paciente p1 = new Paciente("João Silva", "111.222.333-44", "9999-8888", "joao@email.com", "Rua A");
         Dentista d1 = new Dentista("Dr. Carlos", "222.333.444-55", "9888-7777", "carlos@clinica.com", "Av B", "Ortodontia", LocalTime.of(8, 0), LocalTime.of(18, 0));
-        Procedimento pr1 = new Procedimento("Limpeza Simples", 150.0, 30);
+        Procedimento pr1 = new Procedimento("Limpeza Simples", 150.0, 30, d1);
         
         manager.cadastrarPaciente(p1);
         manager.cadastrarDentista(d1);
