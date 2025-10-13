@@ -1,20 +1,10 @@
 import java.time.LocalDateTime;
 
-public class Consulta {
-    private Paciente paciente;
-    private Dentista dentista;
-    private Procedimento procedimento;
+public class Consulta extends Atendimento {
     private StatusConsulta statusConsulta;
     private LocalDateTime dataHora;
 
-    public void atualizarConsulta(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora,  StatusConsulta statusConsulta) {
-        this.paciente = paciente;
-        this.dentista = dentista;
-        this.procedimento = procedimento;
-        this.dataHora = dataHora;
-        this.statusConsulta = statusConsulta;
-    }
-
+    //Construtor
     public Consulta(LocalDateTime dataHora, StatusConsulta statusConsulta, Dentista dentista, Paciente paciente, Procedimento procedimento) {
         this.dataHora = dataHora;
         this.statusConsulta = statusConsulta.PLANEJADO;
@@ -23,8 +13,9 @@ public class Consulta {
         this.procedimento = procedimento;
     }
 
+    //Getters e Setters
     public Paciente getPaciente() {
-        return paciente;
+        return this.paciente;
     }
 
     public void setPaciente(Paciente paciente) {
@@ -32,7 +23,7 @@ public class Consulta {
     }
 
     public LocalDateTime getDataHora() {
-        return dataHora;
+        return this.dataHora;
     }
 
     public void setDataHora(LocalDateTime dataHora) {
@@ -40,7 +31,7 @@ public class Consulta {
     }
 
     public StatusConsulta getStatusConsulta() {
-        return statusConsulta;
+        return this.statusConsulta;
     }
 
     public void setStatusConsulta(StatusConsulta statusConsulta) {
@@ -48,7 +39,7 @@ public class Consulta {
     }
 
     public Procedimento getProcedimento() {
-        return procedimento;
+        return this.procedimento;
     }
 
     public void setProcedimento(Procedimento procedimento) {
@@ -56,10 +47,30 @@ public class Consulta {
     }
 
     public Dentista getDentista() {
-        return dentista;
+        return this.dentista;
     }
 
     public void setDentista(Dentista dentista) {
         this.dentista = dentista;
+    }
+
+    //Métodos
+    public void atualizarConsulta(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora,  StatusConsulta statusConsulta) {
+        this.paciente = paciente;
+        this.dentista = dentista;
+        this.procedimento = procedimento;
+        this.dataHora = dataHora;
+        this.statusConsulta = statusConsulta;
+        //Os Setters são redundantes, atualizarConsulta faz todo o trabalho deles.
+        //Vou deixar pois eu os vejo sendo úteis dependendo do contexto
+    }
+
+    //atualizar status (REQ12, REQ26)
+    public void atualizarStatus(StatusConsulta novoStatus) {
+        if (this.statusConsulta.equals(statusConsulta.CONCLUIDO) || novoStatus.equals(statusConsulta.CANCELADO)) {
+            System.out.println("Erro: Procedimento concluído não pode ser cancelado.");
+            return;
+        }
+        this.statusConsulta = novoStatus;
     }
 }

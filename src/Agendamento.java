@@ -1,9 +1,6 @@
 import java.time.LocalDateTime;
 
-public class Agendamento {
-    private Paciente paciente;
-    private Dentista dentista;
-    private Procedimento procedimento;
+public class Agendamento extends Atendimento {
     private LocalDateTime dataHora;
     private Pagamento pagamento;
     private String salaAtendimento;
@@ -22,24 +19,24 @@ public class Agendamento {
 
     //GETTERS E SETTERS
     public LocalDateTime getDataHora() {
-        return dataHora;
+        return this.dataHora;
     }
     public Paciente getPaciente() {
-        return paciente;
+        return this.paciente;
     }
     public Dentista getDentista() {
-        return dentista;
+        return this.dentista;
     }
     public Procedimento getProcedimento() {
-        return procedimento;
+        return this.procedimento;
     }
 
     public Pagamento getPagamento() {
-        return pagamento;
+        return this.pagamento;
     }
 
     public String getSalaAtendimento() {
-        return salaAtendimento;
+        return this.salaAtendimento;
     }
 
     public void setPagamento(Pagamento pagamento) {
@@ -47,7 +44,7 @@ public class Agendamento {
     }
     
     public boolean isCancelado() { 
-        return cancelado;
+        return this.cancelado;
     } 
     
     //Atualizar agendamentos (REQ09)

@@ -2,13 +2,13 @@ import java.time.LocalDateTime;
 
 public class Pagamento {
     private double valor;
-    private String metodo;
+    private MetodoPagamento metodo;
     private boolean confirmado;
     private LocalDateTime dataPagamento;
     private Procedimento referenciaProcedimento;
 
     //CONSTRUTOR
-    public Pagamento(double valor, String metodo, Procedimento referenciaProcedimento) {
+    public Pagamento(double valor, MetodoPagamento metodo, Procedimento referenciaProcedimento) {
         this.valor = valor;
         this.metodo = metodo;
         this.confirmado = false;
@@ -49,14 +49,27 @@ public class Pagamento {
 
     //MÉTODOS
     public boolean isConfirmado() {
-        return confirmado;
+        return this.confirmado;
     }
     public double getValor() {
-        return valor;
+        return this.valor;
     }
 
     public void confirmarPagamento() {
         this.confirmado = true;
+    }
+
+    public void realizarPagamento(/*contaDevedora, contaRecebedora*/) {
+        if(!isConfirmado())
+        {
+            System.err.println("Erro ao realizar pagamento. Pagamento nao confirmado.");
+            return;
+        }
+
+        //fazer a checagem pra ver se ambas as contas estão disponíveis, caso não: return
+
+        //Realiza pagamento k
         this.dataPagamento = LocalDateTime.now();
+        System.err.println("Pagamento realizado");
     }
 }

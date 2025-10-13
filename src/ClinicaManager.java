@@ -4,27 +4,34 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ClinicaManager {
-    private List<Paciente> pacientes = new ArrayList<>();
-    private List<Dentista> dentistas = new ArrayList<>();
-    private List<Agendamento> agendamentos = new ArrayList<>();
-    private List<Procedimento> procedimentosCatalogo = new ArrayList<>(); 
+    protected static List<Paciente> pacientes = new ArrayList<>();
+    protected static List<Dentista> dentistas = new ArrayList<>();
+    protected static List<Agendamento> agendamentos = new ArrayList<>();
+    protected static List<Procedimento> procedimentosCatalogo = new ArrayList<>();
+    protected static List<Pagamento> historicoPagamentos = new ArrayList<>();
+    protected static List<Consulta> historicoConsultas = new ArrayList<>();
 
-    //Métodos CRUD básicos (REQ01, REQ04)
-    public void cadastrarPaciente(Paciente p) {
-        pacientes.add(p);
+    public List<Paciente> getPacientes() {
+        return this.pacientes;
+    }
+    public List<Dentista> getDentistas() {
+        return this.dentistas;
+    }
+    public List<Procedimento> getProcedimentos() {
+        return this.procedimentosCatalogo;
     }
 
-    public void cadastrarDentista(Dentista d) {
-        dentistas.add(d);
+    public void registrarPagamento(Pagamento pagamento) {
+        historicoPagamentos.add(pagamento);
     }
 
-    public void adicionarProcedimentoAoCatalogo(Procedimento proc) {
-        procedimentosCatalogo.add(proc);
+    public void registrarConsulta(Consulta consulta) {
+        historicoConsultas.add(consulta);
     }
     
     public boolean marcarConsulta(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String sala) {
         //Bloquear agendamento de paciente com pagamento pendente (REQ24)
-        if (paciente.isPossuiPagamentoPendente()) {
+        if (paciente.temPagamentoPendente()) {
             System.out.println("Erro: Paciente possui pagamentos pendentes. Agendamento bloqueado.");
             return false;
         }
@@ -38,7 +45,7 @@ public class ClinicaManager {
         Agendamento novoAgendamento = new Agendamento(paciente, dentista, procedimento, dataHora, sala);
         agendamentos.add(novoAgendamento);
         dentista.adicionarAgendamento(novoAgendamento);
-        paciente.adicionarHistorico(novoAgendamento);
+        paciente.adicionarAgendamento(novoAgendamento);
         System.out.println("Consulta agendada com sucesso!");
         return true;
     }

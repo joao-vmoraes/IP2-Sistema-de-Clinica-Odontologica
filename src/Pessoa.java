@@ -15,19 +15,19 @@ public abstract class Pessoa {
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
     public String getCpf() {
-        return cpf;
+        return this.cpf;
     }
     public String getEmail() {
-        return email;
+        return this.email;
     }
     public String getTelefone() {
-        return telefone;
+        return this.telefone;
     }
     public String getEndereco() {
-        return endereco;
+        return this.endereco;
     }
 
     public void setEmail(String email) {
