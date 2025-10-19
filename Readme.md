@@ -65,3 +65,5 @@ O sistema deve registrar detalhes dos procedimentos realizados, controlar a agen
 - **REQ24**: Bloquear agendamento de paciente com pagamento pendente.
 - **REQ25**: Garantir que cada procedimento esteja vinculado a um dentista e paciente válidos.
 - **REQ26**: Não permitir cancelamento de procedimento já concluído sem registro de justificativa.
+
+teste
