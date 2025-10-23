@@ -5,10 +5,10 @@ public class Atendimento {
     protected Paciente paciente;
     protected Dentista dentista;
     protected Procedimento procedimento;
-    protected List<Consulta> historicoProcedimentos = new ArrayList<>(); 
+    protected List<Agendamento> historicoProcedimentos = new ArrayList<>(); 
 
-    public void AdicionarNoHistorico(Consulta consulta) {
-        this.historicoProcedimentos.add(consulta);
+    public void AdicionarNoHistorico(Agendamento agendamento) {
+        this.historicoProcedimentos.add(agendamento);
     }
     
     public Atendimento() {

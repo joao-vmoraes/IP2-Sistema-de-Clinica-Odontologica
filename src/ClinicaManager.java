@@ -9,7 +9,7 @@ public class ClinicaManager {
     protected static List<Agendamento> agendamentos = new ArrayList<>();
     protected static List<Procedimento> procedimentosCatalogo = new ArrayList<>();
     protected static List<Pagamento> historicoPagamentos = new ArrayList<>();
-    protected static List<Consulta> historicoConsultas = new ArrayList<>();
+    protected static List<Agendamento> historicoConsultas = new ArrayList<>();
 
     public List<Paciente> getPacientes() {
         return this.pacientes;
@@ -25,8 +25,8 @@ public class ClinicaManager {
         historicoPagamentos.add(pagamento);
     }
 
-    public void registrarConsulta(Consulta consulta) {
-        historicoConsultas.add(consulta);
+    public void registrarConsulta(Agendamento agendamento) {
+        historicoConsultas.add(agendamento);
     }
     
     public boolean marcarConsulta(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String sala) {
@@ -42,7 +42,7 @@ public class ClinicaManager {
             return false;
         }
 
-        Agendamento novoAgendamento = new Agendamento(paciente, dentista, procedimento, dataHora, sala);
+        Agendamento novoAgendamento = new Agendamento(paciente, dentista, procedimento, dataHora, sala, null);
         agendamentos.add(novoAgendamento);
         dentista.adicionarAgendamento(novoAgendamento);
         paciente.adicionarAgendamento(novoAgendamento);

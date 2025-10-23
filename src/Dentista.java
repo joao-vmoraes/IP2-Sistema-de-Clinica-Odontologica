@@ -10,7 +10,7 @@ public class Dentista extends Pessoa {
     private String especialidade;
     private StatusDentista status;
     private List<Agendamento> agenda = new ArrayList<>();
-    private List<Consulta> historicoConsultas = new ArrayList<>();
+    private List<Agendamento> historicoConsultas = new ArrayList<>();
     private LocalTime horarioTrabalhoInicio; 
     private LocalTime horarioTrabalhoFim;
     private List<DayOfWeek> diasDeFolga = new ArrayList<>();
@@ -36,7 +36,7 @@ public class Dentista extends Pessoa {
         return this.agenda;
     }
 
-    public List<Consulta> getHistorico() {
+    public List<Agendamento> getHistorico() {
         return this.historicoConsultas;
     }
 
@@ -65,8 +65,8 @@ public class Dentista extends Pessoa {
         this.agenda.remove(agendamento);
     }
 
-    public void adicionarNoHistorico(Consulta consulta) {
-        this.historicoConsultas.add(consulta);
+    public void adicionarNoHistorico(Agendamento agendamento) {
+        this.historicoConsultas.add(agendamento);
     }
 
     public void AdicionarDiaDeFolga(DayOfWeek leDia) {
