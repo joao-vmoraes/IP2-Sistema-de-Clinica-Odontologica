@@ -3,7 +3,6 @@ import java.util.List;
 
 public class Paciente extends Pessoa {
     private List<Agendamento> agenda = new ArrayList<>(); 
-    private List<Consulta> historicoProcedimentos = new ArrayList<>(); 
     private boolean possuiPagamentoPendente; 
 
     //CONSTRUTOR
@@ -13,10 +12,6 @@ public class Paciente extends Pessoa {
     }
 
     //Getters e Setters
-    public List<Consulta> getHistoricoProcedimentos() {
-        return this.historicoProcedimentos;
-    }
-
     public List<Agendamento> getAgenda() {
         return this.agenda;
     }
@@ -36,12 +31,8 @@ public class Paciente extends Pessoa {
     
     public void removerAgendamento(Agendamento agendamento) {
         this.agenda.remove(agendamento);
-    }
-
-    public void AdicionarNoHistorico(Consulta consulta) {
-        this.historicoProcedimentos.add(consulta);
-    }
-
+    } 
+    
     public void atualizarInformacoes(String telefone, String email, String endereco) {
         this.setTelefone(telefone);
         this.setEmail(email);
