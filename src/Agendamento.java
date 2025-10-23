@@ -1,17 +1,20 @@
 import java.time.LocalDateTime;
 
-public class Agendamento extends Atendimento {
+public class Agendamento{
+    protected Paciente paciente;
+    protected Dentista dentista;
+    private Procedimento procedimento;
     private LocalDateTime dataHora;
     private Pagamento pagamento;
     private String salaAtendimento;
     private boolean cancelado;
-    private StatusConsulta statusConsulta;
+    private StatusAgendamento statusAgendamento;
     private String justificativaCancelamento;
     
 
     //CONSTRUTOR
-    public Agendamento(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String salaAtendimento, StatusConsulta statusConsulta) {
-        this.statusConsulta = statusConsulta;
+    public Agendamento(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String salaAtendimento, StatusAgendamento statusAgendamento) {
+        this.statusAgendamento = statusAgendamento;
         this.paciente = paciente;
         this.dentista = dentista;
         this.procedimento = procedimento;
@@ -21,11 +24,11 @@ public class Agendamento extends Atendimento {
     }
 
     //GETTERS E SETTERS
-    public StatusConsulta getStatusConsulta() {
-        return this.statusConsulta;
+    public StatusAgendamento getStatusConsulta() {
+        return this.statusAgendamento;
     }
-    public void setStatusConsulta(StatusConsulta statusConsulta) {
-        this.statusConsulta = statusConsulta;
+    public void setStatusConsulta(StatusAgendamento statusConsulta) {
+        this.statusAgendamento = statusConsulta;
     }
     public LocalDateTime getDataHora() {
         return this.dataHora;
@@ -38,6 +41,9 @@ public class Agendamento extends Atendimento {
     }
     public Procedimento getProcedimento() {
         return this.procedimento;
+    }
+      public void setProcedimento(Procedimento procedimento) {
+        this.procedimento = procedimento;
     }
 
     public Pagamento getPagamento() {
@@ -56,12 +62,12 @@ public class Agendamento extends Atendimento {
         return this.cancelado;
     } 
     
-    public void atualizarConsulta(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora,  StatusConsulta statusConsulta) {
+    public void atualizarConsulta(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora,  StatusAgendamento statusConsulta) {
         this.paciente = paciente;
         this.dentista = dentista;
         this.procedimento = procedimento;
         this.dataHora = dataHora;
-        this.statusConsulta = statusConsulta;
+        this.statusAgendamento = statusConsulta;
         //Os Setters são redundantes, atualizarConsulta faz todo o trabalho deles.
         //Vou deixar pois eu os vejo sendo úteis dependendo do contexto
     }
@@ -76,11 +82,11 @@ public class Agendamento extends Atendimento {
         this.dataHora = novaDataHora;
         this.salaAtendimento = novaSala;
     }
-    public void atualizarStatus(StatusConsulta novoStatus) {
-        if (this.statusConsulta.equals(statusConsulta.CONCLUIDO) || novoStatus.equals(statusConsulta.CANCELADO)) {
+    public void atualizarStatus(StatusAgendamento novoStatus) {
+        if (this.statusAgendamento.equals(StatusAgendamento.CONCLUIDO) || novoStatus.equals(statusAgendamento.CANCELADO)) {
             System.out.println("Erro: Procedimento concluído não pode ser cancelado.");
             return;
         }
-        this.statusConsulta = novoStatus;
+        this.statusAgendamento = novoStatus;
     }
 }
