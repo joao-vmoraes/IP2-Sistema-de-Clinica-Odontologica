@@ -16,7 +16,7 @@ public class App {
         cadastrador.adicionarProcedimentoAoCatalogo(pr1);
         
         LocalDateTime dataConsulta = LocalDateTime.now().plusDays(1).withHour(10).withMinute(0).withSecond(0).withNano(0);
-        manager.marcarConsulta(p1, d1, pr1, dataConsulta, "Sala 1");
+        manager.marcarAgendamento(p1, d1, pr1, dataConsulta, "Sala 1");
         
         Pagamento pg1 = new Pagamento(pr1.getPreco(), MetodoPagamento.PIX, pr1);
         

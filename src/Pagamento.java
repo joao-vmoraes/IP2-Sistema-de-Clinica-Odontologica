@@ -19,13 +19,6 @@ public class Pagamento {
         this.valor = valor;
     }
 
-    public String getMetodo() {
-        return metodo;
-    }
-
-    public void setMetodo(String metodo) {
-        this.metodo = metodo;
-    }
 
     public void setConfirmado(boolean confirmado) {
         this.confirmado = confirmado;
@@ -46,6 +39,14 @@ public class Pagamento {
     public void setReferenciaProcedimento(Procedimento referenciaProcedimento) {
         this.referenciaProcedimento = referenciaProcedimento;
     }
+        public MetodoPagamento getMetodo() {
+        return metodo;
+    }
+
+    public void setMetodo(MetodoPagamento metodo) {
+        this.metodo = metodo;
+    }
+
 
     //MÉTODOS
     public boolean isConfirmado() {
