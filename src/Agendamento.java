@@ -42,7 +42,7 @@ public class Agendamento{
     public Procedimento getProcedimento() {
         return this.procedimento;
     }
-      public void setProcedimento(Procedimento procedimento) {
+    public void setProcedimento(Procedimento procedimento) {
         this.procedimento = procedimento;
     }
 
