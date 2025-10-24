@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Paciente extends Pessoa {
-    private List<Agendamento> agenda = new ArrayList<>(); 
     private List<Consulta> historicoProcedimentos = new ArrayList<>(); 
     private boolean possuiPagamentoPendente; 
 

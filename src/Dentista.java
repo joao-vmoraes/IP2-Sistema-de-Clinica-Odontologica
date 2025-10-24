@@ -9,7 +9,6 @@ import java.util.Map;
 public class Dentista extends Pessoa {
     private String especialidade;
     private StatusDentista status;
-    private List<Agendamento> agenda = new ArrayList<>();
     private List<Consulta> historicoConsultas = new ArrayList<>();
     private LocalTime horarioTrabalhoInicio; 
     private LocalTime horarioTrabalhoFim;
