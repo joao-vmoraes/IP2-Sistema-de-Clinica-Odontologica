@@ -9,8 +9,6 @@ import java.util.Map;
 public class Dentista extends Pessoa {
     private String especialidade;
     private StatusDentista status;
-    private List<Agendamento> agenda = new ArrayList<>();
-    private List<Agendamento> historicoConsultas = new ArrayList<>();
     private LocalTime horarioTrabalhoInicio; 
     private LocalTime horarioTrabalhoFim;
     private List<DayOfWeek> diasDeFolga = new ArrayList<>();
@@ -32,13 +30,6 @@ public class Dentista extends Pessoa {
         return this.especialidade;
     }
 
-    public List<Agendamento> getAgenda() {
-        return this.agenda;
-    }
-
-    public List<Agendamento> getHistorico() {
-        return this.historicoConsultas;
-    }
 
     public LocalTime getHorarioTrabalhoInicio() {
         return this.horarioTrabalhoInicio;
@@ -57,17 +48,8 @@ public class Dentista extends Pessoa {
     }
     
     //Métodos
-    public void adicionarAgendamento(Agendamento agendamento) {
-        this.agenda.add(agendamento);
-    }
 
-    public void removerAgendamento(Agendamento agendamento) {
-        this.agenda.remove(agendamento);
-    }
 
-    public void adicionarNoHistorico(Agendamento agendamento) {
-        this.historicoConsultas.add(agendamento);
-    }
 
     public void AdicionarDiaDeFolga(DayOfWeek leDia) {
         if(!this.diasDeFolga.contains(leDia))
