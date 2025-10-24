@@ -30,14 +30,6 @@ public class Dentista extends Pessoa {
         return this.especialidade;
     }
 
-    public List<Agendamento> getAgenda() {
-        return this.agenda;
-    }
-
-    public List<Consulta> getHistorico() {
-        return this.historicoConsultas;
-    }
-
     public LocalTime getHorarioTrabalhoInicio() {
         return this.horarioTrabalhoInicio;
     }
@@ -55,17 +47,7 @@ public class Dentista extends Pessoa {
     }
     
     //Métodos
-    public void adicionarAgendamento(Agendamento agendamento) {
-        this.agenda.add(agendamento);
-    }
 
-    public void removerAgendamento(Agendamento agendamento) {
-        this.agenda.remove(agendamento);
-    }
-
-    public void adicionarNoHistorico(Consulta consulta) {
-        this.historicoConsultas.add(consulta);
-    }
 
     public void AdicionarDiaDeFolga(DayOfWeek leDia) {
         if(!this.diasDeFolga.contains(leDia))
