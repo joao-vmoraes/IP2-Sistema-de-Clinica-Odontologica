@@ -11,33 +11,14 @@ public class Paciente extends Pessoa {
     }
 
     //Getters e Setters
-    public List<Consulta> getHistoricoProcedimentos() {
-        return this.historicoProcedimentos;
-    }
 
-    public List<Agendamento> getAgenda() {
-        return this.agenda;
-    }
-
-    public boolean temPagamentoPendente() {
+    public boolean getPossuiPagamentoPendente() {
         return this.possuiPagamentoPendente;
     }
 
     //Métodos
     public void setPossuiPagamentoPendente(boolean possuiPagamentoPendente) {
         this.possuiPagamentoPendente = possuiPagamentoPendente;
-    }
-
-    public void adicionarAgendamento(Agendamento agendamento) {
-        this.agenda.add(agendamento);
-    }
-    
-    public void removerAgendamento(Agendamento agendamento) {
-        this.agenda.remove(agendamento);
-    }
-
-    public void AdicionarNoHistorico(Consulta consulta) {
-        this.historicoProcedimentos.add(consulta);
     }
 
     public void atualizarInformacoes(String telefone, String email, String endereco) {
