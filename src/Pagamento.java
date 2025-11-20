@@ -7,7 +7,6 @@ public class Pagamento {
     private LocalDateTime dataPagamento;
     private Procedimento referenciaProcedimento;
 
-    //CONSTRUTOR
     public Pagamento(double valor, MetodoPagamento metodo, Procedimento referenciaProcedimento) {
         this.valor = valor;
         this.metodo = metodo;
@@ -15,16 +14,18 @@ public class Pagamento {
         this.referenciaProcedimento = referenciaProcedimento;
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
-    public String getMetodo() {
+    // Correção aqui: Retorna o Enum, não String
+    public MetodoPagamento getMetodo() {
         return metodo;
     }
 
-    public void setMetodo(String metodo) {
+    // Correção aqui: Recebe o Enum, não String
+    public void setMetodo(MetodoPagamento metodo) {
         this.metodo = metodo;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public void setConfirmado(boolean confirmado) {
@@ -47,29 +48,25 @@ public class Pagamento {
         this.referenciaProcedimento = referenciaProcedimento;
     }
 
-    //MÉTODOS
     public boolean isConfirmado() {
         return this.confirmado;
     }
+    
     public double getValor() {
         return this.valor;
     }
 
     public void confirmarPagamento() {
         this.confirmado = true;
+        this.dataPagamento = LocalDateTime.now(); // Boa prática registrar a data ao confirmar
     }
 
-    public void realizarPagamento(/*contaDevedora, contaRecebedora*/) {
-        if(!isConfirmado())
-        {
+    public void realizarPagamento() {
+        if(!isConfirmado()) {
             System.err.println("Erro ao realizar pagamento. Pagamento nao confirmado.");
             return;
         }
-
-        //fazer a checagem pra ver se ambas as contas estão disponíveis, caso não: return
-
-        //Realiza pagamento k
         this.dataPagamento = LocalDateTime.now();
-        System.err.println("Pagamento realizado");
+        System.out.println("Pagamento realizado com sucesso.");
     }
 }

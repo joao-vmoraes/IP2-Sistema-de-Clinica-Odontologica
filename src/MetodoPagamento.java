@@ -1,5 +1,5 @@
 public enum MetodoPagamento {
-    Dinehiro,
-    Cartao,
-    PIX,
+    DINHEIRO,
+    CARTAO,
+    PIX
 }
