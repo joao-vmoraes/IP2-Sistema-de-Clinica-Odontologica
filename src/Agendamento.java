@@ -1,92 +1,55 @@
 import java.time.LocalDateTime;
 
 public class Agendamento{
-    protected Paciente paciente;
-    protected Dentista dentista;
-    private Procedimento procedimento;
+    private Integer id;
+    private Paciente paciente;
+    private Dentista dentista;
     private LocalDateTime dataHora;
-    private Pagamento pagamento;
-    private String salaAtendimento;
-    private boolean cancelado;
-    private StatusAgendamento statusAgendamento;
-    private String justificativaCancelamento;
-    
+    private StatusAgendamento status;
+    private String sala;
 
-    //CONSTRUTOR
-    public Agendamento(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String salaAtendimento, StatusAgendamento statusAgendamento) {
-        this.statusAgendamento = statusAgendamento;
+    public Agendamento(Paciente paciente, Dentista dentista, LocalDateTime dataHora, String sala) {
         this.paciente = paciente;
         this.dentista = dentista;
-        this.procedimento = procedimento;
         this.dataHora = dataHora;
-        this.salaAtendimento = salaAtendimento;
-        this.cancelado = false;
+        this.sala = sala;
+        this.status = StatusAgendamento.PLANEJADO;
     }
 
-    //GETTERS E SETTERS
-    public StatusAgendamento getStatusConsulta() {
-        return this.statusAgendamento;
+    public Integer getId() {
+        return id;
     }
-    public void setStatusConsulta(StatusAgendamento statusConsulta) {
-        this.statusAgendamento = statusConsulta;
-    }
-    public LocalDateTime getDataHora() {
-        return this.dataHora;
+    public void setId(Integer id) {
+        this.id = id;
     }
     public Paciente getPaciente() {
-        return this.paciente;
+        return paciente;
+    }
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
     public Dentista getDentista() {
-        return this.dentista;
+        return dentista;
     }
-    public Procedimento getProcedimento() {
-        return this.procedimento;
-    }
-    public void setProcedimento(Procedimento procedimento) {
-        this.procedimento = procedimento;
-    }
-
-    public Pagamento getPagamento() {
-        return this.pagamento;
-    }
-
-    public String getSalaAtendimento() {
-        return this.salaAtendimento;
-    }
-
-    public void setPagamento(Pagamento pagamento) {
-        this.pagamento = pagamento;
-    }
-    
-    public boolean isCancelado() { 
-        return this.cancelado;
-    } 
-    
-    public void atualizarConsulta(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora,  StatusAgendamento statusConsulta) {
-        this.paciente = paciente;
+    public void setDentista(Dentista dentista) {
         this.dentista = dentista;
-        this.procedimento = procedimento;
+    }
+    public LocalDateTime getDataHora() {
+        return dataHora;
+    }
+    public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
-        this.statusAgendamento = statusConsulta;
-        //Os Setters são redundantes, atualizarConsulta faz todo o trabalho deles.
-        //Vou deixar pois eu os vejo sendo úteis dependendo do contexto
     }
-
-    //Atualizar agendamentos (REQ09)
-    public void cancelar(String justificativa) {
-        this.cancelado = true;
-        this.justificativaCancelamento = justificativa;
+    public StatusAgendamento getStatus() {
+        return status;
     }
-
-    public void remarcar(LocalDateTime novaDataHora, String novaSala) {
-        this.dataHora = novaDataHora;
-        this.salaAtendimento = novaSala;
+    public void setStatus(StatusAgendamento status) {
+        this.status = status;
     }
-    public void atualizarStatus(StatusAgendamento novoStatus) {
-        if (this.statusAgendamento.equals(StatusAgendamento.CONCLUIDO) || novoStatus.equals(statusAgendamento.CANCELADO)) {
-            System.out.println("Erro: Procedimento concluído não pode ser cancelado.");
-            return;
-        }
-        this.statusAgendamento = novoStatus;
+    public String getSala() {
+        return sala;
+    }
+    public void setSala(String sala) {
+        this.sala = sala;
     }
 }
