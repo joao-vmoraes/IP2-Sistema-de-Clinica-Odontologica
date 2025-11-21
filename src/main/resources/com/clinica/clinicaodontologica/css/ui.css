@@ -1,0 +1,47 @@
+body {
+    -fx-background-color: white;
+    -fx-font-family: 'Bodoni MT';
+    -fx-text-fill: #999999;
+    -fx-font-size: 48px;
+}
+#titulo {
+    -fx-text-fill: white;
+    -fx-font-family: 'Berlin Sans FB';
+    -fx-font-size: 90px;
+}
+#titulo-bg{
+    -fx-background-color: rgb(165, 211, 201);
+}
+.ciano {
+    -fx-background-color: rgb(165, 211, 201);
+}
+.texto{
+    -fx-font-family: 'Bodoni MT';
+    -fx-text-fill: #999999;
+    -fx-font-size: 48px;
+}
+.botao{
+    -fx-background-color: rgb(165, 211, 201);
+    -fx-font-family: 'Bodoni MT';
+    -fx-text-fill: white;
+    -fx-font-size: 32px;
+}
+.botao:active {
+    -fx-background-color: rgb(114, 148, 141);
+    -fx-font-family: 'Bodoni MT';
+    -fx-text-fill: white;
+    -fx-font-size: 32px;
+}
+.botao:hover {
+    -fx-background-color: rgb(174, 223, 213);
+    -fx-font-family: 'Bodoni MT';
+    -fx-text-fill: white;
+    -fx-font-size: 32px;
+}
+
+.textfield{
+    -fx-background-color: rgb(233, 233, 233);
+    -fx-font-family: 'System';
+    -fx-text-fill: rgb(153, 153, 153);
+    -fx-font-size: 16px;
+}
