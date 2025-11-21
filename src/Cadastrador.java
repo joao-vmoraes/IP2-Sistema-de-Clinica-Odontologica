@@ -1,73 +1,106 @@
-public class Cadastrador extends ClinicaManager {
-    //private ClinicaManager manager;
+public class Cadastrador {
 
-    public Cadastrador(ClinicaManager manager) {
-        //this.manager = manager;
-        //this.pacientes = manager.getPacientes();
-        //this.dentistas = manager.getDentistas();
-        //this.procedimentos = manager.getProcedimentos();
+    private PacienteRepositorio pacienteRepositorio;
+    private DentistaRepositorio dentistaRepositorio;
+    private ProcedimentoRepositorio procedimentoRepositorio;
+
+    public Cadastrador(PacienteRepositorio pacienteRepo, DentistaRepositorio dentistaRepo, ProcedimentoRepositorio procedimentoRepo) {
+        this.pacienteRepositorio = pacienteRepo;
+        this.dentistaRepositorio = dentistaRepo;
+        this.procedimentoRepositorio = procedimentoRepo;
     }
 
-    //Métodos CRUD básicos (REQ01, REQ04)
+    // PACIENTE
+
     public void cadastrarPaciente(Paciente paciente) {
-        if(!pacientes.contains(paciente))
-            pacientes.add(paciente);
-        else
-            System.err.println("Paciente ja cadastrado.");
-    }
+        if (paciente == null) {
+            System.err.println("Erro: Paciente inválido.");
+            return;
+        }
 
-    public void RemoverPaciente(Paciente paciente) {
-        if(pacientes.contains(paciente))
-            pacientes.remove(paciente);
-        else
-            System.err.println("Paciente nao encontrado.");
-    }
-
-    public void AtualizarPaciente(Paciente pacienteNovo, Paciente pacienteAntigo) {
-        if(pacientes.contains(pacienteAntigo))
-        {
-            pacientes.remove(pacienteAntigo);
-            pacientes.add(pacienteNovo);
-        }else{
-            System.err.println("Paciente nao encontrado.");  
+        Paciente existente = pacienteRepositorio.buscarPorCpf(paciente.getCpf());
+        if (existente == null) {
+            pacienteRepositorio.salvar(paciente);
+            System.out.println("Paciente " + paciente.getNome() + " cadastrado com sucesso.");
+        } else {
+            System.err.println("Erro: Paciente com CPF " + paciente.getCpf() + " já existe.");
         }
     }
+
+    public void removerPaciente(Paciente paciente) {
+        Paciente existente = pacienteRepositorio.buscarPorCpf(paciente.getCpf());
+        if (existente != null) {
+            pacienteRepositorio.deletar(existente);
+            System.out.println("Paciente removido com sucesso.");
+        } else {
+            System.err.println("Erro: Paciente não encontrado para remoção.");
+        }
+    }
+
+    public void atualizarPaciente(Paciente pacienteAtualizado) {
+        Paciente existente = pacienteRepositorio.buscarPorCpf(pacienteAtualizado.getCpf());
+        if (existente != null) {
+            pacienteRepositorio.atualizar(pacienteAtualizado);
+            System.out.println("Dados do paciente atualizados com sucesso.");
+        } else {
+            System.err.println("Erro: Paciente não encontrado para atualização.");
+        }
+    }
+
+    // DENTISTA
 
     public void cadastrarDentista(Dentista dentista) {
-        if(!dentistas.contains(dentista))
-            dentistas.add(dentista);
-        else
-            System.err.println("Dentista ja cadastrado.");
-    }
+        if (dentista == null) {
+            System.err.println("Erro: Dentista inválido.");
+            return;
+        }
 
-    public void RemoverDentista(Dentista dentista) {
-        if(dentistas.contains(dentista))
-            dentistas.remove(dentista);
-        else
-            System.err.println("Dentista nao encontrado.");
-    }
-
-    public void AtualizarDentista(Dentista dentistaNovo, Dentista dentistaAntigo) {
-        if(dentistas.contains(dentistaAntigo))
-        {
-            dentistas.remove(dentistaAntigo);
-            dentistas.add(dentistaNovo);
-        }else{
-            System.err.println("Dentista nao encontrado.");  
+        Dentista existente = dentistaRepositorio.buscarPorCpf(dentista.getCpf());
+        if (existente == null) {
+            dentistaRepositorio.salvar(dentista);
+            System.out.println("Dentista " + dentista.getNome() + " cadastrado com sucesso.");
+        } else {
+            System.err.println("Erro: Dentista com CPF " + dentista.getCpf() + " já existe.");
         }
     }
 
-    public void adicionarProcedimentoAoCatalogo(Procedimento proc) {
-        if(!procedimentosCatalogo.contains(proc))
-            procedimentosCatalogo.add(proc);
-        else
-            System.err.println("Procedimento ja existe");
+    public void removerDentista(Dentista dentista) {
+        Dentista existente = dentistaRepositorio.buscarPorCpf(dentista.getCpf());
+        if (existente != null) {
+            dentistaRepositorio.deletar(existente);
+            System.out.println("Dentista removido com sucesso.");
+        } else {
+            System.err.println("Erro: Dentista não encontrado.");
+        }
     }
 
-    public void removerProcedimentoDoCatalogo(Procedimento proc) {
-        if(procedimentosCatalogo.contains(proc))
-            procedimentosCatalogo.remove(proc);
-        else
-            System.err.println("Procedimento nao encontrado");
+    public void atualizarDentista(Dentista dentistaAtualizado) {
+        Dentista existente = dentistaRepositorio.buscarPorCpf(dentistaAtualizado.getCpf());
+        if (existente != null) {
+            dentistaRepositorio.atualizar(dentistaAtualizado);
+            System.out.println("Dados do dentista atualizados com sucesso.");
+        } else {
+            System.err.println("Erro: Dentista não encontrado para atualização.");
+        }
+    }
+
+    // PROCEDIMENTOS
+
+    public void adicionarProcedimento(Procedimento procedimento) {
+        if (procedimento == null) {
+            System.err.println("Erro: Procedimento inválido.");
+            return;
+        }
+        procedimentoRepositorio.salvar(procedimento);
+        System.out.println("Procedimento adicionado ao catálogo.");
+    }
+
+    public void removerProcedimento(Procedimento procedimento) {
+        if (procedimento != null) {
+            procedimentoRepositorio.deletarProcedimento(procedimento);
+            System.out.println("Procedimento removido do catálogo.");
+        } else {
+            System.err.println("Erro: Procedimento inválido.");
+        }
     }
 }

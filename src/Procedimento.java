@@ -1,13 +1,13 @@
 public class Procedimento {
-    private String descricao;
+    private String nome;
     private double preco;
     private int duracaoEmMinutos;
     private Dentista dentistaExecutor;
     private Paciente pacienteAlvo;
 
     //CONSTRUTOR
-    public Procedimento(String descricao, double preco, int duracaoEmMinutos, Dentista dentista) {
-        this.descricao = descricao;
+    public Procedimento(String nome, double preco, int duracaoEmMinutos, Dentista dentista) {
+        this.nome = nome;
         this.preco = preco;
         this.duracaoEmMinutos = duracaoEmMinutos;
         this.dentistaExecutor = dentista;
@@ -18,8 +18,8 @@ public class Procedimento {
         return this.preco;
     }
 
-    public String getDescricao() {
-        return this.descricao;
+    public String getNome() {
+        return this.nome;
     }
 
     public int getDuracaoEmMinutos() {

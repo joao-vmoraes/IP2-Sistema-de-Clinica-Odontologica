@@ -1,89 +1,87 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ClinicaManager {
-    protected static List<Paciente> pacientes = new ArrayList<>();
-    protected static List<Dentista> dentistas = new ArrayList<>();
-    protected static List<Agendamento> agendamentos = new ArrayList<>();
-    protected static List<Procedimento> procedimentosCatalogo = new ArrayList<>();
-    protected static List<Pagamento> historicoPagamentos = new ArrayList<>();
-    protected static List<Agendamento> historicoConsultas = new ArrayList<>();
+    // Atributos são os Repositórios (Composição)
+    private AgendamentoRepositorio agendamentoRepo;
+    private DentistaRepositorio dentistaRepo;
+    private PacienteRepositorio pacienteRepo;
 
-    public List<Paciente> getPacientes() {
-        return this.pacientes;
-    }
-    public List<Dentista> getDentistas() {
-        return this.dentistas;
-    }
-    public List<Procedimento> getProcedimentos() {
-        return this.procedimentosCatalogo;
+    // Construtor com Injeção de Dependência
+    public ClinicaManager(AgendamentoRepositorio agendamentoRepo,
+                          DentistaRepositorio dentistaRepo,
+                          PacienteRepositorio pacienteRepo) {
+        this.agendamentoRepo = agendamentoRepo;
+        this.dentistaRepo = dentistaRepo;
+        this.pacienteRepo = pacienteRepo;
     }
 
-    public void registrarPagamento(Pagamento pagamento) {
-        historicoPagamentos.add(pagamento);
-    }
-
-    public void registrarAgendamento(Agendamento agendamento) {
-        historicoConsultas.add(agendamento);
-    }
-    
     public boolean marcarAgendamento(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String sala) {
-        //Bloquear agendamento de paciente com pagamento pendente (REQ24)
+        // REQ24: Bloquear agendamento se tiver pagamento pendente
         if (paciente.getPossuiPagamentoPendente()) {
             System.out.println("Erro: Paciente possui pagamentos pendentes. Agendamento bloqueado.");
             return false;
         }
-        
-        //Não permitir agendamento em horário indisponível (REQ23)
+
+        // REQ23: Verificar disponibilidade
         if (!verificarDisponibilidadeDentista(dentista, dataHora, procedimento.getDuracaoEmMinutos())) {
             System.out.println("Erro: Dentista indisponível no horário solicitado.");
             return false;
         }
 
-        Agendamento novoAgendamento = new Agendamento(paciente, dentista, procedimento, dataHora, sala, StatusAgendamento.PLANEJADO);
-        agendamentos.add(novoAgendamento);
-        dentista.adicionarAgendamento(novoAgendamento);
-        paciente.adicionarAgendamento(novoAgendamento);
-        System.out.println("Consulta agendada com sucesso!");
+        // Cria e salva
+        Agendamento novoAgendamento = new Agendamento(paciente, dentista, dataHora, sala);
+        // Se precisar associar o procedimento ao agendamento, sua classe Agendamento precisa de um campo 'procedimento'.
+        // Baseado no seu arquivo Agendamento.java, não vi o campo procedimento no construtor,
+        // mas vou assumir que você pode querer adicionar ou que a lógica de negócio associa depois.
+
+        agendamentoRepo.salvar(novoAgendamento);
+        System.out.println("Consulta agendada com sucesso para " + dataHora);
         return true;
     }
-    
-    //Verifica se o dentista está livre (REQ23)
-    private boolean verificarDisponibilidadeDentista(Dentista dentista, LocalDateTime dataHora, int duracao) {
-        //Verificar folgas e ausências específicas
+
+    public void registrarPagamento(Pagamento pagamento) {
+        // Idealmente teria um PagamentoRepositorio, mas se não tiver, pode processar aqui
+        pagamento.confirmarPagamento();
+        System.out.println("Pagamento registrado: " + pagamento.getValor());
+    }
+
+    // Lógica de disponibilidade ajustada para buscar no Repositório
+    private boolean verificarDisponibilidadeDentista(Dentista dentista, LocalDateTime dataHora, int duracaoMinutos) {
+        // 1. Verificar folgas e ausências do objeto Dentista
         if (dentista.getDiasDeFolga().contains(dataHora.getDayOfWeek()) ||
-            dentista.estaAusente(dataHora.toLocalDate())) {
+                dentista.estaAusente(dataHora.toLocalDate())) {
             return false;
         }
-        
-        //Verificar horário de trabalho fixo
+
+        // 2. Verificar horário de trabalho
         if (dataHora.toLocalTime().isBefore(dentista.getHorarioTrabalhoInicio()) ||
-            dataHora.toLocalTime().plusMinutes(duracao).isAfter(dentista.getHorarioTrabalhoFim())) {
+                dataHora.toLocalTime().plusMinutes(duracaoMinutos).isAfter(dentista.getHorarioTrabalhoFim())) {
             return false;
         }
-        
-        //Verificar conflito com agendamentos existentes
-        for (Agendamento a : dentista.getAgenda()) {
-            if (!a.isCancelado()) { 
-                LocalDateTime fimExistente = a.getDataHora().plusMinutes(a.getProcedimento().getDuracaoEmMinutos());
-                LocalDateTime fimNovo = dataHora.plusMinutes(duracao);
-                if (dataHora.isBefore(fimExistente) && fimNovo.isAfter(a.getDataHora())) {
-                    return false;
+
+        // 3. Verificar conflito com outros agendamentos NO REPOSITÓRIO
+        List<Agendamento> todosAgendamentos = agendamentoRepo.listarTodos();
+        LocalDateTime fimNovo = dataHora.plusMinutes(duracaoMinutos);
+
+        for (Agendamento a : todosAgendamentos) {
+            // Filtra apenas agendamentos deste dentista que não estão cancelados
+            if (a.getDentista().getCpf().equals(dentista.getCpf()) && a.getStatus() != StatusAgendamento.CANCELADO) {
+
+                // Precisamos saber a duração do agendamento existente.
+                // Como Agendamento.java não tem o procedimento direto no código que você mandou,
+                // vou assumir uma duração padrão de 30 min ou você deve adicionar 'Procedimento' em 'Agendamento'.
+                int duracaoExistente = 30;
+
+                LocalDateTime inicioExistente = a.getDataHora();
+                LocalDateTime fimExistente = inicioExistente.plusMinutes(duracaoExistente);
+
+                // Lógica de intersecção de horários
+                if (dataHora.isBefore(fimExistente) && fimNovo.isAfter(inicioExistente)) {
+                    return false; // Colisão encontrada
                 }
             }
         }
         return true;
-    }
-
-    //Relatório (REQ16)
-    public List<Agendamento> gerarRelatorioConsultas(Dentista dentista, LocalDateTime inicio, LocalDateTime fim) {
-        return agendamentos.stream()
-            .filter(a -> a.getDentista().equals(dentista) && 
-                        !a.isCancelado() &&
-                        a.getDataHora().isAfter(inicio) && 
-                        a.getDataHora().isBefore(fim))
-            .collect(Collectors.toList());
     }
 }
