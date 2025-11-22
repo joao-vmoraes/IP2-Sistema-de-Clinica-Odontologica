@@ -4,13 +4,15 @@ public class Agendamento{
     private Integer id;
     private Paciente paciente;
     private Dentista dentista;
+    private Procedimento procedimento;
     private LocalDateTime dataHora;
     private StatusAgendamento status;
     private String sala;
 
-    public Agendamento(Paciente paciente, Dentista dentista, LocalDateTime dataHora, String sala) {
+    public Agendamento(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String sala) {
         this.paciente = paciente;
         this.dentista = dentista;
+        this.procedimento = procedimento;
         this.dataHora = dataHora;
         this.sala = sala;
         this.status = StatusAgendamento.PLANEJADO;
@@ -51,5 +53,13 @@ public class Agendamento{
     }
     public void setSala(String sala) {
         this.sala = sala;
+    }
+
+    public Procedimento getProcedimento() {
+        return procedimento;
+    }
+
+    public void setProcedimento(Procedimento procedimento) {
+        this.procedimento = procedimento;
     }
 }
