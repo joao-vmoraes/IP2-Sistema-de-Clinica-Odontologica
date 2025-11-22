@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+package model;
 
 public class Paciente extends Pessoa {
     private boolean possuiPagamentoPendente; 

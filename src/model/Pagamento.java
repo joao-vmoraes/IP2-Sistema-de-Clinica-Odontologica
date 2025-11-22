@@ -1,3 +1,7 @@
+package model;
+
+import enums.MetodoPagamento;
+
 import java.time.LocalDateTime;
 
 public class Pagamento {
@@ -63,7 +67,7 @@ public class Pagamento {
     public void realizarPagamento(/*contaDevedora, contaRecebedora*/) {
         if(!isConfirmado())
         {
-            System.err.println("Erro ao realizar pagamento. Pagamento nao confirmado.");
+            System.err.println("Erro ao realizar pagamento. model.Pagamento nao confirmado.");
             return;
         }
 
@@ -71,6 +75,6 @@ public class Pagamento {
 
         //Realiza pagamento k
         this.dataPagamento = LocalDateTime.now();
-        System.err.println("Pagamento realizado");
+        System.err.println("model.Pagamento realizado");
     }
 }

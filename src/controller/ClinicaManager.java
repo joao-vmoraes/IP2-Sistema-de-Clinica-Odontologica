@@ -1,3 +1,8 @@
+package controller;
+
+import enums.StatusAgendamento;
+import model.*;
+import repository.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,20 +24,20 @@ public class ClinicaManager {
     public boolean marcarAgendamento(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String sala) {
         // REQ24: Bloquear agendamento se tiver pagamento pendente
         if (paciente.getPossuiPagamentoPendente()) {
-            System.out.println("Erro: Paciente possui pagamentos pendentes. Agendamento bloqueado.");
+            System.out.println("Erro: model.Paciente possui pagamentos pendentes. model.Agendamento bloqueado.");
             return false;
         }
 
         // REQ23: Verificar disponibilidade
         if (!verificarDisponibilidadeDentista(dentista, dataHora, procedimento.getDuracaoEmMinutos())) {
-            System.out.println("Erro: Dentista indisponível no horário solicitado.");
+            System.out.println("Erro: model.Dentista indisponível no horário solicitado.");
             return false;
         }
 
         // Cria e salva
-        Agendamento novoAgendamento = new Agendamento(paciente, dentista, dataHora, sala);
-        // Se precisar associar o procedimento ao agendamento, sua classe Agendamento precisa de um campo 'procedimento'.
-        // Baseado no seu arquivo Agendamento.java, não vi o campo procedimento no construtor,
+        Agendamento novoAgendamento = new Agendamento(paciente, dentista, procedimento, dataHora, sala);
+        // Se precisar associar o procedimento ao agendamento, sua classe model.Agendamento precisa de um campo 'procedimento'.
+        // Baseado no seu arquivo model.Agendamento.java, não vi o campo procedimento no construtor,
         // mas vou assumir que você pode querer adicionar ou que a lógica de negócio associa depois.
 
         agendamentoRepo.salvar(novoAgendamento);
@@ -43,12 +48,12 @@ public class ClinicaManager {
     public void registrarPagamento(Pagamento pagamento) {
         // Idealmente teria um PagamentoRepositorio, mas se não tiver, pode processar aqui
         pagamento.confirmarPagamento();
-        System.out.println("Pagamento registrado: " + pagamento.getValor());
+        System.out.println("model.Pagamento registrado: " + pagamento.getValor());
     }
 
     // Lógica de disponibilidade ajustada para buscar no Repositório
     private boolean verificarDisponibilidadeDentista(Dentista dentista, LocalDateTime dataHora, int duracaoMinutos) {
-        // 1. Verificar folgas e ausências do objeto Dentista
+        // 1. Verificar folgas e ausências do objeto model.Dentista
         if (dentista.getDiasDeFolga().contains(dataHora.getDayOfWeek()) ||
                 dentista.estaAusente(dataHora.toLocalDate())) {
             return false;
@@ -69,8 +74,8 @@ public class ClinicaManager {
             if (a.getDentista().getCpf().equals(dentista.getCpf()) && a.getStatus() != StatusAgendamento.CANCELADO) {
 
                 // Precisamos saber a duração do agendamento existente.
-                // Como Agendamento.java não tem o procedimento direto no código que você mandou,
-                // vou assumir uma duração padrão de 30 min ou você deve adicionar 'Procedimento' em 'Agendamento'.
+                // Como model.Agendamento.java não tem o procedimento direto no código que você mandou,
+                // vou assumir uma duração padrão de 30 min ou você deve adicionar 'model.Procedimento' em 'model.Agendamento'.
                 int duracaoExistente = 30;
 
                 LocalDateTime inicioExistente = a.getDataHora();

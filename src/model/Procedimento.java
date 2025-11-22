@@ -1,3 +1,5 @@
+package model;
+
 public class Procedimento {
     private String nome;
     private double preco;

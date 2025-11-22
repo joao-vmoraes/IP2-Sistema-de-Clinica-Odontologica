@@ -1,3 +1,13 @@
+import controller.Cadastrador;
+import controller.ClinicaManager;
+import controller.Relatoriador;
+import enums.MetodoPagamento;
+import model.*;
+import repository.AgendamentoRepositorio;
+import repository.DentistaRepositorio;
+import repository.PacienteRepositorio;
+import repository.ProcedimentoRepositorio;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -12,13 +22,13 @@ public class App {
         AgendamentoRepositorio agendamentoRepo = new AgendamentoRepositorio();
 
         // 2. INSTANCIAR CONTROLADORES COM INJEÇÃO DE DEPENDÊNCIA
-        // Cadastrador cuida de Pessoas e Procedimentos
+        // controller.Cadastrador cuida de Pessoas e Procedimentos
         Cadastrador cadastrador = new Cadastrador(pacienteRepo, dentistaRepo, procedimentoRepo);
 
         // Manager cuida da Agenda e Regras de Negócio
         ClinicaManager manager = new ClinicaManager(agendamentoRepo, dentistaRepo, pacienteRepo);
 
-        // Relatoriador cuida da visualização
+        // controller.Relatoriador cuida da visualização
         Relatoriador relatoriador = new Relatoriador(agendamentoRepo);
 
         // 3. EXECUÇÃO DO CENÁRIO
@@ -31,7 +41,7 @@ public class App {
         // Cadastrar
         cadastrador.cadastrarPaciente(p1);
         cadastrador.cadastrarDentista(d1);
-        cadastrador.adicionarProcedimento(pr1); // Note: método renomeado para 'adicionarProcedimento' no Cadastrador novo
+        cadastrador.adicionarProcedimento(pr1); // Note: método renomeado para 'adicionarProcedimento' no controller.Cadastrador novo
 
         // Agendar
         LocalDateTime dataConsulta = LocalDateTime.now().plusDays(1).withHour(10).withMinute(0);
@@ -40,10 +50,10 @@ public class App {
         boolean agendou = manager.marcarAgendamento(p1, d1, pr1, dataConsulta, "Sala 1");
 
         if (agendou) {
-            System.out.println("Agendamento realizado com sucesso!");
+            System.out.println("model.Agendamento realizado com sucesso!");
         }
 
-        // Simular Pagamento
+        // Simular model.Pagamento
         Pagamento pg1 = new Pagamento(pr1.getPreco(), MetodoPagamento.PIX, pr1);
         manager.registrarPagamento(pg1);
 

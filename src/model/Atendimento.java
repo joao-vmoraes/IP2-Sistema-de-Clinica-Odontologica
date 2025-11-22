@@ -1,3 +1,7 @@
+package model;
+
+import enums.StatusAgendamento;
+
 import java.time.LocalDateTime;
 
 public class Atendimento {

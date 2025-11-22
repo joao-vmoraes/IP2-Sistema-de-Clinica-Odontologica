@@ -1,6 +1,8 @@
+package repository;
+
+import model.Dentista;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class DentistaRepositorio {
     private List<Dentista> dentistas = new ArrayList<>();

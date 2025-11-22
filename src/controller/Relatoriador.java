@@ -1,3 +1,10 @@
+package controller;
+
+import model.Agendamento;
+import model.Dentista;
+import enums.StatusAgendamento;
+import repository.AgendamentoRepositorio;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

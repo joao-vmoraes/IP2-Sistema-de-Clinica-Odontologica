@@ -1,4 +1,6 @@
-import java.time.LocalDateTime;
+package repository;
+
+import model.Agendamento;
 import java.util.ArrayList;
 import java.util.List;
 
