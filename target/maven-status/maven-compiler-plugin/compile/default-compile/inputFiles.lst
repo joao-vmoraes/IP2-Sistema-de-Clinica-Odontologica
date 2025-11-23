@@ -1,5 +1,6 @@
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\enums\TipoExportacao.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Agendamento.java
+C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\PacienteListController.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Pessoa.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\repository\PacienteRepositorio.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Paciente.java
@@ -14,6 +15,7 @@ C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Dentista.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\repository\ProcedimentoRepositorio.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\MainLauncher.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\enums\StatusAgendamento.java
+C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\MainController.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Pagamento.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Procedimento.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\controller\Cadastrador.java
