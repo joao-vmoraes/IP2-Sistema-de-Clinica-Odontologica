@@ -2,13 +2,13 @@ package clinica.view.UIController;
 
 import clinica.controller.Cadastrador;
 import clinica.controller.ClinicaManager;
-import clinica.model.Agendamento; // Importante para passar o agendamento selecionado
 import clinica.repository.AgendamentoRepositorio;
-import clinica.repository.AtendimentoRepositorio; // NOVO
+import clinica.repository.AtendimentoRepositorio;
 import clinica.repository.DentistaRepositorio;
 import clinica.repository.PacienteRepositorio;
 import clinica.repository.PagamentoRepositorio;
 import clinica.repository.ProcedimentoRepositorio;
+import clinica.model.Agendamento;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,7 +27,7 @@ public class MainController {
     private ProcedimentoRepositorio procedimentoRepo;
     private AgendamentoRepositorio agendamentoRepo;
     private PagamentoRepositorio pagamentoRepo;
-    private AtendimentoRepositorio atendimentoRepo; // NOVO
+    private AtendimentoRepositorio atendimentoRepo;
 
     // Controladores de Negócio
     private Cadastrador cadastrador;
@@ -38,7 +38,7 @@ public class MainController {
                             ProcedimentoRepositorio procRepo,
                             AgendamentoRepositorio aRepo,
                             PagamentoRepositorio pagRepo,
-                            AtendimentoRepositorio atdRepo, // NOVO
+                            AtendimentoRepositorio atdRepo,
                             Cadastrador c,
                             ClinicaManager manager) {
         this.pacienteRepo = pRepo;
@@ -71,7 +71,9 @@ public class MainController {
     }
 
     @FXML public void loadDentistaList() {
-        Alert alert = new Alert(AlertType.INFORMATION, "Em breve."); alert.showAndWait();
+        carregarTela("/view/fxml/DentistaList.fxml", c -> {
+            if (c instanceof DentistaListController) ((DentistaListController) c).setDentistaRepositorio(dentistaRepo);
+        });
     }
 
     @FXML public void loadCadastroPaciente() {
@@ -104,7 +106,7 @@ public class MainController {
         });
     }
 
-    // NOVO: Carregar Tela de Atendimento para um agendamento específico
+    // Carregar Tela de Atendimento para um agendamento específico
     public void loadAtendimento(Agendamento agendamento) {
         carregarTela("/view/fxml/Atendimento.fxml", c -> {
             if (c instanceof AtendimentoController) {
