@@ -10,21 +10,20 @@
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.MainController">
 
     <top>
-        <!-- Menu Superior -->
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="Cadastros">
                     <items>
-                        <!-- Ação: loadCadastro deve ser implementada no MainController -->
+                        <!-- Todas as opções de cadastro unificadas aqui -->
+                        <MenuItem mnemonicParsing="false" onAction="#loadCadastroPaciente" text="Novo Paciente" />
                         <MenuItem mnemonicParsing="false" onAction="#loadCadastroDentista" text="Novo Dentista" />
-                  <MenuItem mnemonicParsing="false" onAction="#loadCadastroPaciente" text="Novo Paciente" />
+                        <MenuItem mnemonicParsing="false" onAction="#loadCadastroProcedimento" text="Novo Procedimento" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Consultas">
                     <items>
-                  <MenuItem mnemonicParsing="false" onAction="#loadDentistaList" text="Ver Lista de Dentistas" />
-                        <!-- Ação: loadPacienteList (já implementada) -->
                         <MenuItem mnemonicParsing="false" onAction="#loadPacienteList" text="Ver Lista de Pacientes" />
+                        <MenuItem mnemonicParsing="false" onAction="#loadDentistaList" text="Ver Lista de Dentistas" />
                         <MenuItem mnemonicParsing="false" text="Agendar Nova" />
                     </items>
                 </Menu>
@@ -38,7 +37,6 @@
     </top>
 
     <center>
-        <!-- Esta área será substituída pelo conteúdo das telas filhas -->
         <VBox alignment="CENTER" spacing="10" BorderPane.alignment="CENTER">
             <children>
                 <Label style="-fx-font-size: 24px;" text="Sistema da Clínica Odontológica" />
