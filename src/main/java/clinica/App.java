@@ -1,5 +1,6 @@
 package clinica;
 
+import clinica.model.Procedimento;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.stage.Stage;
 import clinica.repository.AgendamentoRepositorio;
 import clinica.repository.DentistaRepositorio;
 import clinica.repository.PacienteRepositorio;
+import clinica.repository.PagamentoRepositorio;
 import clinica.repository.ProcedimentoRepositorio;
 
 import clinica.controller.Cadastrador;
@@ -31,6 +33,7 @@ public class App extends Application {
         DentistaRepositorio dentistaRepo = new DentistaRepositorio();
         ProcedimentoRepositorio procedimentoRepo = new ProcedimentoRepositorio();
         AgendamentoRepositorio agendamentoRepo = new AgendamentoRepositorio();
+        PagamentoRepositorio pagamentoRepo = new PagamentoRepositorio(); // NOVO
 
         // Instanciação dos Controladores de Negócio
         Cadastrador cadastrador = new Cadastrador(pacienteRepo, dentistaRepo, procedimentoRepo);
@@ -42,9 +45,11 @@ public class App extends Application {
         pacienteRepo.salvar(new Paciente("Maria Lima", "222.333.444-55", "8888-1111", "maria@email.com", "Av Beta"));
 
         // Dentistas
+        Dentista silva = new Dentista("Dr. Silva", "CRM-1234", "9888-7777", "silva@clinica.com", "Rua B", "Ortodontia", LocalTime.of(8,0), LocalTime.of(18,0));
         dentistaRepo.salvar(new Dentista("Dr. Silva", "CRM-1234", "9888-7777", "silva@clinica.com", "Rua B", "Ortodontia", LocalTime.of(8,0), LocalTime.of(18,0)));
         dentistaRepo.salvar(new Dentista("Luiz Marcos", "333.444.555-66", "7777-2222", "luiz@email.com", "Av Gama", "Odontologista", LocalTime.of(9,0), LocalTime.of(17,0)));
 
+        procedimentoRepo.salvar(new Procedimento("canal" , 150 , 70 , silva ));
 
         // --- 2. CARREGAMENTO DO LAYOUT PRINCIPAL (FRONT-END) ---
 
@@ -59,8 +64,8 @@ public class App extends Application {
         MainController mainController = loader.getController();
 
         // Passa todos os Repositórios e Serviços para o MainController
-        // O MainController irá distribuí-los para as telas filhas (Cadastro, Agendamento, etc.)
-        mainController.setServices(pacienteRepo, dentistaRepo, procedimentoRepo, agendamentoRepo, cadastrador, manager);
+        // O MainController irá distribuí-los para as telas filhas (Cadastro, Agendamento, Pagamento, etc.)
+        mainController.setServices(pacienteRepo, dentistaRepo, procedimentoRepo, agendamentoRepo, pagamentoRepo, cadastrador, manager);
 
 
         // --- 4. EXIBIÇÃO DA JANELA ---

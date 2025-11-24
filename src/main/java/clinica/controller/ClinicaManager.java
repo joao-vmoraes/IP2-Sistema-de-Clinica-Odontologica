@@ -24,22 +24,20 @@ public class ClinicaManager {
     }
 
     public boolean marcarAgendamento(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String sala) {
-        // REQ24: Bloquear agendamento se tiver pagamento pendente
-        // (Assumindo que você tem esse método no Paciente, se não tiver, remova o if)
-        if (paciente.getPossuiPagamentoPendente()) {
-            System.out.println("Erro: Paciente possui pagamentos pendentes. Agendamento bloqueado.");
-            return false;
-        }
 
-        // REQ23: Verificar disponibilidade
+        // Regra de bloqueio global removida para permitir gestão financeira por item.
+        // O status de pagamento será gerido individualmente em cada Agendamento.
+
+        // REQ23: Verificar disponibilidade do dentista
         if (!verificarDisponibilidadeDentista(dentista, dataHora, procedimento.getDuracaoEmMinutos())) {
             System.out.println("Erro: Dentista indisponível no horário solicitado.");
             return false;
         }
 
-        // Cria e salva o agendamento
-        // Importante: O construtor de Agendamento deve aceitar Procedimento!
+        // Cria o agendamento (por padrão, ele nasce com pago = false)
         Agendamento novoAgendamento = new Agendamento(paciente, dentista, procedimento, dataHora, sala);
+
+        // Salva no repositório
         agendamentoRepo.salvar(novoAgendamento);
 
         System.out.println("Consulta agendada com sucesso para " + dataHora);
@@ -47,29 +45,31 @@ public class ClinicaManager {
     }
 
     private boolean verificarDisponibilidadeDentista(Dentista dentista, LocalDateTime dataHora, int duracaoMinutos) {
-        // 1. Verificar horário de trabalho
-        // Se dataHora for antes do inicio ou depois do fim do expediente
+        // 1. Verificar horário de trabalho do dentista (início e fim de expediente)
         if (dataHora.toLocalTime().isBefore(dentista.getHorarioTrabalhoInicio()) ||
                 dataHora.toLocalTime().plusMinutes(duracaoMinutos).isAfter(dentista.getHorarioTrabalhoFim())) {
             return false;
         }
 
-        // 2. Verificar conflito com outros agendamentos NO REPOSITÓRIO
+        // 2. Verificar conflito com outros agendamentos já existentes NO REPOSITÓRIO
         List<Agendamento> todosAgendamentos = agendamentoRepo.listarTodos();
         LocalDateTime fimNovo = dataHora.plusMinutes(duracaoMinutos);
 
         for (Agendamento a : todosAgendamentos) {
-            // Verifica apenas agendamentos deste dentista que não estão cancelados
+            // Checa apenas agendamentos deste mesmo dentista que não foram cancelados
             if (a.getDentista().getCpf().equals(dentista.getCpf()) &&
                     a.getStatus() != StatusAgendamento.CANCELADO) {
 
+                // Recupera a duração do procedimento agendado
                 int duracaoExistente = a.getProcedimento().getDuracaoEmMinutos();
+
                 LocalDateTime inicioExistente = a.getDataHora();
                 LocalDateTime fimExistente = inicioExistente.plusMinutes(duracaoExistente);
 
-                // Lógica de intersecção de horários: (InicioA < FimB) e (FimA > InicioB)
+                // Lógica de intersecção de horários:
+                // Se o novo começa antes do existente terminar E o novo termina depois do existente começar
                 if (dataHora.isBefore(fimExistente) && fimNovo.isAfter(inicioExistente)) {
-                    return false; // Colisão encontrada
+                    return false; // Conflito encontrado
                 }
             }
         }

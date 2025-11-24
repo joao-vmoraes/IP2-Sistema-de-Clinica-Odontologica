@@ -5,6 +5,7 @@ import clinica.controller.ClinicaManager;
 import clinica.repository.AgendamentoRepositorio;
 import clinica.repository.DentistaRepositorio;
 import clinica.repository.PacienteRepositorio;
+import clinica.repository.PagamentoRepositorio;
 import clinica.repository.ProcedimentoRepositorio;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,7 @@ public class MainController {
     private DentistaRepositorio dentistaRepo;
     private ProcedimentoRepositorio procedimentoRepo;
     private AgendamentoRepositorio agendamentoRepo;
+    private PagamentoRepositorio pagamentoRepo;
 
     // Controladores de Negócio
     private Cadastrador cadastrador;
@@ -33,12 +35,14 @@ public class MainController {
                             DentistaRepositorio dRepo,
                             ProcedimentoRepositorio procRepo,
                             AgendamentoRepositorio aRepo,
+                            PagamentoRepositorio pagRepo,
                             Cadastrador c,
                             ClinicaManager manager) {
         this.pacienteRepo = pRepo;
         this.dentistaRepo = dRepo;
         this.procedimentoRepo = procRepo;
         this.agendamentoRepo = aRepo;
+        this.pagamentoRepo = pagRepo;
         this.cadastrador = c;
         this.clinicaManager = manager;
 
@@ -61,7 +65,6 @@ public class MainController {
     public void loadAgendamentoList() {
         carregarTela("/view/fxml/AgendamentoList.fxml", controller -> {
             if (controller instanceof AgendamentoListController) {
-                // Injeta o repositório para listar os dados
                 ((AgendamentoListController) controller).setAgendamentoRepositorio(agendamentoRepo);
             }
         });
@@ -113,7 +116,7 @@ public class MainController {
         carregarTela("/view/fxml/Agendamento.fxml", controller -> {
             if (controller instanceof AgendamentoController) {
                 // Injeta TUDO que o agendamento precisa, INCLUINDO 'this' (MainController)
-                // para permitir voltar para a lista após salvar/cancelar
+                // para permitir voltar para a lista após salvar/cancelar sem fechar o app
                 ((AgendamentoController) controller).setDependencies(
                         clinicaManager,
                         pacienteRepo,
@@ -121,6 +124,18 @@ public class MainController {
                         procedimentoRepo,
                         this
                 );
+            }
+        });
+    }
+
+    // --- NAVEGAÇÃO FINANCEIRA ---
+
+    @FXML
+    public void loadPagamento() {
+        carregarTela("/view/fxml/Pagamento.fxml", controller -> {
+            if (controller instanceof PagamentoController) {
+                // Injeta o repositório de pagamentos e de pacientes
+                ((PagamentoController) controller).setDependencies(pagamentoRepo, pacienteRepo, agendamentoRepo);
             }
         });
     }
