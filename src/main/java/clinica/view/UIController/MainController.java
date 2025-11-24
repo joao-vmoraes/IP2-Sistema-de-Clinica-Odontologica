@@ -2,13 +2,16 @@ package clinica.view.UIController;
 
 import clinica.controller.Cadastrador;
 import clinica.repository.PacienteRepositorio;
+import clinica.repository.DentistaRepositorio;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
+
 import java.io.IOException;
+
 
 public class MainController {
 
@@ -17,11 +20,13 @@ public class MainController {
 
     // Serviços Injetados
     private PacienteRepositorio pacienteRepo;
+    private DentistaRepositorio dentistaRepo;
     private Cadastrador cadastrador;
 
     // Método chamado pelo App.java para entregar os serviços
-    public void setServices(PacienteRepositorio pRepo, Cadastrador c) {
+    public void setServices(PacienteRepositorio pRepo, DentistaRepositorio dRepo, Cadastrador c) {
         this.pacienteRepo = pRepo;
+        this.dentistaRepo = dRepo;
         this.cadastrador = c;
 
         // Carrega a lista assim que abre o sistema para não ficar vazio
@@ -41,6 +46,28 @@ public class MainController {
             // Injeta o repositório no controlador da lista
             PacienteListController controller = loader.getController();
             controller.setPacienteRepositorio(pacienteRepo);
+
+            // Exibe no centro da tela principal
+            borderPane.setCenter(listLayout);
+
+        } catch (IOException e) {
+            mostrarErro("Erro ao carregar lista de pacientes", e);
+        }
+    }
+
+    // --- Navegação: Lista de Dentistas ---
+    @FXML
+    public void loadDentistaList() {
+        try {
+            // Carrega o arquivo FXML da lista
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/DentistaList.fxml"));
+
+            // IMPORTANTE: Usamos 'Parent' porque a raiz pode ser VBox, AnchorPane, etc.
+            Parent listLayout = loader.load();
+
+            // Injeta o repositório no controlador da lista
+            DentistaListController controller = loader.getController();
+            controller.setDentistaRepositorio(dentistaRepo);
 
             // Exibe no centro da tela principal
             borderPane.setCenter(listLayout);

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="clinica.view.UIController.MainController">
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.MainController">
 
     <top>
         <!-- Menu Superior -->
@@ -15,13 +16,14 @@
                 <Menu mnemonicParsing="false" text="Cadastros">
                     <items>
                         <!-- Ação: loadCadastro deve ser implementada no MainController -->
-                        <MenuItem mnemonicParsing="false" text="Novo Paciente" onAction="#loadCadastro"/>
+                        <MenuItem mnemonicParsing="false" onAction="#loadCadastro" text="Novo Paciente" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Consultas">
                     <items>
+                  <MenuItem mnemonicParsing="false" onAction="#loadDentistaList" text="Ver Lista de Dentistas" />
                         <!-- Ação: loadPacienteList (já implementada) -->
-                        <MenuItem mnemonicParsing="false" text="Ver Listagem" onAction="#loadPacienteList"/>
+                        <MenuItem mnemonicParsing="false" onAction="#loadPacienteList" text="Ver Lista de Pacientes" />
                         <MenuItem mnemonicParsing="false" text="Agendar Nova" />
                     </items>
                 </Menu>
@@ -36,10 +38,10 @@
 
     <center>
         <!-- Esta área será substituída pelo conteúdo das telas filhas -->
-        <VBox alignment="CENTER" BorderPane.alignment="CENTER" spacing="10">
+        <VBox alignment="CENTER" spacing="10" BorderPane.alignment="CENTER">
             <children>
-                <Label text="Sistema da Clínica Odontológica" style="-fx-font-size: 24px;"/>
-                <Label text="Selecione uma opção no menu superior."/>
+                <Label style="-fx-font-size: 24px;" text="Sistema da Clínica Odontológica" />
+                <Label text="Selecione uma opção no menu superior." />
             </children>
         </VBox>
     </center>

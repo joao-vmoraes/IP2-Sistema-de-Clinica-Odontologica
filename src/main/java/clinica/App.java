@@ -10,7 +10,11 @@ import clinica.repository.PacienteRepositorio;
 import clinica.repository.DentistaRepositorio;
 import clinica.repository.ProcedimentoRepositorio;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import clinica.controller.Cadastrador;
+import clinica.model.Dentista;
 import clinica.model.Paciente; // Para adicionar dados de teste
 import clinica.view.UIController.MainController;
 
@@ -30,9 +34,10 @@ public class App extends Application {
         Cadastrador cadastrador = new Cadastrador(pacienteRepo, dentistaRepo, procedimentoRepo);
         // ClinicaManager clinicaManager = new ClinicaManager(...); // Adicione os outros controladores aqui
 
-        // Adicionando dados de teste no Repositório de Pacientes
+        // Adicionando dados de teste nos repositórios
         pacienteRepo.salvar(new Paciente("João da Silva", "111.222.333-44", "9999-0000", "joao@email.com", "Rua Alfa"));
         pacienteRepo.salvar(new Paciente("Maria Lima", "222.333.444-55", "8888-1111", "maria@email.com", "Av Beta"));
+        dentistaRepo.salvar(new Dentista("Luiz Marcos", "333.444.555-66", "7777-2222", "luiz@email.com", "Av Gama", "Orologista", LocalTime.now(), LocalTime.now()));
 
 
         // --- 2. CARREGAMENTO DO LAYOUT PRINCIPAL (FRONT-END) ---
@@ -50,7 +55,7 @@ public class App extends Application {
         // Passa os Repositórios e Serviços para o MainController, que irá distribuí-los para as telas filhas
         // O método setServices foi definido para receber apenas o PacienteRepositorio no exemplo anterior.
         // Se precisar passar o Cadastrador, atualize o método setServices no MainController.
-        mainController.setServices(pacienteRepo, cadastrador);
+        mainController.setServices(pacienteRepo, dentistaRepo, cadastrador);
 
 
         // --- 4. EXIBIÇÃO DA JANELA ---
