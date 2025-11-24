@@ -15,6 +15,7 @@
 <?import javafx.scene.text.Font?>
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.clinica.controller.AgendamentoController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="25.0" layoutY="25.0" prefHeight="450.0" prefWidth="550.0" spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
@@ -100,6 +101,8 @@
       </VBox>
    </children>
 =======
+=======
+>>>>>>> Stashed changes
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.AgendamentoController">
     <children>
         <VBox alignment="TOP_CENTER" layoutX="25.0" layoutY="25.0" prefHeight="500.0" prefWidth="550.0" spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
@@ -176,5 +179,8 @@
             </padding>
         </VBox>
     </children>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 </AnchorPane>
