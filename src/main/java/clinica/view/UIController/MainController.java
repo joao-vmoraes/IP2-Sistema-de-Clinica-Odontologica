@@ -2,6 +2,7 @@ package clinica.view.UIController;
 
 import clinica.controller.Cadastrador;
 import clinica.controller.ClinicaManager;
+import clinica.repository.AgendamentoRepositorio;
 import clinica.repository.DentistaRepositorio;
 import clinica.repository.PacienteRepositorio;
 import clinica.repository.ProcedimentoRepositorio;
@@ -17,32 +18,35 @@ public class MainController {
 
     @FXML private BorderPane borderPane;
 
-    // Serviços Injetados
+    // Serviços Injetados (Repositórios)
     private PacienteRepositorio pacienteRepo;
     private DentistaRepositorio dentistaRepo;
-    private ProcedimentoRepositorio procedimentoRepo; // NOVO
+    private ProcedimentoRepositorio procedimentoRepo;
+    private AgendamentoRepositorio agendamentoRepo;
 
-    // Controllers de Negócio
+    // Controladores de Negócio
     private Cadastrador cadastrador;
-    private ClinicaManager clinicaManager; // NOVO
+    private ClinicaManager clinicaManager;
 
     // Método Main de Injeção (Chamado pelo App.java)
     public void setServices(PacienteRepositorio pRepo,
                             DentistaRepositorio dRepo,
                             ProcedimentoRepositorio procRepo,
+                            AgendamentoRepositorio aRepo,
                             Cadastrador c,
                             ClinicaManager manager) {
         this.pacienteRepo = pRepo;
         this.dentistaRepo = dRepo;
         this.procedimentoRepo = procRepo;
+        this.agendamentoRepo = aRepo;
         this.cadastrador = c;
         this.clinicaManager = manager;
 
-        // Carrega a tela inicial padrão
+        // Carrega a tela inicial
         loadPacienteList();
     }
 
-    // --- NAVEGAÇÕES ---
+    // --- NAVEGAÇÕES DE CONSULTA ---
 
     @FXML
     public void loadPacienteList() {
@@ -54,14 +58,26 @@ public class MainController {
     }
 
     @FXML
+    public void loadAgendamentoList() {
+        carregarTela("/view/fxml/AgendamentoList.fxml", controller -> {
+            if (controller instanceof AgendamentoListController) {
+                // Injeta o repositório para listar os dados
+                ((AgendamentoListController) controller).setAgendamentoRepositorio(agendamentoRepo);
+            }
+        });
+    }
+
+    @FXML
     public void loadDentistaList() {
-        // Implementação futura: carregarTela("/view/fxml/DentistaList.fxml", ...);
+        // Implementação futura
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Em Breve");
         alert.setHeaderText(null);
         alert.setContentText("A listagem de dentistas será implementada em breve.");
         alert.showAndWait();
     }
+
+    // --- NAVEGAÇÕES DE CADASTRO ---
 
     @FXML
     public void loadCadastroPaciente() {
@@ -85,33 +101,46 @@ public class MainController {
     public void loadCadastroProcedimento() {
         carregarTela("/view/fxml/CadastroProcedimento.fxml", controller -> {
             if (controller instanceof CadastroProcedimentoController) {
-                // Injeta Cadastrador E DentistaRepositorio (para o ComboBox de dentistas)
                 ((CadastroProcedimentoController) controller).setDependencies(cadastrador, dentistaRepo);
             }
         });
     }
 
-    // NOVO: Carregar Tela de Agendamento
+    // --- NAVEGAÇÃO DE AGENDAMENTO ---
+
     @FXML
     public void loadAgendamento() {
         carregarTela("/view/fxml/Agendamento.fxml", controller -> {
             if (controller instanceof AgendamentoController) {
-                // Injeta TUDO que o agendamento precisa para funcionar (Manager + 3 Repos)
-                ((AgendamentoController) controller).setDependencies(clinicaManager, pacienteRepo, dentistaRepo, procedimentoRepo);
+                // Injeta TUDO que o agendamento precisa, INCLUINDO 'this' (MainController)
+                // para permitir voltar para a lista após salvar/cancelar
+                ((AgendamentoController) controller).setDependencies(
+                        clinicaManager,
+                        pacienteRepo,
+                        dentistaRepo,
+                        procedimentoRepo,
+                        this
+                );
             }
         });
     }
 
-    // Método genérico para carregar telas e tratar erros
+    // --- MÉTODO AUXILIAR DE CARREGAMENTO ---
+
     private void carregarTela(String fxmlPath, java.util.function.Consumer<Object> initializer) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent layout = loader.load();
 
+            // Obtém o controlador da tela carregada
             Object controller = loader.getController();
-            initializer.accept(controller); // Injeta as dependências no controlador filho
 
+            // Executa a injeção de dependência específica
+            initializer.accept(controller);
+
+            // Define a tela no centro do layout principal
             borderPane.setCenter(layout);
+
         } catch (IOException e) {
             e.printStackTrace();
             Alert alert = new Alert(AlertType.ERROR);
@@ -121,6 +150,6 @@ public class MainController {
         }
     }
 
-    // Métodos de compatibilidade (Aliases) para o FXML antigo, se necessário
+    // Alias para compatibilidade com FXML antigo
     @FXML public void loadCadastro() { loadCadastroPaciente(); }
 }

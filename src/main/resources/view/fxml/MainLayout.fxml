@@ -23,6 +23,8 @@
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#loadPacienteList" text="Ver Lista de Pacientes" />
                         <MenuItem mnemonicParsing="false" onAction="#loadDentistaList" text="Ver Lista de Dentistas" />
+                        <!-- NOVO ITEM -->
+                        <MenuItem mnemonicParsing="false" onAction="#loadAgendamentoList" text="Ver Lista de Agendamentos" />
                         <MenuItem mnemonicParsing="false" onAction="#loadAgendamento" text="Agendar Nova" />
                     </items>
                 </Menu>

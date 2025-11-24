@@ -60,7 +60,7 @@ public class App extends Application {
 
         // Passa todos os Repositórios e Serviços para o MainController
         // O MainController irá distribuí-los para as telas filhas (Cadastro, Agendamento, etc.)
-        mainController.setServices(pacienteRepo, dentistaRepo, procedimentoRepo, cadastrador, manager);
+        mainController.setServices(pacienteRepo, dentistaRepo, procedimentoRepo, agendamentoRepo, cadastrador, manager);
 
 
         // --- 4. EXIBIÇÃO DA JANELA ---
