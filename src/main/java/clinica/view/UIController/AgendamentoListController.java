@@ -6,11 +6,11 @@ import clinica.repository.AgendamentoRepositorio;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-// IMPORTS CORRIGIDOS E NECESSÁRIOS
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+// IMPORTS CORRIGIDOS
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.time.format.DateTimeFormatter;
@@ -30,9 +30,12 @@ public class AgendamentoListController {
     @FXML private TableColumn<Agendamento, Void> colAcoes;
 
     private AgendamentoRepositorio agendamentoRepo;
+    private MainController mainController; // Precisa do MainController para navegar para a tela de Atendimento
 
-    public void setAgendamentoRepositorio(AgendamentoRepositorio repo) {
+    // Método de Injeção Atualizado
+    public void setDependencies(AgendamentoRepositorio repo, MainController main) {
         this.agendamentoRepo = repo;
+        this.mainController = main;
         atualizarLista();
     }
 
@@ -69,12 +72,24 @@ public class AgendamentoListController {
             public TableCell<Agendamento, Void> call(final TableColumn<Agendamento, Void> param) {
                 return new TableCell<>() {
                     private final Button btnCancelar = new Button("Cancelar");
+                    private final Button btnAtender = new Button("Atender");
+                    private final HBox pane = new HBox(5, btnAtender, btnCancelar); // HBox para alinhar botões
 
                     {
+                        // Estilo Cancelar
                         btnCancelar.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 10px;");
                         btnCancelar.setOnAction(event -> {
                             Agendamento agendamento = getTableView().getItems().get(getIndex());
                             cancelarAgendamento(agendamento);
+                        });
+
+                        // Estilo Atender (NOVO)
+                        btnAtender.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 10px;");
+                        btnAtender.setOnAction(event -> {
+                            Agendamento agendamento = getTableView().getItems().get(getIndex());
+                            if (mainController != null) {
+                                mainController.loadAtendimento(agendamento);
+                            }
                         });
                     }
 
@@ -85,11 +100,12 @@ public class AgendamentoListController {
                             setGraphic(null);
                         } else {
                             Agendamento agendamento = getTableView().getItems().get(getIndex());
-                            // Só mostra o botão se NÃO estiver cancelado ou concluído
+
+                            // Lógica de visibilidade dos botões
                             if (agendamento.getStatus() == StatusAgendamento.PLANEJADO) {
-                                setGraphic(btnCancelar);
+                                setGraphic(pane); // Mostra os dois
                             } else {
-                                setGraphic(null);
+                                setGraphic(null); // Já foi atendido ou cancelado
                             }
                         }
                     }
@@ -101,14 +117,13 @@ public class AgendamentoListController {
 
     private void cancelarAgendamento(Agendamento agendamento) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Confirmar Cancelamento");
+        alert.setTitle("Confirmar");
         alert.setHeaderText("Cancelar Agendamento");
-        alert.setContentText("Tem certeza que deseja cancelar este agendamento?");
-
+        alert.setContentText("Tem certeza?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             agendamento.setStatus(StatusAgendamento.CANCELADO);
-            tableViewAgendamentos.refresh(); // Atualiza a tabela visualmente
+            tableViewAgendamentos.refresh();
         }
     }
 
@@ -116,12 +131,11 @@ public class AgendamentoListController {
     public void filtrarPorCpf() {
         String termo = txtPesquisaCpf.getText();
         if (termo == null || termo.isEmpty()) {
-            atualizarLista();
-            return;
+            atualizarLista(); return;
         }
         if (agendamentoRepo != null) {
             List<Agendamento> filtrados = agendamentoRepo.buscarPorCpfPaciente(termo);
-            if (filtrados.isEmpty()) mostrarAlerta("Pesquisa", "Nenhum agendamento encontrado.");
+            if (filtrados.isEmpty()) mostrarAlerta("Pesquisa", "Nenhum encontrado.");
             tableViewAgendamentos.setItems(FXCollections.observableArrayList(filtrados));
         }
     }

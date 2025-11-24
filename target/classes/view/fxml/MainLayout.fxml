@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.MainController">
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.MainController">
 
     <top>
         <MenuBar BorderPane.alignment="CENTER">
@@ -13,6 +17,8 @@
                         <MenuItem mnemonicParsing="false" onAction="#loadCadastroPaciente" text="Novo Paciente" />
                         <MenuItem mnemonicParsing="false" onAction="#loadCadastroDentista" text="Novo Dentista" />
                         <MenuItem mnemonicParsing="false" onAction="#loadCadastroProcedimento" text="Novo Procedimento" />
+                        <!-- Item Movido e Renomeado -->
+                        <MenuItem mnemonicParsing="false" onAction="#loadAgendamento" text="Novo Agendamento" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Consultas">
@@ -20,7 +26,6 @@
                         <MenuItem mnemonicParsing="false" onAction="#loadPacienteList" text="Ver Lista de Pacientes" />
                         <MenuItem mnemonicParsing="false" onAction="#loadDentistaList" text="Ver Lista de Dentistas" />
                         <MenuItem mnemonicParsing="false" onAction="#loadAgendamentoList" text="Ver Lista de Agendamentos" />
-                        <MenuItem mnemonicParsing="false" onAction="#loadAgendamento" text="Agendar Novo Agendamento" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Financeiro">

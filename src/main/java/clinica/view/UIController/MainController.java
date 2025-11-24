@@ -2,7 +2,9 @@ package clinica.view.UIController;
 
 import clinica.controller.Cadastrador;
 import clinica.controller.ClinicaManager;
+import clinica.model.Agendamento; // Importante para passar o agendamento selecionado
 import clinica.repository.AgendamentoRepositorio;
+import clinica.repository.AtendimentoRepositorio; // NOVO
 import clinica.repository.DentistaRepositorio;
 import clinica.repository.PacienteRepositorio;
 import clinica.repository.PagamentoRepositorio;
@@ -25,17 +27,18 @@ public class MainController {
     private ProcedimentoRepositorio procedimentoRepo;
     private AgendamentoRepositorio agendamentoRepo;
     private PagamentoRepositorio pagamentoRepo;
+    private AtendimentoRepositorio atendimentoRepo; // NOVO
 
     // Controladores de Negócio
     private Cadastrador cadastrador;
     private ClinicaManager clinicaManager;
 
-    // Método Main de Injeção (Chamado pelo App.java)
     public void setServices(PacienteRepositorio pRepo,
                             DentistaRepositorio dRepo,
                             ProcedimentoRepositorio procRepo,
                             AgendamentoRepositorio aRepo,
                             PagamentoRepositorio pagRepo,
+                            AtendimentoRepositorio atdRepo, // NOVO
                             Cadastrador c,
                             ClinicaManager manager) {
         this.pacienteRepo = pRepo;
@@ -43,128 +46,84 @@ public class MainController {
         this.procedimentoRepo = procRepo;
         this.agendamentoRepo = aRepo;
         this.pagamentoRepo = pagRepo;
+        this.atendimentoRepo = atdRepo;
         this.cadastrador = c;
         this.clinicaManager = manager;
 
-        // Carrega a tela inicial
         loadPacienteList();
     }
 
-    // --- NAVEGAÇÕES DE CONSULTA ---
+    // --- NAVEGAÇÕES ---
 
-    @FXML
-    public void loadPacienteList() {
-        carregarTela("/view/fxml/PacienteList.fxml", controller -> {
-            if (controller instanceof PacienteListController) {
-                ((PacienteListController) controller).setPacienteRepositorio(pacienteRepo);
+    @FXML public void loadPacienteList() {
+        carregarTela("/view/fxml/PacienteList.fxml", c -> {
+            if (c instanceof PacienteListController) ((PacienteListController) c).setPacienteRepositorio(pacienteRepo);
+        });
+    }
+
+    @FXML public void loadAgendamentoList() {
+        carregarTela("/view/fxml/AgendamentoList.fxml", c -> {
+            if (c instanceof AgendamentoListController) {
+                // Passamos 'this' para que a lista possa chamar loadAtendimento
+                ((AgendamentoListController) c).setDependencies(agendamentoRepo, this);
             }
         });
     }
 
-    @FXML
-    public void loadAgendamentoList() {
-        carregarTela("/view/fxml/AgendamentoList.fxml", controller -> {
-            if (controller instanceof AgendamentoListController) {
-                ((AgendamentoListController) controller).setAgendamentoRepositorio(agendamentoRepo);
-            }
+    @FXML public void loadDentistaList() {
+        Alert alert = new Alert(AlertType.INFORMATION, "Em breve."); alert.showAndWait();
+    }
+
+    @FXML public void loadCadastroPaciente() {
+        carregarTela("/view/fxml/CadastroPaciente.fxml", c -> {
+            if (c instanceof CadastroPacienteController) ((CadastroPacienteController) c).setCadastrador(cadastrador);
         });
     }
 
-    @FXML
-    public void loadDentistaList() {
-        // Implementação futura
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Em Breve");
-        alert.setHeaderText(null);
-        alert.setContentText("A listagem de dentistas será implementada em breve.");
-        alert.showAndWait();
-    }
-
-    // --- NAVEGAÇÕES DE CADASTRO ---
-
-    @FXML
-    public void loadCadastroPaciente() {
-        carregarTela("/view/fxml/CadastroPaciente.fxml", controller -> {
-            if (controller instanceof CadastroPacienteController) {
-                ((CadastroPacienteController) controller).setCadastrador(cadastrador);
-            }
+    @FXML public void loadCadastroDentista() {
+        carregarTela("/view/fxml/CadastroDentista.fxml", c -> {
+            if (c instanceof CadastroDentistaController) ((CadastroDentistaController) c).setCadastrador(cadastrador);
         });
     }
 
-    @FXML
-    public void loadCadastroDentista() {
-        carregarTela("/view/fxml/CadastroDentista.fxml", controller -> {
-            if (controller instanceof CadastroDentistaController) {
-                ((CadastroDentistaController) controller).setCadastrador(cadastrador);
-            }
+    @FXML public void loadCadastroProcedimento() {
+        carregarTela("/view/fxml/CadastroProcedimento.fxml", c -> {
+            if (c instanceof CadastroProcedimentoController) ((CadastroProcedimentoController) c).setDependencies(cadastrador, dentistaRepo);
         });
     }
 
-    @FXML
-    public void loadCadastroProcedimento() {
-        carregarTela("/view/fxml/CadastroProcedimento.fxml", controller -> {
-            if (controller instanceof CadastroProcedimentoController) {
-                ((CadastroProcedimentoController) controller).setDependencies(cadastrador, dentistaRepo);
-            }
+    @FXML public void loadAgendamento() {
+        carregarTela("/view/fxml/Agendamento.fxml", c -> {
+            if (c instanceof AgendamentoController) ((AgendamentoController) c).setDependencies(clinicaManager, pacienteRepo, dentistaRepo, procedimentoRepo, this);
         });
     }
 
-    // --- NAVEGAÇÃO DE AGENDAMENTO ---
-
-    @FXML
-    public void loadAgendamento() {
-        carregarTela("/view/fxml/Agendamento.fxml", controller -> {
-            if (controller instanceof AgendamentoController) {
-                // Injeta TUDO que o agendamento precisa, INCLUINDO 'this' (MainController)
-                // para permitir voltar para a lista após salvar/cancelar sem fechar o app
-                ((AgendamentoController) controller).setDependencies(
-                        clinicaManager,
-                        pacienteRepo,
-                        dentistaRepo,
-                        procedimentoRepo,
-                        this
-                );
-            }
+    @FXML public void loadPagamento() {
+        carregarTela("/view/fxml/Pagamento.fxml", c -> {
+            if (c instanceof PagamentoController) ((PagamentoController) c).setDependencies(pagamentoRepo, pacienteRepo, agendamentoRepo);
         });
     }
 
-    // --- NAVEGAÇÃO FINANCEIRA ---
-
-    @FXML
-    public void loadPagamento() {
-        carregarTela("/view/fxml/Pagamento.fxml", controller -> {
-            if (controller instanceof PagamentoController) {
-                // Injeta o repositório de pagamentos e de pacientes
-                ((PagamentoController) controller).setDependencies(pagamentoRepo, pacienteRepo, agendamentoRepo);
+    // NOVO: Carregar Tela de Atendimento para um agendamento específico
+    public void loadAtendimento(Agendamento agendamento) {
+        carregarTela("/view/fxml/Atendimento.fxml", c -> {
+            if (c instanceof AtendimentoController) {
+                ((AtendimentoController) c).setDependencies(agendamento, atendimentoRepo, this);
             }
         });
     }
-
-    // --- MÉTODO AUXILIAR DE CARREGAMENTO ---
 
     private void carregarTela(String fxmlPath, java.util.function.Consumer<Object> initializer) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent layout = loader.load();
-
-            // Obtém o controlador da tela carregada
-            Object controller = loader.getController();
-
-            // Executa a injeção de dependência específica
-            initializer.accept(controller);
-
-            // Define a tela no centro do layout principal
+            initializer.accept(loader.getController());
             borderPane.setCenter(layout);
-
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Erro ao carregar tela");
-            alert.setContentText("Não foi possível carregar: " + fxmlPath + "\n" + e.getMessage());
-            alert.showAndWait();
+            new Alert(AlertType.ERROR, "Erro ao carregar: " + fxmlPath + "\n" + e.getMessage()).showAndWait();
         }
     }
 
-    // Alias para compatibilidade com FXML antigo
     @FXML public void loadCadastro() { loadCadastroPaciente(); }
 }
