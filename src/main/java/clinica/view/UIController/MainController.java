@@ -79,7 +79,7 @@ public class MainController {
 
     // --- Navegação: Cadastro de Paciente ---
     @FXML
-    public void loadCadastro() {
+    public void loadCadastroPaciente() {
         try {
             // Carrega o arquivo FXML do cadastro
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/CadastroPaciente.fxml"));
@@ -87,6 +87,25 @@ public class MainController {
 
             // Injeta o cadastrador no controlador do formulário
             CadastroPacienteController controller = loader.getController();
+            controller.setCadastrador(cadastrador);
+
+            // Exibe no centro da tela principal
+            borderPane.setCenter(cadastroLayout);
+
+        } catch (IOException e) {
+            mostrarErro("Erro ao carregar tela de cadastro", e);
+        }
+    }
+
+    @FXML
+    public void loadCadastroDentista() {
+        try {
+            // Carrega o arquivo FXML do cadastro
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/CadastroDentista.fxml"));
+            Parent cadastroLayout = loader.load();
+
+            // Injeta o cadastrador no controlador do formulário
+            CadastroDentistaController controller = loader.getController();
             controller.setCadastrador(cadastrador);
 
             // Exibe no centro da tela principal

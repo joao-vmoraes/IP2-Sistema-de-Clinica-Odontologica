@@ -16,7 +16,8 @@
                 <Menu mnemonicParsing="false" text="Cadastros">
                     <items>
                         <!-- Ação: loadCadastro deve ser implementada no MainController -->
-                        <MenuItem mnemonicParsing="false" onAction="#loadCadastro" text="Novo Paciente" />
+                        <MenuItem mnemonicParsing="false" onAction="#loadCadastroDentista" text="Novo Dentista" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadCadastroPaciente" text="Novo Paciente" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Consultas">
