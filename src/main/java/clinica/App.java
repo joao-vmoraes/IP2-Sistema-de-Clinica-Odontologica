@@ -66,7 +66,7 @@ public class App extends Application {
         cadastrador.cadastrar(new Procedimento("Limpeza", 50, 20));
         cadastrador.cadastrar(proc);
         agendamentoRepo.salvar(loPix);
-        //pagamentoRepo.salvar(pag); //por algum motivo, a listagem de pagamentos esta sumindo quando se salva algum pagamentos
+        pagamentoRepo.salvar(pag); //por algum motivo, a listagem de pagamentos esta sumindo quando se salva algum pagamentos
 
         // 4. Tela
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/MainLayout.fxml"));

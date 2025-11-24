@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.List;
 
@@ -34,17 +35,14 @@ public class PagamentoListController {
     @FXML
     public void initialize() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        colData.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDataPagamento().format(formatter)));
+        //colData.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDataPagamento().format(formatter)));
 
-        colPreco.setCellValueFactory(cellData ->
-                new SimpleStringProperty("R$" + cellData.getValue().getValor()));
+        colPreco.setCellValueFactory(cellData -> new SimpleStringProperty("R$"+cellData.getValue().getValor()));
 
-        colMetodo.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getMetodo().toString()));
+        colMetodo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMetodo().toString()));
 
-        colAgendamento.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getReferenciaAgendamento().getProcedimento().getNome()));
+        /*colAgendamento.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getReferenciaAgendamento().getProcedimento().getNome()));*/
     }
 
     public void carregarListaPagamentos() {

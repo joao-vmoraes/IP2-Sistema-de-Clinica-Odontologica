@@ -60,7 +60,7 @@ public class AgendamentoListController {
 
         colFinanceiro.setCellValueFactory(cellData -> {
             boolean pago = cellData.getValue().isPago();
-            return new SimpleStringProperty(pago ? "PAGO ✅" : "PENDENTE ⚠️");
+            return new SimpleStringProperty(pago ? "PAGO" : "PENDENTE");
         });
 
         adicionarBotoesAcao();

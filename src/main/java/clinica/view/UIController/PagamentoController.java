@@ -51,6 +51,7 @@ public class PagamentoController {
 
         comboMetodo.setItems(FXCollections.observableArrayList(MetodoPagamento.values()));
         datePickerData.setValue(LocalDate.now());
+        comboAgendamento.setDisable(true);
     }
 
     // Ação ao selecionar um paciente: Carrega os agendamentos PENDENTES dele
@@ -58,19 +59,22 @@ public class PagamentoController {
     private void aoSelecionarPaciente() {
         Paciente p = comboPaciente.getValue();
         if (p != null && agendamentoRepo != null) {
+            comboAgendamento.setDisable(false);
             // Filtra: Agendamentos deste paciente QUE AINDA NÃO FORAM PAGOS (!isPago)
-            //List<Agendamento> pendencias = agendamentoRepo.buscarPorCpfPaciente(p.getCpf()).stream()
-                    //.filter(a -> !a.isPago())
-                    //.collect(Collectors.toList());
+            List<Agendamento> pendencias = agendamentoRepo.buscarPorCpfPaciente(p.getCpf()).stream()
+                    .filter(a -> !a.isPago())
+                    .collect(Collectors.toList());
 
-            comboAgendamento.setItems(FXCollections.observableArrayList(agendamentoRepo.listarTodos()));
+            comboAgendamento.setItems(FXCollections.observableArrayList(pendencias));
 
             // Se tiver pendencias, pode tentar auto-preencher o valor com o preço do procedimento
-            /*if (!pendencias.isEmpty()) {
+            if (!pendencias.isEmpty()) {
                 comboAgendamento.setPromptText("Selecione a conta a pagar...");
             } else {
                 comboAgendamento.setPromptText("Nenhuma pendência encontrada.");
-            }*/
+            }
+        } else {
+            comboAgendamento.setDisable(true);
         }
     }
 
