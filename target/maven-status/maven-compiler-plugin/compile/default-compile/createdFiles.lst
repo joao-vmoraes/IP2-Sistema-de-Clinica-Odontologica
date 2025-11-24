@@ -1,4 +1,5 @@
 clinica\view\UIController\CadastroProcedimentoController.class
+clinica\view\UIController\AgendamentoListController$1.class
 clinica\view\UIController\CadastroPacienteController.class
 clinica\view\UIController\CadastroProcedimentoController$1.class
 clinica\view\UIController\AgendamentoController$2.class
@@ -10,4 +11,5 @@ clinica\view\UIController\PagamentoController$1.class
 clinica\repository\PagamentoRepositorio.class
 clinica\view\UIController\AgendamentoController.class
 clinica\view\UIController\AgendamentoController$1.class
+clinica\view\UIController\AgendamentoListController$1$1.class
 clinica\view\UIController\AgendamentoController$3.class

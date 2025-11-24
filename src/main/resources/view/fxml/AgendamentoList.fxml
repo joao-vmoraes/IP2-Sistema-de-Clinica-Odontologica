@@ -21,7 +21,7 @@
         </font>
     </Label>
 
-    <!-- ÁREA DE PESQUISA (NOVO) -->
+    <!-- ÁREA DE PESQUISA -->
     <HBox alignment="CENTER" spacing="10.0">
         <children>
             <Label text="Pesquisar por CPF:" />
@@ -31,15 +31,16 @@
         </children>
     </HBox>
 
-    <TableView fx:id="tableViewAgendamentos" prefHeight="400.0" prefWidth="800.0">
+    <TableView fx:id="tableViewAgendamentos" prefHeight="400.0" prefWidth="900.0">
         <columns>
             <TableColumn fx:id="colDataHora" prefWidth="130.0" text="Data/Hora" />
             <TableColumn fx:id="colPaciente" prefWidth="150.0" text="Paciente" />
             <TableColumn fx:id="colDentista" prefWidth="130.0" text="Dentista" />
             <TableColumn fx:id="colProcedimento" prefWidth="130.0" text="Procedimento" />
             <TableColumn fx:id="colStatus" prefWidth="100.0" text="Status" />
-            <!-- NOVA COLUNA -->
-            <TableColumn fx:id="colFinanceiro" prefWidth="130.0" text="Financeiro" />
+            <TableColumn fx:id="colFinanceiro" prefWidth="100.0" text="Financeiro" />
+            <!-- NOVA COLUNA DE AÇÕES -->
+            <TableColumn fx:id="colAcoes" prefWidth="130.0" text="Ações" />
         </columns>
     </TableView>
 
