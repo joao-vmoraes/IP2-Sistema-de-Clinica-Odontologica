@@ -21,7 +21,6 @@ public class MainController {
 
     @FXML private BorderPane borderPane;
 
-    // Serviços Injetados (Repositórios)
     private PacienteRepositorio pacienteRepo;
     private DentistaRepositorio dentistaRepo;
     private ProcedimentoRepositorio procedimentoRepo;
@@ -29,12 +28,11 @@ public class MainController {
     private PagamentoRepositorio pagamentoRepo;
     private AtendimentoRepositorio atendimentoRepo;
 
-    // Controladores de Negócio
+
     private Cadastrador cadastrador;
     private ClinicaManager clinicaManager;
 
-    public void setServices(PacienteRepositorio pRepo,
-                            DentistaRepositorio dRepo,
+    public void setServices(PacienteRepositorio pRepo, DentistaRepositorio dRepo,
                             ProcedimentoRepositorio procRepo,
                             AgendamentoRepositorio aRepo,
                             PagamentoRepositorio pagRepo,
@@ -53,7 +51,7 @@ public class MainController {
         loadPacienteList();
     }
 
-    // --- NAVEGAÇÕES ---
+    //  NAVEGAÇÕES
 
     @FXML public void loadPacienteList() {
         carregarTela("/view/fxml/PacienteList.fxml", c -> {
@@ -64,7 +62,6 @@ public class MainController {
     @FXML public void loadAgendamentoList() {
         carregarTela("/view/fxml/AgendamentoList.fxml", c -> {
             if (c instanceof AgendamentoListController) {
-                // Passamos 'this' para que a lista possa chamar loadAtendimento
                 ((AgendamentoListController) c).setDependencies(agendamentoRepo, this);
             }
         });
@@ -106,7 +103,6 @@ public class MainController {
         });
     }
 
-    // Carregar Tela de Atendimento para um agendamento específico
     public void loadAtendimento(Agendamento agendamento) {
         carregarTela("/view/fxml/Atendimento.fxml", c -> {
             if (c instanceof AtendimentoController) {

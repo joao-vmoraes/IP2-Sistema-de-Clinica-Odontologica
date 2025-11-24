@@ -22,7 +22,6 @@ public class CadastroProcedimentoController {
     private Cadastrador cadastrador;
     private DentistaRepositorio dentistaRepositorio;
 
-    // Recebe as dependências e carrega a lista de dentistas no ComboBox
     public void setDependencies(Cadastrador cadastrador, DentistaRepositorio dentistaRepo) {
         this.cadastrador = cadastrador;
         this.dentistaRepositorio = dentistaRepo;
@@ -33,7 +32,6 @@ public class CadastroProcedimentoController {
         if (dentistaRepositorio != null) {
             cbDentista.setItems(FXCollections.observableArrayList(dentistaRepositorio.listarTodos()));
 
-            // Configura como o Dentista aparece na lista (Mostra Nome - CRO/CPF)
             cbDentista.setConverter(new StringConverter<Dentista>() {
                 @Override
                 public String toString(Dentista d) {
@@ -42,7 +40,7 @@ public class CadastroProcedimentoController {
 
                 @Override
                 public Dentista fromString(String string) {
-                    return null; // Não usado na seleção
+                    return null;
                 }
             });
         }
@@ -56,7 +54,6 @@ public class CadastroProcedimentoController {
             String duracaoStr = txtDuracao.getText();
             Dentista dentistaSelecionado = cbDentista.getValue();
 
-            // Validações
             if (nome.isEmpty() || precoStr.isEmpty() || duracaoStr.isEmpty() || dentistaSelecionado == null) {
                 mostrarAlerta("Erro", "Preencha todos os campos e selecione um dentista.");
                 return;
@@ -65,7 +62,6 @@ public class CadastroProcedimentoController {
             double preco = Double.parseDouble(precoStr.replace(",", "."));
             int duracao = Integer.parseInt(duracaoStr);
 
-            // Cria e Salva
             Procedimento novoProc = new Procedimento(nome, preco, duracao, dentistaSelecionado);
             cadastrador.adicionarProcedimento(novoProc); // Método renomeado conforme seu Cadastrador atual
 

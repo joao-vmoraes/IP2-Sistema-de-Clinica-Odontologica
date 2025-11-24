@@ -71,9 +71,8 @@ public class AgendamentoController {
             configurarComboProcedimento();
         }
 
-        // Preencher Horários
         List<String> horarios = new ArrayList<>();
-        for (int h = 8; h < 18; h++) {
+        for (int h = 0; h < 24; h++) {
             horarios.add(String.format("%02d:00", h));
             horarios.add(String.format("%02d:30", h));
         }
@@ -102,7 +101,6 @@ public class AgendamentoController {
 
             if (sucesso) {
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Agendamento realizado com sucesso!");
-                // CORREÇÃO: Navega de volta para a lista em vez de fechar o app
                 voltarParaLista();
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Horário indisponível ou conflito de agenda.");
@@ -115,7 +113,6 @@ public class AgendamentoController {
 
     @FXML
     void handleCancelar(ActionEvent event) {
-        // CORREÇÃO: Navega de volta para a lista em vez de fechar o app
         voltarParaLista();
     }
 
@@ -141,7 +138,6 @@ public class AgendamentoController {
         alert.showAndWait();
     }
 
-    // --- Configuradores visuais ---
     private void configurarComboPaciente() {
         comboPaciente.setConverter(new StringConverter<Paciente>() {
             @Override public String toString(Paciente p) { return p == null ? "" : p.getNome(); }

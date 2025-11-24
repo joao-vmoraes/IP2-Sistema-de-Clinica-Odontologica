@@ -15,9 +15,9 @@
                     </font>
                 </Label>
 
-                <TextField fx:id="txtNome" promptText="Nome/Descrição (ex: Limpeza)" />
-                <TextField fx:id="txtPreco" promptText="Preço (ex: 150.00)" />
-                <TextField fx:id="txtDuracao" promptText="Duração em Minutos (ex: 30)" />
+                <TextField fx:id="txtNome" promptText="Nome/Descrição" />
+                <TextField fx:id="txtPreco" promptText="Preço " />
+                <TextField fx:id="txtDuracao" promptText="Duração em Minutos " />
 
                 <Label text="Dentista Responsável:" />
                 <ComboBox fx:id="cbDentista" prefWidth="400.0" promptText="Selecione o Dentista" />

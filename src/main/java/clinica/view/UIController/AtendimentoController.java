@@ -50,19 +50,13 @@ public class AtendimentoController {
         }
 
         try {
-            // 1. Cria o registro de atendimento
             Atendimento novoAtendimento = new Atendimento(agendamentoAtual);
-
-            // 2. Finaliza (registra hora fim e anotações)
-            // O método finalizarAtendimento do seu modelo também muda o status do agendamento para CONCLUIDO
             novoAtendimento.finalizarAtendimento(txtAnotacoes.getText(), agendamentoAtual.getProcedimento());
 
-            // 3. Salva no repositório de histórico
             atendimentoRepo.salvar(novoAtendimento);
 
             mostrarAlerta(AlertType.INFORMATION, "Sucesso", "Atendimento finalizado com sucesso!");
 
-            // 4. Volta para a lista
             if (mainController != null) {
                 mainController.loadAgendamentoList();
             }

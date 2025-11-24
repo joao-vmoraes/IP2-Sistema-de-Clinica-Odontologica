@@ -22,7 +22,7 @@ public class DentistaListController {
     @FXML private TableView<Dentista> tableViewDentistas;
     @FXML private TableColumn<Dentista, String> colNome;
     @FXML private TableColumn<Dentista, String> colCpf;
-    @FXML private TableColumn<Dentista, String> colEmail; // Mantido se existir no FXML, senão pode remover
+    @FXML private TableColumn<Dentista, String> colEmail;
     @FXML private TableColumn<Dentista, String> colTelefone;
     @FXML private TableColumn<Dentista, String> colEspecialidade;
     @FXML private TableColumn<Dentista, String> colExpediente; // Nova coluna
@@ -36,14 +36,11 @@ public class DentistaListController {
 
     @FXML
     public void initialize() {
-        // Configuração das colunas
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
-        // Se colEmail existir no FXML: colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
         colEspecialidade.setCellValueFactory(new PropertyValueFactory<>("especialidade"));
 
-        // Coluna Expediente (Junta Início e Fim)
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm");
         colExpediente.setCellValueFactory(cellData -> {
             Dentista d = cellData.getValue();
@@ -61,8 +58,7 @@ public class DentistaListController {
 
     private void preencherFiltroHorarios() {
         List<String> horarios = new ArrayList<>();
-        // Gera horários das 08:00 às 20:00
-        for (int h = 8; h <= 20; h++) {
+        for (int h = 0; h <= 24; h++) {
             horarios.add(String.format("%02d:00", h));
         }
         comboFiltroHorario.setItems(FXCollections.observableArrayList(horarios));
@@ -75,7 +71,7 @@ public class DentistaListController {
         List<Dentista> todos = dentistaRepositorio.listarTodos();
         List<Dentista> filtrados = new ArrayList<>(todos);
 
-        // 1. Filtro por CPF
+        //  Filtro por CPF
         String termoCpf = txtFiltroCpf.getText();
         if (termoCpf != null && !termoCpf.isEmpty()) {
             String termoLimpo = termoCpf.replaceAll("[^0-9]", "");
@@ -84,7 +80,6 @@ public class DentistaListController {
                     .collect(Collectors.toList());
         }
 
-        // 2. Filtro por Horário (Expediente)
         String horaSelecionada = comboFiltroHorario.getValue();
         if (horaSelecionada != null) {
             LocalTime horario = LocalTime.parse(horaSelecionada);

@@ -25,7 +25,6 @@ public class PagamentoController {
     @FXML private DatePicker datePickerData;
     @FXML private TextArea txtObs;
 
-    // Dependências
     private PagamentoRepositorio pagamentoRepo;
     private PacienteRepositorio pacienteRepo;
     private AgendamentoRepositorio agendamentoRepo; // Precisamos buscar os agendamentos
@@ -53,19 +52,16 @@ public class PagamentoController {
         datePickerData.setValue(LocalDate.now());
     }
 
-    // Ação ao selecionar um paciente: Carrega os agendamentos PENDENTES dele
     @FXML
     private void aoSelecionarPaciente() {
         Paciente p = comboPaciente.getValue();
         if (p != null && agendamentoRepo != null) {
-            // Filtra: Agendamentos deste paciente QUE AINDA NÃO FORAM PAGOS (!isPago)
             List<Agendamento> pendencias = agendamentoRepo.buscarPorCpfPaciente(p.getCpf()).stream()
                     .filter(a -> !a.isPago())
                     .collect(Collectors.toList());
 
             comboAgendamento.setItems(FXCollections.observableArrayList(pendencias));
 
-            // Se tiver pendencias, pode tentar auto-preencher o valor com o preço do procedimento
             if (!pendencias.isEmpty()) {
                 comboAgendamento.setPromptText("Selecione a conta a pagar...");
             } else {
@@ -78,7 +74,6 @@ public class PagamentoController {
     private void aoSelecionarAgendamento() {
         Agendamento a = comboAgendamento.getValue();
         if (a != null && a.getProcedimento() != null) {
-            // Auto-preenche o valor
             txtValor.setText(String.valueOf(a.getProcedimento().getPreco()));
         }
     }
@@ -95,14 +90,11 @@ public class PagamentoController {
             Agendamento agendamentoAlvo = comboAgendamento.getValue();
             MetodoPagamento metodo = comboMetodo.getValue();
 
-            // Cria o Pagamento vinculado ao procedimento do agendamento
             Pagamento novoPagamento = new Pagamento(valor, metodo, agendamentoAlvo.getProcedimento());
             novoPagamento.confirmarPagamento();
 
             pagamentoRepo.salvar(novoPagamento);
 
-            // --- MUDANÇA CRUCIAL ---
-            // Marca APENAS este agendamento como pago. O paciente continua devendo outros se tiver.
             agendamentoAlvo.setPago(true);
 
             mostrarAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Pagamento registrado! Agendamento quitado.");
