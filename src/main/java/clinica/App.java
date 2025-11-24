@@ -1,5 +1,7 @@
 package clinica;
 
+import java.time.LocalDateTime;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,9 +19,14 @@ import clinica.controller.Cadastrador;
 import clinica.controller.ClinicaManager;
 import clinica.model.Dentista;
 import clinica.model.Paciente;
+import clinica.model.Pagamento;
+import clinica.model.Procedimento;
 import clinica.view.UIController.MainController;
 
 import java.time.LocalTime;
+
+import clinica.enums.MetodoPagamento;
+import clinica.model.Agendamento;
 
 public class App extends Application {
 
@@ -39,10 +46,19 @@ public class App extends Application {
         ClinicaManager manager = new ClinicaManager(agendamentoRepo, dentistaRepo, pacienteRepo);
 
         // 3. Dados
+        Paciente p1 = new Paciente("Seu zé", "213.343.194-62", "4002-8922", "zeDelivery@gmail.com", "Posto Ipiranga");
+        Dentista d1 = new Dentista("Jonas Popeye", "420.157.666-69", "5370-6471", "cucabel@gmail.com", "Lugar Nenhum", "Arrancador de dentes", LocalTime.of(4, 30), LocalTime.of(23, 59));
+        Procedimento proc = new Procedimento("Clareamento", "Deixar os dentes mais brancos", 80, 30);
         pacienteRepo.salvar(new Paciente("João da Silva", "111.222.333-44", "9999-0000", "joao@email.com", "Rua Alfa"));
         pacienteRepo.salvar(new Paciente("Maria Lima", "222.333.444-55", "8888-1111", "maria@email.com", "Av Beta"));
+        pacienteRepo.salvar(p1);
         dentistaRepo.salvar(new Dentista("Dr. Silva", "CRM-1234", "9888-7777", "silva@clinica.com", "Rua B", "Ortodontia", LocalTime.of(8,0), LocalTime.of(18,0)));
         dentistaRepo.salvar(new Dentista("Luiz Marcos", "333.444.555-66", "7777-2222", "luiz@email.com", "Av Gama", "Odontologista", LocalTime.of(9,0), LocalTime.of(17,0)));
+        dentistaRepo.salvar(d1);
+        procedimentoRepo.salvar(new Procedimento("Limpeza", 50, 20));
+        procedimentoRepo.salvar(proc);
+        Agendamento loPix = new Agendamento(p1, d1, proc, LocalDateTime.of(2015, 8, 24, 16, 47), "69");
+        pagamentoRepo.salvar(new Pagamento(420, MetodoPagamento.PIX, loPix));
 
         // 4. Tela
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/MainLayout.fxml"));

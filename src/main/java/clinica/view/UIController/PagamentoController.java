@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class PagamentoController {
 
     @FXML private ComboBox<Paciente> comboPaciente;
-    @FXML private ComboBox<Agendamento> comboAgendamento; // NOVO: Escolher qual conta pagar
+    @FXML private ComboBox<Agendamento> comboAgendamento;
     @FXML private TextField txtValor;
     @FXML private ComboBox<MetodoPagamento> comboMetodo;
     @FXML private DatePicker datePickerData;
@@ -59,18 +59,18 @@ public class PagamentoController {
         Paciente p = comboPaciente.getValue();
         if (p != null && agendamentoRepo != null) {
             // Filtra: Agendamentos deste paciente QUE AINDA NÃO FORAM PAGOS (!isPago)
-            List<Agendamento> pendencias = agendamentoRepo.buscarPorCpfPaciente(p.getCpf()).stream()
-                    .filter(a -> !a.isPago())
-                    .collect(Collectors.toList());
+            //List<Agendamento> pendencias = agendamentoRepo.buscarPorCpfPaciente(p.getCpf()).stream()
+                    //.filter(a -> !a.isPago())
+                    //.collect(Collectors.toList());
 
-            comboAgendamento.setItems(FXCollections.observableArrayList(pendencias));
+            comboAgendamento.setItems(FXCollections.observableArrayList(agendamentoRepo.listarTodos()));
 
             // Se tiver pendencias, pode tentar auto-preencher o valor com o preço do procedimento
-            if (!pendencias.isEmpty()) {
+            /*if (!pendencias.isEmpty()) {
                 comboAgendamento.setPromptText("Selecione a conta a pagar...");
             } else {
                 comboAgendamento.setPromptText("Nenhuma pendência encontrada.");
-            }
+            }*/
         }
     }
 
@@ -96,7 +96,7 @@ public class PagamentoController {
             MetodoPagamento metodo = comboMetodo.getValue();
 
             // Cria o Pagamento vinculado ao procedimento do agendamento
-            Pagamento novoPagamento = new Pagamento(valor, metodo, agendamentoAlvo.getProcedimento());
+            Pagamento novoPagamento = new Pagamento(valor, metodo, agendamentoAlvo);
             novoPagamento.confirmarPagamento();
 
             pagamentoRepo.salvar(novoPagamento);

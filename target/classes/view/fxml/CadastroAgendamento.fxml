@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.CadastroProcedimentoController">
+    <children>
+        <VBox alignment="TOP_CENTER" layoutX="100.0" layoutY="20.0" prefHeight="360.0" prefWidth="400.0" spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="20.0">
+            <children>
+                <Label text="Cadastrar Novo Procedimento">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+
+                <TextField fx:id="txtNome" promptText="Nome/Descrição (ex: Limpeza)" />
+                <TextField fx:id="txtPreco" promptText="Preço (ex: 150.00)" />
+                <TextField fx:id="txtDuracao" promptText="Duração em Minutos (ex: 30)" />
+
+                <Label text="Dentista Responsável:" />
+                <ComboBox fx:id="cbDentista" prefWidth="400.0" promptText="Selecione o Dentista" />
+
+                <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#acaoSalvar" prefHeight="40.0" prefWidth="172.0" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="SALVAR PROCEDIMENTO">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>

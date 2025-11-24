@@ -9,14 +9,14 @@ public class Pagamento {
     private MetodoPagamento metodo;
     private boolean confirmado;
     private LocalDateTime dataPagamento;
-    private Procedimento referenciaProcedimento;
+    private Agendamento referenciaAgendamento;
 
     //CONSTRUTOR
-    public Pagamento(double valor, MetodoPagamento metodo, Procedimento referenciaProcedimento) {
+    public Pagamento(double valor, MetodoPagamento metodo, Agendamento referenciaProcedimento) {
         this.valor = valor;
         this.metodo = metodo;
         this.confirmado = false;
-        this.referenciaProcedimento = referenciaProcedimento;
+        this.referenciaAgendamento = referenciaAgendamento;
     }
 
     public void setValor(double valor) {
@@ -36,12 +36,12 @@ public class Pagamento {
         this.dataPagamento = dataPagamento;
     }
 
-    public Procedimento getReferenciaProcedimento() {
-        return referenciaProcedimento;
+    public Agendamento getReferenciaAgendamento() {
+        return referenciaAgendamento;
     }
 
-    public void setReferenciaProcedimento(Procedimento referenciaProcedimento) {
-        this.referenciaProcedimento = referenciaProcedimento;
+    public void setReferenciaAgendamento(Agendamento referenciaAgendamento) {
+        this.referenciaAgendamento = referenciaAgendamento;
     }
     public MetodoPagamento getMetodo() {
         return metodo;

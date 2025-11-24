@@ -70,6 +70,22 @@ public class MainController {
         });
     }
 
+    @FXML public void loadProcedimentoList() {
+        carregarTela("/view/fxml/ProcedimentoList.fxml", c -> {
+            if (c instanceof ProcedimentoListController) {
+                ((ProcedimentoListController) c).setRepositorio(procedimentoRepo);
+            }
+        });
+    }
+
+    @FXML public void loadPagamentoList() {
+        carregarTela("/view/fxml/PagamentoList.fxml", c -> {
+            if (c instanceof PagamentoListController) {
+                ((PagamentoListController) c).setRepositorio(pagamentoRepo);
+            }
+        });
+    }
+
     @FXML public void loadDentistaList() {
         carregarTela("/view/fxml/DentistaList.fxml", c -> {
             if (c instanceof DentistaListController) ((DentistaListController) c).setDentistaRepositorio(dentistaRepo);
@@ -90,7 +106,7 @@ public class MainController {
 
     @FXML public void loadCadastroProcedimento() {
         carregarTela("/view/fxml/CadastroProcedimento.fxml", c -> {
-            if (c instanceof CadastroProcedimentoController) ((CadastroProcedimentoController) c).setDependencies(cadastrador, dentistaRepo);
+            if (c instanceof CadastroProcedimentoController) ((CadastroProcedimentoController) c).setDependencies(cadastrador);
         });
     }
 

@@ -83,6 +83,8 @@ public class CadastroDentistaController {
         txtEmail.clear();
         txtEndereco.clear();
         txtEspecialidade.clear();
+        timeInicial.clear();
+        timeFinal.clear();
     }
 
     private void mostrarAlerta(String titulo, String mensagem) {
