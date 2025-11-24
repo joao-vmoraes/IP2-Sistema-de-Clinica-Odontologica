@@ -17,6 +17,7 @@ public class DentistaListController {
     @FXML private TableColumn<Dentista, String> colNome;
     @FXML private TableColumn<Dentista, String> colCpf;
     @FXML private TableColumn<Dentista, String> colEmail;
+    @FXML private TableColumn<Dentista, String> colEspecialidade;
 
     // Dependência do Repositório (Será injetada)
     private DentistaRepositorio dentistaRepositorio;
@@ -34,6 +35,7 @@ public class DentistaListController {
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colEspecialidade.setCellValueFactory(new PropertyValueFactory<>("especialidade"));
     }
 
     public void carregarListaDentistas() {

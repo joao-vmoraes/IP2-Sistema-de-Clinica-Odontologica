@@ -37,7 +37,7 @@ public class App extends Application {
         // Adicionando dados de teste nos repositórios
         pacienteRepo.salvar(new Paciente("João da Silva", "111.222.333-44", "9999-0000", "joao@email.com", "Rua Alfa"));
         pacienteRepo.salvar(new Paciente("Maria Lima", "222.333.444-55", "8888-1111", "maria@email.com", "Av Beta"));
-        dentistaRepo.salvar(new Dentista("Luiz Marcos", "333.444.555-66", "7777-2222", "luiz@email.com", "Av Gama", "Orologista", LocalTime.now(), LocalTime.now()));
+        dentistaRepo.salvar(new Dentista("Luiz Marcos", "333.444.555-66", "7777-2222", "luiz@email.com", "Av Gama", "Odontologista", LocalTime.now(), LocalTime.now()));
 
 
         // --- 2. CARREGAMENTO DO LAYOUT PRINCIPAL (FRONT-END) ---
