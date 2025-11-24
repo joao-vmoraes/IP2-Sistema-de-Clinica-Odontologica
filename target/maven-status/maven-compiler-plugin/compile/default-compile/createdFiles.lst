@@ -1,5 +1,9 @@
 clinica\view\UIController\CadastroProcedimentoController.class
 clinica\view\UIController\CadastroPacienteController.class
 clinica\view\UIController\CadastroProcedimentoController$1.class
+clinica\view\UIController\AgendamentoController$2.class
 clinica\view\UIController\MainController.class
 clinica\view\UIController\PacienteListController.class
+clinica\view\UIController\AgendamentoController.class
+clinica\view\UIController\AgendamentoController$1.class
+clinica\view\UIController\AgendamentoController$3.class

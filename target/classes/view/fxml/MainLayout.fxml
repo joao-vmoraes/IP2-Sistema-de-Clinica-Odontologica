@@ -7,14 +7,13 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.MainController">
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.MainController">
 
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="Cadastros">
                     <items>
-                        <!-- Todas as opções de cadastro unificadas aqui -->
                         <MenuItem mnemonicParsing="false" onAction="#loadCadastroPaciente" text="Novo Paciente" />
                         <MenuItem mnemonicParsing="false" onAction="#loadCadastroDentista" text="Novo Dentista" />
                         <MenuItem mnemonicParsing="false" onAction="#loadCadastroProcedimento" text="Novo Procedimento" />
@@ -24,7 +23,7 @@
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#loadPacienteList" text="Ver Lista de Pacientes" />
                         <MenuItem mnemonicParsing="false" onAction="#loadDentistaList" text="Ver Lista de Dentistas" />
-                        <MenuItem mnemonicParsing="false" text="Agendar Nova" />
+                        <MenuItem mnemonicParsing="false" onAction="#loadAgendamento" text="Agendar Nova" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ajuda">
