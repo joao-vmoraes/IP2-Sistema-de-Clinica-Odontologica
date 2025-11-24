@@ -11,7 +11,9 @@ import clinica.repository.DentistaRepositorio;
 import clinica.repository.ProcedimentoRepositorio;
 
 import clinica.controller.Cadastrador;
-import clinica.model.Paciente; // Para adicionar dados de teste
+import clinica.model.Paciente;
+import clinica.model.Dentista;
+import java.time.LocalTime;
 import clinica.view.UIController.MainController;
 
 public class App extends Application {
@@ -19,51 +21,34 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        // --- 1. CONFIGURAÇÃO DA CAMADA DE SERVIÇO (BACK-END) ---
-
-        // Instanciação dos Repositórios (Simulação do Banco de Dados)
+        // 1. Instanciação da Camada de Dados (Banco de Dados em Memória)
         PacienteRepositorio pacienteRepo = new PacienteRepositorio();
         DentistaRepositorio dentistaRepo = new DentistaRepositorio();
         ProcedimentoRepositorio procedimentoRepo = new ProcedimentoRepositorio();
 
-        // Instanciação dos Controladores de Negócio
+        // 2. Instanciação da Camada de Negócio
         Cadastrador cadastrador = new Cadastrador(pacienteRepo, dentistaRepo, procedimentoRepo);
-        // ClinicaManager clinicaManager = new ClinicaManager(...); // Adicione os outros controladores aqui
 
-        // Adicionando dados de teste no Repositório de Pacientes
-        pacienteRepo.salvar(new Paciente("João da Silva", "111.222.333-44", "9999-0000", "joao@email.com", "Rua Alfa"));
-        pacienteRepo.salvar(new Paciente("Maria Lima", "222.333.444-55", "8888-1111", "maria@email.com", "Av Beta"));
+        // 3. Dados de Teste (Para não começar com o sistema vazio)
+        pacienteRepo.salvar(new Paciente("João Teste", "111.222.333-44", "9999-0000", "joao@email.com", "Rua A"));
+        dentistaRepo.salvar(new Dentista("Dr. Silva", "CRM-1234", "9888-7777", "silva@clinica.com", "Rua B", "Ortodontia", LocalTime.of(8,0), LocalTime.of(18,0)));
 
-
-        // --- 2. CARREGAMENTO DO LAYOUT PRINCIPAL (FRONT-END) ---
-
-        // Carrega o FXML do Layout Principal, que contém o menu
+        // 4. Carregamento da Interface Gráfica
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/MainLayout.fxml"));
-        BorderPane root = loader.load(); // O nó raiz do MainLayout.fxml é um BorderPane
+        BorderPane root = loader.load();
 
-
-        // --- 3. INJEÇÃO DE DEPENDÊNCIA (Ligando Front-end ao Back-end) ---
-
-        // Pega o Controller do FXML (o MainController)
+        // 5. Injeção de Dependência (Passando os serviços para o controlador principal)
         MainController mainController = loader.getController();
+        mainController.setServices(pacienteRepo, dentistaRepo, cadastrador);
 
-        // Passa os Repositórios e Serviços para o MainController, que irá distribuí-los para as telas filhas
-        // O método setServices foi definido para receber apenas o PacienteRepositorio no exemplo anterior.
-        // Se precisar passar o Cadastrador, atualize o método setServices no MainController.
-        mainController.setServices(pacienteRepo, cadastrador);
-
-
-        // --- 4. EXIBIÇÃO DA JANELA ---
-
+        // 6. Exibir Janela
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Clínica Odontológica - Menu Principal");
+        primaryStage.setTitle("Sistema Clínica Odontológica - V1.0");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    // Método main que chama o start do JavaFX
     public static void main(String[] args) {
-        // Lembre-se que o App.java na raiz é o ponto de entrada agora
         launch(args);
     }
 }

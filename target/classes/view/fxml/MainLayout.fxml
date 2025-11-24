@@ -9,19 +9,18 @@
             fx:controller="clinica.view.UIController.MainController">
 
     <top>
-        <!-- Menu Superior -->
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="Cadastros">
                     <items>
-                        <!-- Ação: loadCadastro deve ser implementada no MainController -->
                         <MenuItem mnemonicParsing="false" text="Novo Paciente" onAction="#loadCadastro"/>
+                        <!-- NOVO ITEM AQUI -->
+                        <MenuItem mnemonicParsing="false" text="Novo Procedimento" onAction="#loadCadastroProcedimento"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Consultas">
                     <items>
-                        <!-- Ação: loadPacienteList (já implementada) -->
-                        <MenuItem mnemonicParsing="false" text="Ver Listagem" onAction="#loadPacienteList"/>
+                        <MenuItem mnemonicParsing="false" text="Ver Listagem Pacientes" onAction="#loadPacienteList"/>
                         <MenuItem mnemonicParsing="false" text="Agendar Nova" />
                     </items>
                 </Menu>
@@ -35,7 +34,6 @@
     </top>
 
     <center>
-        <!-- Esta área será substituída pelo conteúdo das telas filhas -->
         <VBox alignment="CENTER" BorderPane.alignment="CENTER" spacing="10">
             <children>
                 <Label text="Sistema da Clínica Odontológica" style="-fx-font-size: 24px;"/>
