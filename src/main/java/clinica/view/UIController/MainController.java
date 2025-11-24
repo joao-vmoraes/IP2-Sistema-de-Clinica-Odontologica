@@ -100,7 +100,7 @@ public class MainController {
 
     @FXML public void loadCadastroDentista() {
         carregarTela("/view/fxml/CadastroDentista.fxml", c -> {
-            if (c instanceof CadastroDentistaController) ((CadastroDentistaController) c).setCadastrador(cadastrador);
+            if (c instanceof CadastroDentistaController) ((CadastroDentistaController) c).setDependencies(cadastrador);
         });
     }
 

@@ -21,7 +21,7 @@ public class Cadastrador {
 
     // PACIENTE
 
-    public void cadastrarPaciente(Paciente paciente) {
+    public void cadastrar(Paciente paciente) {
         if (paciente == null) {
             System.err.println("Erro: model.Paciente inválido.");
             return;
@@ -36,7 +36,7 @@ public class Cadastrador {
         }
     }
 
-    public void removerPaciente(Paciente paciente) {
+    public void remover(Paciente paciente) {
         Paciente existente = pacienteRepositorio.buscarPorCpf(paciente.getCpf());
         if (existente != null) {
             pacienteRepositorio.deletar(existente);
@@ -46,7 +46,7 @@ public class Cadastrador {
         }
     }
 
-    public void atualizarPaciente(Paciente pacienteAtualizado) {
+    public void atualizar(Paciente pacienteAtualizado) {
         Paciente existente = pacienteRepositorio.buscarPorCpf(pacienteAtualizado.getCpf());
         if (existente != null) {
             pacienteRepositorio.atualizar(pacienteAtualizado);
@@ -58,7 +58,7 @@ public class Cadastrador {
 
     // DENTISTA
 
-    public void cadastrarDentista(Dentista dentista) {
+    public void cadastrar(Dentista dentista) {
         if (dentista == null) {
             System.err.println("Erro: model.Dentista inválido.");
             return;
@@ -73,7 +73,7 @@ public class Cadastrador {
         }
     }
 
-    public void removerDentista(Dentista dentista) {
+    public void remover(Dentista dentista) {
         Dentista existente = dentistaRepositorio.buscarPorCpf(dentista.getCpf());
         if (existente != null) {
             dentistaRepositorio.deletar(existente);
@@ -83,7 +83,7 @@ public class Cadastrador {
         }
     }
 
-    public void atualizarDentista(Dentista dentistaAtualizado) {
+    public void atualizar(Dentista dentistaAtualizado) {
         Dentista existente = dentistaRepositorio.buscarPorCpf(dentistaAtualizado.getCpf());
         if (existente != null) {
             dentistaRepositorio.atualizar(dentistaAtualizado);
@@ -95,7 +95,7 @@ public class Cadastrador {
 
     // PROCEDIMENTOS
 
-    public void adicionarProcedimento(Procedimento procedimento) {
+    public void cadastrar(Procedimento procedimento) {
         if (procedimento == null) {
             System.err.println("Erro: model.Procedimento inválido.");
             return;
@@ -104,7 +104,7 @@ public class Cadastrador {
         System.out.println("model.Procedimento adicionado ao catálogo.");
     }
 
-    public void removerProcedimento(Procedimento procedimento) {
+    public void remover(Procedimento procedimento) {
         if (procedimento != null) {
             procedimentoRepositorio.deletarProcedimento(procedimento);
             System.out.println("model.Procedimento removido do catálogo.");

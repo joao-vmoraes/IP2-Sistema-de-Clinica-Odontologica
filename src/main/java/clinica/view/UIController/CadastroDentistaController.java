@@ -2,12 +2,16 @@ package clinica.view.UIController;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import clinica.controller.Cadastrador;
 import clinica.model.Dentista;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 import javafx.util.converter.LocalDateTimeStringConverter;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -21,15 +25,30 @@ public class CadastroDentistaController {
     @FXML private TextField txtEmail;
     @FXML private TextField txtEndereco;
     @FXML private TextField txtEspecialidade;
-    @FXML private TextField timeInicial;
-    @FXML private TextField timeFinal;
+    @FXML private ComboBox<String> timeInicial;
+    @FXML private ComboBox<String> timeFinal;
 
     // Dependência (Serviço de Negócio)
     private Cadastrador cadastrador;
 
     // Método Setter para Injeção de Dependência
-    public void setCadastrador(Cadastrador cadastrador) {
+    public void setDependencies(Cadastrador cadastrador) {
         this.cadastrador = cadastrador;
+
+        carregarDados();
+    }
+
+    private void carregarDados()
+    {
+        // Preencher Horários
+        List<String> horarios = new ArrayList<>();
+        for (int h = 8; h < 18; h++) {
+            horarios.add(String.format("%02d:00", h));
+            horarios.add(String.format("%02d:30", h));
+        }
+
+        timeInicial.setItems(FXCollections.observableArrayList(horarios));
+        timeFinal.setItems(FXCollections.observableArrayList(horarios));
     }
 
     // Ação do Botão Salvar
@@ -47,12 +66,11 @@ public class CadastroDentistaController {
         String email = txtEmail.getText();
         String endereco = txtEndereco.getText();
         String especialidade = txtEspecialidade.getText();
+        String horaInicial = timeInicial.getValue();
+        String horaFinal = timeFinal.getValue();
 
-        String pattern = "HH:mm";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-
-        LocalTime dataInicial = LocalTime.parse(timeInicial.getText(), formatter);
-        LocalTime dataFinal = LocalTime.parse(timeFinal.getText(), formatter);
+        LocalTime dataInicial = LocalTime.parse(horaInicial);
+        LocalTime dataFinal = LocalTime.parse(horaFinal);
 
         // Validação básica de campos vazios
         if (nome.isEmpty() || cpf.isEmpty()) {
@@ -65,7 +83,7 @@ public class CadastroDentistaController {
             Dentista novoDentista = new Dentista(nome, cpf, telefone, email, endereco, especialidade, dataInicial, dataFinal);
 
             // Chamada ao serviço
-            cadastrador.cadastrarDentista(novoDentista);
+            cadastrador.cadastrar(novoDentista);
 
             mostrarAlerta("Sucesso", "Dentista " + nome + " cadastrado com sucesso!");
             limparCampos();
@@ -83,8 +101,6 @@ public class CadastroDentistaController {
         txtEmail.clear();
         txtEndereco.clear();
         txtEspecialidade.clear();
-        timeInicial.clear();
-        timeFinal.clear();
     }
 
     private void mostrarAlerta(String titulo, String mensagem) {

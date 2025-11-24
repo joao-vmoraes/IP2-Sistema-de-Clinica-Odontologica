@@ -45,7 +45,7 @@ public class CadastroProcedimentoController {
             else
                 novoProc = new Procedimento(nome, descricao, preco, duracao);
 
-            cadastrador.adicionarProcedimento(novoProc);
+            cadastrador.cadastrar(novoProc);
 
             mostrarAlerta("Sucesso", "Procedimento cadastrado com sucesso!");
             limparCampos();

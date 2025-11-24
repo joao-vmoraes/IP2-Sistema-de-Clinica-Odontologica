@@ -50,7 +50,7 @@ public class CadastroPacienteController {
             Paciente novoPaciente = new Paciente(nome, cpf, telefone, email, endereco);
 
             // Chamada ao serviço
-            cadastrador.cadastrarPaciente(novoPaciente);
+            cadastrador.cadastrar(novoPaciente);
 
             mostrarAlerta("Sucesso", "Paciente " + nome + " cadastrado com sucesso!");
             limparCampos();
