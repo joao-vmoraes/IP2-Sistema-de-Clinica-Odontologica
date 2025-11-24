@@ -89,7 +89,6 @@ public class PagamentoController {
             double valor = Double.parseDouble(txtValor.getText().replace(",", "."));
             Agendamento agendamentoAlvo = comboAgendamento.getValue();
             MetodoPagamento metodo = comboMetodo.getValue();
-
             Pagamento novoPagamento = new Pagamento(valor, metodo, agendamentoAlvo.getProcedimento());
             novoPagamento.confirmarPagamento();
 

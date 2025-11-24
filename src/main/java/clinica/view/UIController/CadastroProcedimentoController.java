@@ -21,7 +21,6 @@ public class CadastroProcedimentoController {
 
     private Cadastrador cadastrador;
     private DentistaRepositorio dentistaRepositorio;
-
     public void setDependencies(Cadastrador cadastrador, DentistaRepositorio dentistaRepo) {
         this.cadastrador = cadastrador;
         this.dentistaRepositorio = dentistaRepo;
@@ -31,7 +30,6 @@ public class CadastroProcedimentoController {
     private void carregarDentistas() {
         if (dentistaRepositorio != null) {
             cbDentista.setItems(FXCollections.observableArrayList(dentistaRepositorio.listarTodos()));
-
             cbDentista.setConverter(new StringConverter<Dentista>() {
                 @Override
                 public String toString(Dentista d) {
@@ -54,6 +52,7 @@ public class CadastroProcedimentoController {
             String duracaoStr = txtDuracao.getText();
             Dentista dentistaSelecionado = cbDentista.getValue();
 
+
             if (nome.isEmpty() || precoStr.isEmpty() || duracaoStr.isEmpty() || dentistaSelecionado == null) {
                 mostrarAlerta("Erro", "Preencha todos os campos e selecione um dentista.");
                 return;
@@ -61,6 +60,7 @@ public class CadastroProcedimentoController {
 
             double preco = Double.parseDouble(precoStr.replace(",", "."));
             int duracao = Integer.parseInt(duracaoStr);
+
 
             Procedimento novoProc = new Procedimento(nome, preco, duracao, dentistaSelecionado);
             cadastrador.adicionarProcedimento(novoProc); // Método renomeado conforme seu Cadastrador atual
