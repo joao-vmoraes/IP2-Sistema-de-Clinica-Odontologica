@@ -99,7 +99,6 @@ public class PagamentoController {
             Agendamento agendamentoAlvo = comboAgendamento.getValue();
             MetodoPagamento metodo = comboMetodo.getValue();
 
-            // Cria o Pagamento vinculado ao procedimento do agendamento
             Pagamento novoPagamento = new Pagamento(valor, metodo, agendamentoAlvo);
             novoPagamento.confirmarPagamento();
 

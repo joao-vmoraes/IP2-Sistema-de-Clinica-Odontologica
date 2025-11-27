@@ -16,7 +16,6 @@ public class CadastroProcedimentoController {
 
     private Cadastrador cadastrador;
 
-    // Recebe as dependências e carrega a lista de dentistas no ComboBox
     public void setDependencies(Cadastrador cadastrador) {
         this.cadastrador = cadastrador;
     }
@@ -29,7 +28,6 @@ public class CadastroProcedimentoController {
             String precoStr = txtPreco.getText();
             String duracaoStr = txtDuracao.getText();
 
-            // Validações
             if (nome.isEmpty() || precoStr.isEmpty() || duracaoStr.isEmpty()) {
                 mostrarAlerta("Erro", "Preencha todos os campos.");
                 return;
@@ -38,7 +36,7 @@ public class CadastroProcedimentoController {
             double preco = Double.parseDouble(precoStr.replace(",", "."));
             int duracao = Integer.parseInt(duracaoStr);
 
-            // Cria e Salva
+
             Procedimento novoProc;
             if(descricao == null)
                 novoProc = new Procedimento(nome, preco, duracao);

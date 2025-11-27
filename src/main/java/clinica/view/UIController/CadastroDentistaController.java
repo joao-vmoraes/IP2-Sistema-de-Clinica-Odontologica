@@ -18,7 +18,6 @@ import javafx.scene.control.TextField;
 
 public class CadastroDentistaController {
 
-    // Elementos visuais (Devem bater com os fx:id do FXML)
     @FXML private TextField txtNome;
     @FXML private TextField txtCpf;
     @FXML private TextField txtTelefone;
@@ -28,10 +27,8 @@ public class CadastroDentistaController {
     @FXML private ComboBox<String> timeInicial;
     @FXML private ComboBox<String> timeFinal;
 
-    // Dependência (Serviço de Negócio)
     private Cadastrador cadastrador;
 
-    // Método Setter para Injeção de Dependência
     public void setDependencies(Cadastrador cadastrador) {
         this.cadastrador = cadastrador;
 
@@ -40,7 +37,6 @@ public class CadastroDentistaController {
 
     private void carregarDados()
     {
-        // Preencher Horários
         List<String> horarios = new ArrayList<>();
         for (int h = 8; h < 18; h++) {
             horarios.add(String.format("%02d:00", h));
@@ -51,10 +47,8 @@ public class CadastroDentistaController {
         timeFinal.setItems(FXCollections.observableArrayList(horarios));
     }
 
-    // Ação do Botão Salvar
     @FXML
     private void acaoSalvar() {
-        // Validação simples para evitar erro
         if (cadastrador == null) {
             mostrarAlerta("Erro Crítico", "O serviço Cadastrador não foi injetado!");
             return;
@@ -72,17 +66,14 @@ public class CadastroDentistaController {
         LocalTime dataInicial = LocalTime.parse(horaInicial);
         LocalTime dataFinal = LocalTime.parse(horaFinal);
 
-        // Validação básica de campos vazios
         if (nome.isEmpty() || cpf.isEmpty()) {
             mostrarAlerta("Atenção", "Nome e CPF são obrigatórios.");
             return;
         }
 
         try {
-            // Criação do objeto
             Dentista novoDentista = new Dentista(nome, cpf, telefone, email, endereco, especialidade, dataInicial, dataFinal);
 
-            // Chamada ao serviço
             cadastrador.cadastrar(novoDentista);
 
             mostrarAlerta("Sucesso", "Dentista " + nome + " cadastrado com sucesso!");

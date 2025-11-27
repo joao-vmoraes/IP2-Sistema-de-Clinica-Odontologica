@@ -30,14 +30,13 @@ public class AgendamentoController {
     @FXML private Button btnSalvar;
     @FXML private Button btnCancelar;
 
-    // Dependências
     private ClinicaManager clinicaManager;
     private PacienteRepositorio pacienteRepo;
     private DentistaRepositorio dentistaRepo;
     private ProcedimentoRepositorio procedimentoRepo;
-    private MainController mainController; // NOVO: Para poder navegar de volta
+    private MainController mainController;
 
-    // Método de Injeção Atualizado (Recebe MainController)
+
     public void setDependencies(ClinicaManager manager,
                                 PacienteRepositorio pRepo,
                                 DentistaRepositorio dRepo,
@@ -53,19 +52,16 @@ public class AgendamentoController {
     }
 
     private void carregarDadosIniciais() {
-        // Preencher Pacientes
         if (pacienteRepo != null) {
             comboPaciente.setItems(FXCollections.observableArrayList(pacienteRepo.listarTodos()));
             configurarComboPaciente();
         }
 
-        // Preencher Dentistas
         if (dentistaRepo != null) {
             comboDentista.setItems(FXCollections.observableArrayList(dentistaRepo.listarTodos()));
             configurarComboDentista();
         }
 
-        // Preencher Procedimentos
         if (procedimentoRepo != null) {
             comboProcedimento.setItems(FXCollections.observableArrayList(procedimentoRepo.listarProcedimentos()));
             configurarComboProcedimento();

@@ -4,6 +4,7 @@ C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\repository\AtendimentoRepo
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Paciente.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\enums\StatusDentista.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\DentistaListController.java
+C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\PagamentoListController.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\controller\Relatoriador.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\App.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Atendimento.java
@@ -20,13 +21,16 @@ C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\Pagament
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\controller\ClinicaManager.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\repository\DentistaRepositorio.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\AgendamentoController.java
+C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\AppFX.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Dentista.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\repository\ProcedimentoRepositorio.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\enums\StatusAgendamento.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\MainController.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Pagamento.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Procedimento.java
+C:\Users\JM\Desktop\IP2 Clinica\src\main\java\module-info.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\repository\AgendamentoRepositorio.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\repository\PagamentoRepositorio.java
+C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\ProcedimentoListController.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\AtendimentoController.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\AgendamentoListController.java

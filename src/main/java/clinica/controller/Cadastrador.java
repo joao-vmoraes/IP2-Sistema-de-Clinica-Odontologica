@@ -23,16 +23,16 @@ public class Cadastrador {
 
     public void cadastrar(Paciente paciente) {
         if (paciente == null) {
-            System.err.println("Erro: model.Paciente inválido.");
+            System.err.println("Erro: main.java.model.Paciente inválido.");
             return;
         }
 
         Paciente existente = pacienteRepositorio.buscarPorCpf(paciente.getCpf());
         if (existente == null) {
             pacienteRepositorio.salvar(paciente);
-            System.out.println("model.Paciente " + paciente.getNome() + " cadastrado com sucesso.");
+            System.out.println("main.java.model.Paciente " + paciente.getNome() + " cadastrado com sucesso.");
         } else {
-            System.err.println("Erro: model.Paciente com CPF " + paciente.getCpf() + " já existe.");
+            System.err.println("Erro: main.java.model.Paciente com CPF " + paciente.getCpf() + " já existe.");
         }
     }
 
@@ -40,9 +40,9 @@ public class Cadastrador {
         Paciente existente = pacienteRepositorio.buscarPorCpf(paciente.getCpf());
         if (existente != null) {
             pacienteRepositorio.deletar(existente);
-            System.out.println("model.Paciente removido com sucesso.");
+            System.out.println("main.java.model.Paciente removido com sucesso.");
         } else {
-            System.err.println("Erro: model.Paciente não encontrado para remoção.");
+            System.err.println("Erro: main.java.model.Paciente não encontrado para remoção.");
         }
     }
 
@@ -52,7 +52,7 @@ public class Cadastrador {
             pacienteRepositorio.atualizar(pacienteAtualizado);
             System.out.println("Dados do paciente atualizados com sucesso.");
         } else {
-            System.err.println("Erro: model.Paciente não encontrado para atualização.");
+            System.err.println("Erro: main.java.model.Paciente não encontrado para atualização.");
         }
     }
 
@@ -60,16 +60,16 @@ public class Cadastrador {
 
     public void cadastrar(Dentista dentista) {
         if (dentista == null) {
-            System.err.println("Erro: model.Dentista inválido.");
+            System.err.println("Erro: main.java.model.Dentista inválido.");
             return;
         }
 
         Dentista existente = dentistaRepositorio.buscarPorCpf(dentista.getCpf());
         if (existente == null) {
             dentistaRepositorio.salvar(dentista);
-            System.out.println("model.Dentista " + dentista.getNome() + " cadastrado com sucesso.");
+            System.out.println("main.java.model.Dentista " + dentista.getNome() + " cadastrado com sucesso.");
         } else {
-            System.err.println("Erro: model.Dentista com CPF " + dentista.getCpf() + " já existe.");
+            System.err.println("Erro: main.java.model.Dentista com CPF " + dentista.getCpf() + " já existe.");
         }
     }
 
@@ -77,9 +77,9 @@ public class Cadastrador {
         Dentista existente = dentistaRepositorio.buscarPorCpf(dentista.getCpf());
         if (existente != null) {
             dentistaRepositorio.deletar(existente);
-            System.out.println("model.Dentista removido com sucesso.");
+            System.out.println("main.java.model.Dentista removido com sucesso.");
         } else {
-            System.err.println("Erro: model.Dentista não encontrado.");
+            System.err.println("Erro: main.java.model.Dentista não encontrado.");
         }
     }
 
@@ -89,7 +89,7 @@ public class Cadastrador {
             dentistaRepositorio.atualizar(dentistaAtualizado);
             System.out.println("Dados do dentista atualizados com sucesso.");
         } else {
-            System.err.println("Erro: model.Dentista não encontrado para atualização.");
+            System.err.println("Erro: main.java.model.Dentista não encontrado para atualização.");
         }
     }
 
@@ -97,19 +97,19 @@ public class Cadastrador {
 
     public void cadastrar(Procedimento procedimento) {
         if (procedimento == null) {
-            System.err.println("Erro: model.Procedimento inválido.");
+            System.err.println("Erro: main.java.model.Procedimento inválido.");
             return;
         }
         procedimentoRepositorio.salvar(procedimento);
-        System.out.println("model.Procedimento adicionado ao catálogo.");
+        System.out.println("main.java.model.Procedimento adicionado ao catálogo.");
     }
 
     public void remover(Procedimento procedimento) {
         if (procedimento != null) {
             procedimentoRepositorio.deletarProcedimento(procedimento);
-            System.out.println("model.Procedimento removido do catálogo.");
+            System.out.println("main.java.model.Procedimento removido do catálogo.");
         } else {
-            System.err.println("Erro: model.Procedimento inválido.");
+            System.err.println("Erro: main.java.model.Procedimento inválido.");
         }
     }
 }
