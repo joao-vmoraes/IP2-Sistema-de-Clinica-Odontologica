@@ -1,6 +1,6 @@
 package clinica.view.UIController;
 
-import java.awt.TextField;
+import javafx.scene.control.TextField;
 
 import clinica.model.Procedimento;
 import clinica.repository.ProcedimentoRepositorio;
