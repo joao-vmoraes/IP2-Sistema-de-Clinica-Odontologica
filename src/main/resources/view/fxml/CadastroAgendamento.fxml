@@ -22,7 +22,7 @@
                 <Label text="Dentista Responsável:" />
                 <ComboBox fx:id="cbDentista" prefWidth="400.0" promptText="Selecione o Dentista" />
 
-                <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#acaoSalvar" prefHeight="40.0" prefWidth="172.0" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="SALVAR PROCEDIMENTO">
+                <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#acaoSalvar" prefHeight="40.0" prefWidth="172.0" style="-fx-background-color: green; -fx-text-fill: white;" text="SALVAR PROCEDIMENTO">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>

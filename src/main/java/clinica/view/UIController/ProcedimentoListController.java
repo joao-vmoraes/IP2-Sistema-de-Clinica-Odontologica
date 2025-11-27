@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ProcedimentoListController {
 
-    // IDs dos componentes no FXML
+
     @FXML private TextField txtFiltroNome;
 
     @FXML private TableView<Procedimento> tableViewProcedimentos;
@@ -25,10 +25,9 @@ public class ProcedimentoListController {
     @FXML private TableColumn<Procedimento, String> colPreco;
     @FXML private TableColumn<Procedimento, String> colTempo;
 
-    // Dependência do Repositório (Será injetada)
+
     private ProcedimentoRepositorio procedimentoRepositorio;
 
-    // Setter para injeção de dependência
     public void setRepositorio(ProcedimentoRepositorio repo) {
         this.procedimentoRepositorio = repo;
         // Carrega a lista assim que o repositório é entregue

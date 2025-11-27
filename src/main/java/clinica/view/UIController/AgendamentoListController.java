@@ -30,7 +30,7 @@ public class AgendamentoListController {
     @FXML private TableColumn<Agendamento, Void> colAcoes;
 
     private AgendamentoRepositorio agendamentoRepo;
-    private MainController mainController; // Precisa do MainController para navegar para a tela de Atendimento
+    private MainController mainController;
 
     // Método de Injeção Atualizado
     public void setDependencies(AgendamentoRepositorio repo, MainController main) {
@@ -83,7 +83,7 @@ public class AgendamentoListController {
                             cancelarAgendamento(agendamento);
                         });
 
-                        // Estilo Atender (NOVO)
+                        // Estilo Atender
                         btnAtender.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 10px;");
                         btnAtender.setOnAction(event -> {
                             Agendamento agendamento = getTableView().getItems().get(getIndex());
@@ -101,11 +101,10 @@ public class AgendamentoListController {
                         } else {
                             Agendamento agendamento = getTableView().getItems().get(getIndex());
 
-                            // Lógica de visibilidade dos botões
                             if (agendamento.getStatus() == StatusAgendamento.PLANEJADO) {
-                                setGraphic(pane); // Mostra os dois
+                                setGraphic(pane);
                             } else {
-                                setGraphic(null); // Já foi atendido ou cancelado
+                                setGraphic(null);
                             }
                         }
                     }
