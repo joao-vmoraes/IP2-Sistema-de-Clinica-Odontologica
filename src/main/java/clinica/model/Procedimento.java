@@ -2,17 +2,23 @@ package clinica.model;
 
 public class Procedimento {
     private String nome;
+    private String descricao;
     private double preco;
     private int duracaoEmMinutos;
-    private Dentista dentistaExecutor;
-    private Paciente pacienteAlvo;
 
-    //CONSTRUTOR
-    public Procedimento(String nome, double preco, int duracaoEmMinutos, Dentista dentista) {
+    //CONSTRUTORES
+    public Procedimento(String nome, String descricao, double preco, int duracaoEmMinutos) {
         this.nome = nome;
+        this.descricao = descricao;
         this.preco = preco;
         this.duracaoEmMinutos = duracaoEmMinutos;
-        this.dentistaExecutor = dentista;
+    }
+
+    public Procedimento(String nome, double preco, int duracaoEmMinutos) {
+        this.nome = nome;
+        this.descricao = null;
+        this.preco = preco;
+        this.duracaoEmMinutos = duracaoEmMinutos;
     }
 
     //MÉTODOS
@@ -24,15 +30,11 @@ public class Procedimento {
         return this.nome;
     }
 
+    public String getDescricao() {
+        return this.descricao;
+    }
+
     public int getDuracaoEmMinutos() {
         return this.duracaoEmMinutos;
-    }
-
-    public void setDentistaExecutor(Dentista dentistaExecutor) {
-        this.dentistaExecutor = dentistaExecutor;
-    }
-
-    public void setPacienteAlvo(Paciente pacienteAlvo) {
-        this.pacienteAlvo = pacienteAlvo;
     }
 }

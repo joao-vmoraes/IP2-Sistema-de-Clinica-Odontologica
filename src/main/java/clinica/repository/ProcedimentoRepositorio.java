@@ -3,6 +3,7 @@ package clinica.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import clinica.model.Paciente;
 import clinica.model.Procedimento;
 
 public class ProcedimentoRepositorio {
@@ -23,6 +24,10 @@ public class ProcedimentoRepositorio {
             }
         }
         return null;
+    }
+
+    public List<Procedimento> listarTodos() {
+        return new ArrayList<>(procedimentos);
     }
 
     public void atualizarProcedimento(Procedimento procedimento) {

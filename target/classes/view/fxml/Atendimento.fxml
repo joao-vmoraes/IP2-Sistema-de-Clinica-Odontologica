@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="450.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.AtendimentoController">
+    <children>
+        <VBox alignment="TOP_CENTER" layoutX="20.0" layoutY="20.0" spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <children>
+                <Label text="Realizar Atendimento" textFill="#2980b9">
+                    <font>
+                        <Font name="System Bold" size="22.0" />
+                    </font>
+                </Label>
+
+                <VBox spacing="5.0" style="-fx-background-color: #ecf0f1; -fx-padding: 10; -fx-background-radius: 5;">
+                    <children>
+                        <Label fx:id="lblPaciente" text="Paciente: João da Silva" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="lblProcedimento" text="Procedimento: Limpeza" />
+                        <Label fx:id="lblDentista" text="Dentista: Dr. Silva" />
+                    </children>
+                </VBox>
+
+                <Label text="Evolução Clínica / Anotações:" alignment="CENTER_LEFT" maxWidth="Infinity">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+
+                <TextArea fx:id="txtAnotacoes" prefHeight="200.0" prefWidth="460.0" promptText="Descreva o que foi realizado, intercorrências e orientações..." wrapText="true" />
+
+                <Button fx:id="btnFinalizar" mnemonicParsing="false" onAction="#handleFinalizar" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Finalizar Atendimento">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

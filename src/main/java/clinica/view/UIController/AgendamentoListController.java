@@ -32,6 +32,7 @@ public class AgendamentoListController {
     private AgendamentoRepositorio agendamentoRepo;
     private MainController mainController; // Precisa do MainController para navegar para a tela de Atendimento
 
+    // Método de Injeção Atualizado
     public void setDependencies(AgendamentoRepositorio repo, MainController main) {
         this.agendamentoRepo = repo;
         this.mainController = main;
@@ -59,7 +60,7 @@ public class AgendamentoListController {
 
         colFinanceiro.setCellValueFactory(cellData -> {
             boolean pago = cellData.getValue().isPago();
-            return new SimpleStringProperty(pago ? "PAGO " : "PENDENTE ");
+            return new SimpleStringProperty(pago ? "PAGO" : "PENDENTE");
         });
 
         adicionarBotoesAcao();
@@ -75,12 +76,14 @@ public class AgendamentoListController {
                     private final HBox pane = new HBox(5, btnAtender, btnCancelar); // HBox para alinhar botões
 
                     {
+                        // Estilo Cancelar
                         btnCancelar.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 10px;");
                         btnCancelar.setOnAction(event -> {
                             Agendamento agendamento = getTableView().getItems().get(getIndex());
                             cancelarAgendamento(agendamento);
                         });
 
+                        // Estilo Atender (NOVO)
                         btnAtender.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 10px;");
                         btnAtender.setOnAction(event -> {
                             Agendamento agendamento = getTableView().getItems().get(getIndex());

@@ -1,7 +1,7 @@
 package clinica.enums;
 
 public enum MetodoPagamento {
-    Dinehiro,
+    Dinheiro,
     Cartao,
     PIX,
 }

@@ -19,12 +19,13 @@ import java.util.stream.Collectors;
 public class PagamentoController {
 
     @FXML private ComboBox<Paciente> comboPaciente;
-    @FXML private ComboBox<Agendamento> comboAgendamento; // NOVO: Escolher qual conta pagar
+    @FXML private ComboBox<Agendamento> comboAgendamento;
     @FXML private TextField txtValor;
     @FXML private ComboBox<MetodoPagamento> comboMetodo;
     @FXML private DatePicker datePickerData;
     @FXML private TextArea txtObs;
 
+    // Dependências
     private PagamentoRepositorio pagamentoRepo;
     private PacienteRepositorio pacienteRepo;
     private AgendamentoRepositorio agendamentoRepo; // Precisamos buscar os agendamentos
@@ -50,23 +51,30 @@ public class PagamentoController {
 
         comboMetodo.setItems(FXCollections.observableArrayList(MetodoPagamento.values()));
         datePickerData.setValue(LocalDate.now());
+        comboAgendamento.setDisable(true);
     }
 
+    // Ação ao selecionar um paciente: Carrega os agendamentos PENDENTES dele
     @FXML
     private void aoSelecionarPaciente() {
         Paciente p = comboPaciente.getValue();
         if (p != null && agendamentoRepo != null) {
+            comboAgendamento.setDisable(false);
+            // Filtra: Agendamentos deste paciente QUE AINDA NÃO FORAM PAGOS (!isPago)
             List<Agendamento> pendencias = agendamentoRepo.buscarPorCpfPaciente(p.getCpf()).stream()
                     .filter(a -> !a.isPago())
                     .collect(Collectors.toList());
 
             comboAgendamento.setItems(FXCollections.observableArrayList(pendencias));
 
+            // Se tiver pendencias, pode tentar auto-preencher o valor com o preço do procedimento
             if (!pendencias.isEmpty()) {
                 comboAgendamento.setPromptText("Selecione a conta a pagar...");
             } else {
                 comboAgendamento.setPromptText("Nenhuma pendência encontrada.");
             }
+        } else {
+            comboAgendamento.setDisable(true);
         }
     }
 
@@ -74,6 +82,7 @@ public class PagamentoController {
     private void aoSelecionarAgendamento() {
         Agendamento a = comboAgendamento.getValue();
         if (a != null && a.getProcedimento() != null) {
+            // Auto-preenche o valor
             txtValor.setText(String.valueOf(a.getProcedimento().getPreco()));
         }
     }
@@ -89,11 +98,15 @@ public class PagamentoController {
             double valor = Double.parseDouble(txtValor.getText().replace(",", "."));
             Agendamento agendamentoAlvo = comboAgendamento.getValue();
             MetodoPagamento metodo = comboMetodo.getValue();
-            Pagamento novoPagamento = new Pagamento(valor, metodo, agendamentoAlvo.getProcedimento());
+
+            // Cria o Pagamento vinculado ao procedimento do agendamento
+            Pagamento novoPagamento = new Pagamento(valor, metodo, agendamentoAlvo);
             novoPagamento.confirmarPagamento();
 
             pagamentoRepo.salvar(novoPagamento);
 
+            // --- MUDANÇA CRUCIAL ---
+            // Marca APENAS este agendamento como pago. O paciente continua devendo outros se tiver.
             agendamentoAlvo.setPago(true);
 
             mostrarAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Pagamento registrado! Agendamento quitado.");

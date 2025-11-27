@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.MainController">
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.MainController">
 
     <top>
         <MenuBar BorderPane.alignment="CENTER">
@@ -25,12 +25,14 @@
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#loadPacienteList" text="Ver Lista de Pacientes" />
                         <MenuItem mnemonicParsing="false" onAction="#loadDentistaList" text="Ver Lista de Dentistas" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadProcedimentoList" text="Ver Lista de Procedimentos" />
                         <MenuItem mnemonicParsing="false" onAction="#loadAgendamentoList" text="Ver Lista de Agendamentos" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Financeiro">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#loadPagamento" text="Registrar Pagamento" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadPagamentoList" text="Consultar Pagamentos" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ajuda">
