@@ -54,8 +54,8 @@ public class App extends Application {
         loPix.setStatus(StatusAgendamento.CONCLUIDO);
         loPix.setPago(true);
         Pagamento pag = new Pagamento(420, MetodoPagamento.PIX, loPix);
-        pag.realizarPagamento();
         pag.confirmarPagamento();
+        pag.realizarPagamento();
 
         cadastrador.cadastrar(new Paciente("João da Silva", "111.222.333-44", "9999-0000", "joao@email.com", "Rua Alfa"));
         cadastrador.cadastrar(new Paciente("Maria Lima", "222.333.444-55", "8888-1111", "maria@email.com", "Av Beta"));

@@ -12,7 +12,7 @@ public class Pagamento {
     private Agendamento referenciaAgendamento;
 
     //CONSTRUTOR
-    public Pagamento(double valor, MetodoPagamento metodo, Agendamento referenciaProcedimento) {
+    public Pagamento(double valor, MetodoPagamento metodo, Agendamento referenciaAgendamento) {
         this.valor = valor;
         this.metodo = metodo;
         this.confirmado = false;
@@ -64,16 +64,15 @@ public class Pagamento {
         this.confirmado = true;
     }
 
-    public void realizarPagamento(/*contaDevedora, contaRecebedora*/) {
+    public void realizarPagamento() {
         if(!isConfirmado())
         {
             System.err.println("Erro ao realizar pagamento. model.Pagamento nao confirmado.");
             return;
         }
 
-        //fazer a checagem pra ver se ambas as contas estão disponíveis, caso não: return
 
-        //Realiza pagamento k
+        //Realiza pagamentoo
         this.dataPagamento = LocalDateTime.now();
         System.err.println("model.Pagamento realizado");
     }

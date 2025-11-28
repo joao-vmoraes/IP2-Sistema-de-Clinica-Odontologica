@@ -102,6 +102,7 @@ public class PagamentoController {
             Pagamento novoPagamento = new Pagamento(valor, metodo, agendamentoAlvo);
             novoPagamento.confirmarPagamento();
 
+            novoPagamento.realizarPagamento();
             pagamentoRepo.salvar(novoPagamento);
 
             // --- MUDANÇA CRUCIAL ---
