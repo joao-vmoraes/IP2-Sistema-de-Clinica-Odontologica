@@ -1,6 +1,6 @@
 package clinica;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,67 +19,49 @@ import clinica.controller.Cadastrador;
 import clinica.controller.ClinicaManager;
 import clinica.model.Dentista;
 import clinica.model.Paciente;
-import clinica.model.Pagamento;
 import clinica.model.Procedimento;
 import clinica.view.UIController.MainController;
-
-import java.time.LocalTime;
-
-import clinica.enums.MetodoPagamento;
-import clinica.enums.StatusAgendamento;
-import clinica.model.Agendamento;
 
 public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        // 1. Repositórios
+        // 1. Repositórios (Camada de Dados)
         PacienteRepositorio pacienteRepo = new PacienteRepositorio();
         DentistaRepositorio dentistaRepo = new DentistaRepositorio();
         ProcedimentoRepositorio procedimentoRepo = new ProcedimentoRepositorio();
         AgendamentoRepositorio agendamentoRepo = new AgendamentoRepositorio();
         PagamentoRepositorio pagamentoRepo = new PagamentoRepositorio();
-        AtendimentoRepositorio atendimentoRepo = new AtendimentoRepositorio(); // NOVO
+        AtendimentoRepositorio atendimentoRepo = new AtendimentoRepositorio();
 
-        // 2. Controladores
+        // 2. Controladores de Negócio (Camada Lógica)
+        // O Cadastrador gerencia as Entidades
         Cadastrador cadastrador = new Cadastrador(pacienteRepo, dentistaRepo, procedimentoRepo);
-        ClinicaManager manager = new ClinicaManager(agendamentoRepo, dentistaRepo, pacienteRepo);
 
-        // 3. Dados para teste
-        Paciente p1 = new Paciente("Seu zé", "213.343.194-62", "4002-8922", "zeDelivery@gmail.com", "Posto Ipiranga");
-        Dentista d1 = new Dentista("Jonas Popeye", "420.157.666-69", "5370-6471", "cucabel@gmail.com", "Lugar Nenhum", "Arrancador de dentes", LocalTime.of(4, 30), LocalTime.of(23, 59));
-        Procedimento proc = new Procedimento("Clareamento", "Deixar os dentes mais brancos", 80, 30);
-        Agendamento loPix = new Agendamento(p1, d1, proc, LocalDateTime.of(2015, 8, 24, 16, 47), "69");
-        loPix.setStatus(StatusAgendamento.CONCLUIDO);
-        loPix.setPago(true);
-        Pagamento pag = new Pagamento(420, MetodoPagamento.PIX, loPix);
-        pag.realizarPagamento();
-        pag.confirmarPagamento();
+        // O ClinicaManager gerencia os Processos (Agenda, Atendimento, Financeiro)
+        ClinicaManager clinicaManager = new ClinicaManager(agendamentoRepo, dentistaRepo, pacienteRepo, atendimentoRepo, pagamentoRepo);
 
-        cadastrador.cadastrar(new Paciente("João da Silva", "111.222.333-44", "9999-0000", "joao@email.com", "Rua Alfa"));
-        cadastrador.cadastrar(new Paciente("Maria Lima", "222.333.444-55", "8888-1111", "maria@email.com", "Av Beta"));
+        // 3. Dados Dummy (apenas para teste inicial)
+        Paciente p1 = new Paciente("João da Silva", "111.222.333-44", "9999-8888", "joao@email.com", "Rua Alfa");
+        Dentista d1 = new Dentista("Dra. Ana", "555.666.777-88", "8888-9999", "ana@clinica.com", "Rua Beta", "Clínico Geral", LocalTime.of(8,0), LocalTime.of(17,0));
+        Procedimento proc = new Procedimento("Extração", 150.00, 60);
+
         cadastrador.cadastrar(p1);
-        cadastrador.cadastrar(new Dentista("Dr. Silva", "CRM-1234", "9888-7777", "silva@clinica.com", "Rua B", "Ortodontia", LocalTime.of(8,0), LocalTime.of(18,0)));
-        cadastrador.cadastrar(new Dentista("Luiz Marcos", "333.444.555-66", "7777-2222", "luiz@email.com", "Av Gama", "Odontologista", LocalTime.of(9,0), LocalTime.of(17,0)));
         cadastrador.cadastrar(d1);
-        cadastrador.cadastrar(new Procedimento("Limpeza", 50, 20));
         cadastrador.cadastrar(proc);
-        agendamentoRepo.salvar(loPix);
-        pagamentoRepo.salvar(pag); //por algum motivo, a listagem de pagamentos esta sumindo quando se salva algum pagamentos
 
-        // 4. Tela
+        // 4. Interface Gráfica (View)
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/MainLayout.fxml"));
         BorderPane root = loader.load();
 
-        // 5. Injeção
+        // 5. Injeção de Dependências
+        // A View só conhece os Managers, não os Repositórios
         MainController mainController = loader.getController();
-        // Passa TODOS os repositórios (incluindo atendimentoRepo)
-        mainController.setServices(pacienteRepo, dentistaRepo, procedimentoRepo, agendamentoRepo, pagamentoRepo, atendimentoRepo, cadastrador, manager);
+        mainController.setServices(cadastrador, clinicaManager);
 
-        // 6. Exibir
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Clínica Odontológica - Sistema de Gestão");
+        Scene scene = new Scene(root, 800, 600);
+        primaryStage.setTitle("Sistema Clínica Odontológica");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

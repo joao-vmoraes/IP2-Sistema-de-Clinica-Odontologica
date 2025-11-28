@@ -1,16 +1,14 @@
 package clinica.view.UIController;
 
-import java.time.format.DateTimeFormatter;
-
+import clinica.controller.ClinicaManager;
 import clinica.model.Pagamento;
-import clinica.repository.PagamentoRepositorio;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PagamentoListController {
@@ -21,30 +19,40 @@ public class PagamentoListController {
     @FXML private TableColumn<Pagamento, String> colMetodo;
     @FXML private TableColumn<Pagamento, String> colAgendamento;
 
-    private PagamentoRepositorio pagamentoRepositorio;
+    private ClinicaManager clinicaManager;
 
-    public void setRepositorio(PagamentoRepositorio repo) {
-        this.pagamentoRepositorio = repo;
-        // Carrega a lista assim que o repositório é entregue
+    public void setDependencies(ClinicaManager clinicaManager) {
+        this.clinicaManager = clinicaManager;
         carregarListaPagamentos();
     }
 
     @FXML
     public void initialize() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        colPreco.setCellValueFactory(cellData -> new SimpleStringProperty("R$"+cellData.getValue().getValor()));
+        colData.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        cellData.getValue().getDataPagamento() != null ?
+                                cellData.getValue().getDataPagamento().format(formatter) : ""
+                ));
 
-        colMetodo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMetodo().toString()));
+        colPreco.setCellValueFactory(cellData ->
+                new SimpleStringProperty("R$" + cellData.getValue().getValor()));
 
+        colMetodo.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getMetodo().toString()));
+
+        colAgendamento.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        cellData.getValue().getReferenciaAgendamento() != null ?
+                                cellData.getValue().getReferenciaAgendamento().getPaciente().getNome() : "Avulso"
+                ));
     }
 
     public void carregarListaPagamentos() {
-        if (tableViewPagamentos != null) {
-            List<Pagamento> lista = pagamentoRepositorio.listarTodos();
-            tableViewPagamentos.setItems(
-                    FXCollections.observableArrayList(lista)
-            );
+        if (clinicaManager != null) {
+            List<Pagamento> lista = clinicaManager.listarPagamentos();
+            tableViewPagamentos.setItems(FXCollections.observableArrayList(lista));
         }
     }
 }
