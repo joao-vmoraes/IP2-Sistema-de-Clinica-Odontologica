@@ -1,12 +1,11 @@
 package clinica.view.UIController;
 
+import clinica.controller.Cadastrador;
+import clinica.controller.ClinicaManager;
 import clinica.enums.MetodoPagamento;
 import clinica.model.Agendamento;
 import clinica.model.Paciente;
 import clinica.model.Pagamento;
-import clinica.repository.AgendamentoRepositorio;
-import clinica.repository.PacienteRepositorio;
-import clinica.repository.PagamentoRepositorio;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -25,88 +24,74 @@ public class PagamentoController {
     @FXML private DatePicker datePickerData;
     @FXML private TextArea txtObs;
 
-    // Dependências
-    private PagamentoRepositorio pagamentoRepo;
-    private PacienteRepositorio pacienteRepo;
-    private AgendamentoRepositorio agendamentoRepo; // Precisamos buscar os agendamentos
+    private ClinicaManager clinicaManager;
+    private Cadastrador cadastrador;
 
-    public void setDependencies(PagamentoRepositorio pagamentoRepo,
-                                PacienteRepositorio pacienteRepo,
-                                AgendamentoRepositorio agendamentoRepo) {
-        this.pagamentoRepo = pagamentoRepo;
-        this.pacienteRepo = pacienteRepo;
-        this.agendamentoRepo = agendamentoRepo;
-        carregarDados();
+    public void setDependencies(ClinicaManager clinicaManager, Cadastrador cadastrador) {
+        this.clinicaManager = clinicaManager;
+        this.cadastrador = cadastrador;
+        carregarCombos();
     }
 
-    private void carregarDados() {
-        if (pacienteRepo != null) {
-            comboPaciente.setItems(FXCollections.observableArrayList(pacienteRepo.listarTodos()));
-
-            comboPaciente.setConverter(new StringConverter<Paciente>() {
-                @Override public String toString(Paciente p) { return p == null ? "" : p.getNome(); }
-                @Override public Paciente fromString(String s) { return null; }
-            });
-        }
-
-        comboMetodo.setItems(FXCollections.observableArrayList(MetodoPagamento.values()));
-        datePickerData.setValue(LocalDate.now());
-        comboAgendamento.setDisable(true);
-    }
-
-    // Ação ao selecionar um paciente: Carrega os agendamentos PENDENTES dele
     @FXML
-    private void aoSelecionarPaciente() {
+    public void initialize() {
+        comboMetodo.setItems(FXCollections.observableArrayList(MetodoPagamento.values()));
+
+        // Conversor para exibir nome do paciente corretamente
+        comboPaciente.setConverter(new StringConverter<Paciente>() {
+            @Override public String toString(Paciente p) { return p == null ? "" : p.getNome(); }
+            @Override public Paciente fromString(String s) { return null; }
+        });
+
+        // Quando selecionar paciente, filtrar agendamentos pendentes
+        comboPaciente.setOnAction(e -> atualizarAgendamentosPaciente());
+
+        // Quando selecionar agendamento, preencher o valor automaticamente
+        comboAgendamento.setOnAction(e -> preencherValorAgendamento());
+    }
+
+    private void carregarCombos() {
+        if(cadastrador != null) {
+            comboPaciente.setItems(FXCollections.observableArrayList(cadastrador.listarPacientes()));
+        }
+    }
+
+    private void atualizarAgendamentosPaciente() {
         Paciente p = comboPaciente.getValue();
-        if (p != null && agendamentoRepo != null) {
-            comboAgendamento.setDisable(false);
-            // Filtra: Agendamentos deste paciente QUE AINDA NÃO FORAM PAGOS (!isPago)
-            List<Agendamento> pendencias = agendamentoRepo.buscarPorCpfPaciente(p.getCpf()).stream()
-                    .filter(a -> !a.isPago())
+        if (p != null && clinicaManager != null) {
+            List<Agendamento> agendamentos = clinicaManager.buscarAgendamentosPorCpfPaciente(p.getCpf())
+                    .stream()
+                    .filter(a -> !a.isPago()) // Só mostra o que não foi pago
                     .collect(Collectors.toList());
 
-            comboAgendamento.setItems(FXCollections.observableArrayList(pendencias));
-
-            // Se tiver pendencias, pode tentar auto-preencher o valor com o preço do procedimento
-            if (!pendencias.isEmpty()) {
-                comboAgendamento.setPromptText("Selecione a conta a pagar...");
-            } else {
-                comboAgendamento.setPromptText("Nenhuma pendência encontrada.");
-            }
-        } else {
-            comboAgendamento.setDisable(true);
+            comboAgendamento.setItems(FXCollections.observableArrayList(agendamentos));
         }
     }
 
-    @FXML
-    private void aoSelecionarAgendamento() {
+    private void preencherValorAgendamento() {
         Agendamento a = comboAgendamento.getValue();
-        if (a != null && a.getProcedimento() != null) {
-            // Auto-preenche o valor
+        if (a != null) {
             txtValor.setText(String.valueOf(a.getProcedimento().getPreco()));
         }
     }
 
     @FXML
     private void handleRegistrar() {
-        if (comboAgendamento.getValue() == null || txtValor.getText().isEmpty() || comboMetodo.getValue() == null) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Atenção", "Selecione o Agendamento (Conta), Valor e Método.");
-            return;
-        }
-
         try {
             double valor = Double.parseDouble(txtValor.getText().replace(",", "."));
-            Agendamento agendamentoAlvo = comboAgendamento.getValue();
             MetodoPagamento metodo = comboMetodo.getValue();
+            Agendamento agendamentoAlvo = comboAgendamento.getValue();
+
+            if (metodo == null || agendamentoAlvo == null) {
+                mostrarAlerta(Alert.AlertType.WARNING, "Atenção", "Selecione o método e o agendamento.");
+                return;
+            }
 
             Pagamento novoPagamento = new Pagamento(valor, metodo, agendamentoAlvo);
-            novoPagamento.confirmarPagamento();
+            novoPagamento.setDataPagamento(datePickerData.getValue() != null ? datePickerData.getValue().atStartOfDay() : LocalDate.now().atStartOfDay());
 
-            pagamentoRepo.salvar(novoPagamento);
-
-            // --- MUDANÇA CRUCIAL ---
-            // Marca APENAS este agendamento como pago. O paciente continua devendo outros se tiver.
-            agendamentoAlvo.setPago(true);
+            // O Manager cuida de salvar e dar baixa no agendamento
+            clinicaManager.registrarPagamento(novoPagamento);
 
             mostrarAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Pagamento registrado! Agendamento quitado.");
             limparCampos();
@@ -125,7 +110,7 @@ public class PagamentoController {
 
     private void limparCampos() {
         comboPaciente.getSelectionModel().clearSelection();
-        comboAgendamento.getItems().clear(); // Limpa a lista de contas
+        comboAgendamento.getItems().clear();
         txtValor.clear();
         comboMetodo.getSelectionModel().clearSelection();
         txtObs.clear();
@@ -135,7 +120,6 @@ public class PagamentoController {
     private void mostrarAlerta(Alert.AlertType type, String title, String msg) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
-        alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
     }

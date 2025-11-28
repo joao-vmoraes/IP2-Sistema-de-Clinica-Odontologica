@@ -1,16 +1,13 @@
 package clinica.view.UIController;
 
-import clinica.enums.StatusAgendamento;
+import clinica.controller.ClinicaManager;
 import clinica.model.Agendamento;
-import clinica.model.Atendimento;
-import clinica.repository.AtendimentoRepositorio;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
 
 public class AtendimentoController {
 
@@ -21,14 +18,12 @@ public class AtendimentoController {
     @FXML private Button btnFinalizar;
 
     private Agendamento agendamentoAtual;
-    private AtendimentoRepositorio atendimentoRepo;
-    private MainController mainController; // Para voltar à lista
+    private ClinicaManager clinicaManager;
+    private MainController mainController;
 
-    public void setDependencies(Agendamento agendamento,
-                                AtendimentoRepositorio repo,
-                                MainController main) {
+    public void setDependencies(Agendamento agendamento, ClinicaManager manager, MainController main) {
         this.agendamentoAtual = agendamento;
-        this.atendimentoRepo = repo;
+        this.clinicaManager = manager;
         this.mainController = main;
 
         carregarDados();
@@ -50,11 +45,7 @@ public class AtendimentoController {
         }
 
         try {
-            Atendimento novoAtendimento = new Atendimento(agendamentoAtual);
-            novoAtendimento.finalizarAtendimento(txtAnotacoes.getText(), agendamentoAtual.getProcedimento());
-
-            atendimentoRepo.salvar(novoAtendimento);
-
+            clinicaManager.finalizarAtendimento(agendamentoAtual, txtAnotacoes.getText());
             mostrarAlerta(AlertType.INFORMATION, "Sucesso", "Atendimento finalizado com sucesso!");
 
             if (mainController != null) {
@@ -70,7 +61,6 @@ public class AtendimentoController {
     private void mostrarAlerta(AlertType type, String title, String msg) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
-        alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
     }

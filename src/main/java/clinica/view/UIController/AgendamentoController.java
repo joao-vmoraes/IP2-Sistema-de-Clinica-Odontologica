@@ -1,14 +1,11 @@
 package clinica.view.UIController;
 
+import clinica.controller.Cadastrador;
 import clinica.controller.ClinicaManager;
 import clinica.model.Dentista;
 import clinica.model.Paciente;
 import clinica.model.Procedimento;
-import clinica.repository.DentistaRepositorio;
-import clinica.repository.PacienteRepositorio;
-import clinica.repository.ProcedimentoRepositorio;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
@@ -31,91 +28,70 @@ public class AgendamentoController {
     @FXML private Button btnCancelar;
 
     private ClinicaManager clinicaManager;
-    private PacienteRepositorio pacienteRepo;
-    private DentistaRepositorio dentistaRepo;
-    private ProcedimentoRepositorio procedimentoRepo;
+    private Cadastrador cadastrador;
     private MainController mainController;
 
-
-    public void setDependencies(ClinicaManager manager,
-                                PacienteRepositorio pRepo,
-                                DentistaRepositorio dRepo,
-                                ProcedimentoRepositorio procRepo,
-                                MainController mainController) {
+    public void setDependencies(ClinicaManager manager, Cadastrador cadastrador, MainController main) {
         this.clinicaManager = manager;
-        this.pacienteRepo = pRepo;
-        this.dentistaRepo = dRepo;
-        this.procedimentoRepo = procRepo;
-        this.mainController = mainController; // Guardamos a referência
+        this.cadastrador = cadastrador;
+        this.mainController = main;
 
-        carregarDadosIniciais();
+        carregarCombos();
     }
 
-    private void carregarDadosIniciais() {
-        if (pacienteRepo != null) {
-            comboPaciente.setItems(FXCollections.observableArrayList(pacienteRepo.listarTodos()));
-            configurarComboPaciente();
-        }
-
-        if (dentistaRepo != null) {
-            comboDentista.setItems(FXCollections.observableArrayList(dentistaRepo.listarTodos()));
-            configurarComboDentista();
-        }
-
-        if (procedimentoRepo != null) {
-            comboProcedimento.setItems(FXCollections.observableArrayList(procedimentoRepo.listarProcedimentos()));
-            configurarComboProcedimento();
-        }
+    @FXML
+    public void initialize() {
+        configurarComboPaciente();
+        configurarComboDentista();
+        configurarComboProcedimento();
 
         List<String> horarios = new ArrayList<>();
-        for (int h = 0; h < 24; h++) {
+        for (int h = 8; h < 18; h++) {
             horarios.add(String.format("%02d:00", h));
             horarios.add(String.format("%02d:30", h));
         }
         comboHorario.setItems(FXCollections.observableArrayList(horarios));
     }
 
+    private void carregarCombos() {
+        if (cadastrador != null) {
+            comboPaciente.setItems(FXCollections.observableArrayList(cadastrador.listarPacientes()));
+            comboDentista.setItems(FXCollections.observableArrayList(cadastrador.listarDentistas()));
+            comboProcedimento.setItems(FXCollections.observableArrayList(cadastrador.listarProcedimentos()));
+        }
+    }
+
     @FXML
-    void handleSalvar(ActionEvent event) {
+    private void handleSalvar() {
         if (camposInvalidos()) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Atenção", "Preencha todos os campos obrigatórios.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Campos Incompletos", "Preencha todos os campos obrigatórios.");
             return;
         }
 
-        try {
-            Paciente paciente = comboPaciente.getValue();
-            Dentista dentista = comboDentista.getValue();
-            Procedimento procedimento = comboProcedimento.getValue();
-            LocalDate data = datePickerData.getValue();
-            String horaStr = comboHorario.getValue();
-            String sala = txtObservacao.getText().isEmpty() ? "Consultório 1" : txtObservacao.getText();
+        LocalDate data = datePickerData.getValue();
+        LocalTime hora = LocalTime.parse(comboHorario.getValue());
+        LocalDateTime dataHora = LocalDateTime.of(data, hora);
+        String sala = txtObservacao.getText().isEmpty() ? "Consultório 1" : txtObservacao.getText();
 
-            LocalTime horario = LocalTime.parse(horaStr);
-            LocalDateTime dataHoraAgendamento = LocalDateTime.of(data, horario);
+        boolean sucesso = clinicaManager.marcarAgendamento(
+                comboPaciente.getValue(),
+                comboDentista.getValue(),
+                comboProcedimento.getValue(),
+                dataHora,
+                sala
+        );
 
-            boolean sucesso = clinicaManager.marcarAgendamento(paciente, dentista, procedimento, dataHoraAgendamento, sala);
-
-            if (sucesso) {
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Agendamento realizado com sucesso!");
-                voltarParaLista();
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Horário indisponível ou conflito de agenda.");
-            }
-        } catch (Exception e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Erro Técnico", e.getMessage());
-            e.printStackTrace();
+        if (sucesso) {
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Agendamento realizado!");
+            mainController.loadAgendamentoList();
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "Conflito", "Horário indisponível para este dentista.");
         }
     }
 
     @FXML
-    void handleCancelar(ActionEvent event) {
-        voltarParaLista();
-    }
-
-    private void voltarParaLista() {
-        if (mainController != null) {
-            mainController.loadAgendamentoList();
-        }
+    private void handleCancelar() {
+        mainController.loadAgendamentoList();
     }
 
     private boolean camposInvalidos() {

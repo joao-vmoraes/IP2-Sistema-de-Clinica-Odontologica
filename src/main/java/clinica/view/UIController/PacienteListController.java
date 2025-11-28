@@ -1,7 +1,7 @@
 package clinica.view.UIController;
 
+import clinica.controller.Cadastrador;
 import clinica.model.Paciente;
-import clinica.repository.PacienteRepositorio;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -16,10 +16,10 @@ public class PacienteListController {
     @FXML private TableColumn<Paciente, String> colCpf;
     @FXML private TableColumn<Paciente, String> colEmail;
 
-    private PacienteRepositorio pacienteRepositorio;
+    private Cadastrador cadastrador;
 
-    public void setPacienteRepositorio(PacienteRepositorio repo) {
-        this.pacienteRepositorio = repo;
+    public void setDependencies(Cadastrador cadastrador) {
+        this.cadastrador = cadastrador;
         carregarListaPacientes();
     }
 
@@ -31,10 +31,9 @@ public class PacienteListController {
     }
 
     public void carregarListaPacientes() {
-        if (pacienteRepositorio != null) {
-            List<Paciente> lista = pacienteRepositorio.listarTodos();
-            tableViewPacientes.setItems(
-                    FXCollections.observableArrayList(lista));
+        if (cadastrador != null) {
+            List<Paciente> lista = cadastrador.listarPacientes();
+            tableViewPacientes.setItems(FXCollections.observableArrayList(lista));
         }
     }
 }

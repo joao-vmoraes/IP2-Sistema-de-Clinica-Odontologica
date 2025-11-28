@@ -1,18 +1,14 @@
 package clinica.view.UIController;
 
+import clinica.controller.Cadastrador;
 import clinica.model.Dentista;
-import clinica.repository.DentistaRepositorio;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DentistaListController {
 
@@ -25,12 +21,12 @@ public class DentistaListController {
     @FXML private TableColumn<Dentista, String> colEmail;
     @FXML private TableColumn<Dentista, String> colTelefone;
     @FXML private TableColumn<Dentista, String> colEspecialidade;
-    @FXML private TableColumn<Dentista, String> colExpediente; // Nova coluna
+    @FXML private TableColumn<Dentista, String> colExpediente;
 
-    private DentistaRepositorio dentistaRepositorio;
+    private Cadastrador cadastrador;
 
-    public void setDentistaRepositorio(DentistaRepositorio repo) {
-        this.dentistaRepositorio = repo;
+    public void setDependencies(Cadastrador cadastrador) {
+        this.cadastrador = cadastrador;
         carregarListaDentistas();
     }
 
@@ -38,55 +34,45 @@ public class DentistaListController {
     public void initialize() {
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
         colEspecialidade.setCellValueFactory(new PropertyValueFactory<>("especialidade"));
 
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm");
-        colExpediente.setCellValueFactory(cellData -> {
-            Dentista d = cellData.getValue();
-            if (d.getHorarioTrabalhoInicio() != null && d.getHorarioTrabalhoFim() != null) {
-                return new SimpleStringProperty(
-                        d.getHorarioTrabalhoInicio().format(fmt) + " às " +
-                                d.getHorarioTrabalhoFim().format(fmt)
-                );
+        colExpediente.setCellFactory(column -> new TableCell<Dentista, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setText(null);
+                } else {
+                    Dentista d = (Dentista) getTableRow().getItem();
+                    setText(d.getHorarioTrabalhoInicio() + " - " + d.getHorarioTrabalhoFim());
+                }
             }
-            return new SimpleStringProperty("-");
         });
 
-        preencherFiltroHorarios();
-    }
-
-    private void preencherFiltroHorarios() {
-        List<String> horarios = new ArrayList<>();
-        for (int h = 0; h <= 24; h++) {
-            horarios.add(String.format("%02d:00", h));
+        for (int i = 8; i < 18; i++) {
+            comboFiltroHorario.getItems().add(String.format("%02d:00", i));
         }
-        comboFiltroHorario.setItems(FXCollections.observableArrayList(horarios));
     }
 
     @FXML
     private void aplicarFiltros() {
-        if (dentistaRepositorio == null) return;
+        if (cadastrador == null) return;
 
-        List<Dentista> todos = dentistaRepositorio.listarTodos();
-        List<Dentista> filtrados = new ArrayList<>(todos);
+        // Começa com todos
+        List<Dentista> filtrados = cadastrador.listarDentistas();
 
-        //  Filtro por CPF
-        String termoCpf = txtFiltroCpf.getText();
-        if (termoCpf != null && !termoCpf.isEmpty()) {
-            String termoLimpo = termoCpf.replaceAll("[^0-9]", "");
-            filtrados = filtrados.stream()
-                    .filter(d -> d.getCpf().replaceAll("[^0-9]", "").contains(termoLimpo))
-                    .collect(Collectors.toList());
+        String termo = txtFiltroCpf.getText();
+        if (termo != null && !termo.isEmpty()) {
+            filtrados = cadastrador.buscarDentistasPorCpfParcial(termo);
         }
 
         String horaSelecionada = comboFiltroHorario.getValue();
         if (horaSelecionada != null) {
             LocalTime horario = LocalTime.parse(horaSelecionada);
-            filtrados = filtrados.stream()
-                    .filter(d -> !horario.isBefore(d.getHorarioTrabalhoInicio()) &&
-                            horario.isBefore(d.getHorarioTrabalhoFim()))
-                    .collect(Collectors.toList());
+            // Re-filtra a lista atual
+            filtrados = cadastrador.buscarDentistasPorDisponibilidade(horario);
         }
 
         tableViewDentistas.setItems(FXCollections.observableArrayList(filtrados));
@@ -104,9 +90,9 @@ public class DentistaListController {
     }
 
     public void carregarListaDentistas() {
-        if (dentistaRepositorio != null) {
+        if (cadastrador != null) {
             tableViewDentistas.setItems(
-                    FXCollections.observableArrayList(dentistaRepositorio.listarTodos())
+                    FXCollections.observableArrayList(cadastrador.listarDentistas())
             );
         }
     }
@@ -114,7 +100,6 @@ public class DentistaListController {
     private void mostrarAlerta(String titulo, String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
-        alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
     }
