@@ -1,19 +1,19 @@
 package clinica.view.UIController;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import clinica.controller.Cadastrador;
+import clinica.enums.DiasSemana;
 import clinica.model.Dentista;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.util.converter.LocalDateTimeStringConverter;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 public class CadastroDentistaController {
@@ -26,6 +26,14 @@ public class CadastroDentistaController {
     @FXML private TextField txtEspecialidade;
     @FXML private ComboBox<String> timeInicial;
     @FXML private ComboBox<String> timeFinal;
+
+    @FXML private CheckBox checkDom;
+    @FXML private CheckBox checkSeg;
+    @FXML private CheckBox checkTer;
+    @FXML private CheckBox checkQua;
+    @FXML private CheckBox checkQui;
+    @FXML private CheckBox checkSex;
+    @FXML private CheckBox checkSab;
 
     private Cadastrador cadastrador;
 
@@ -73,6 +81,22 @@ public class CadastroDentistaController {
 
         try {
             Dentista novoDentista = new Dentista(nome, cpf, telefone, email, endereco, especialidade, dataInicial, dataFinal);
+
+            //Adição dos dias de folga k
+            if(checkDom.isSelected())
+                novoDentista.AdicionarDiaDeFolga(DiasSemana.Domingo);
+            if(checkSeg.isSelected())
+                novoDentista.AdicionarDiaDeFolga(DiasSemana.Segunda);
+            if(checkTer.isSelected())
+                novoDentista.AdicionarDiaDeFolga(DiasSemana.Terça);
+            if(checkQua.isSelected())
+                novoDentista.AdicionarDiaDeFolga(DiasSemana.Quarta);
+            if(checkQui.isSelected())
+                novoDentista.AdicionarDiaDeFolga(DiasSemana.Quinta);
+            if(checkSex.isSelected())
+                novoDentista.AdicionarDiaDeFolga(DiasSemana.Sexta);
+            if(checkSab.isSelected())
+                novoDentista.AdicionarDiaDeFolga(DiasSemana.Sábado);
 
             cadastrador.cadastrar(novoDentista);
 

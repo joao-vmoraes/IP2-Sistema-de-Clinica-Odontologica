@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.DentistaListController">
+<VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.DentistaListController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -62,7 +62,8 @@
             <TableColumn fx:id="colCpf" prefWidth="120.0" text="CPF" />
             <TableColumn fx:id="colEspecialidade" prefWidth="150.0" text="Especialidade" />
             <TableColumn fx:id="colTelefone" prefWidth="120.0" text="Telefone" />
-            <TableColumn fx:id="colExpediente" prefWidth="150.0" text="Expediente" />
+            <TableColumn fx:id="colExpediente" prefWidth="111.20001220703125" text="Expediente" />
+         <TableColumn fx:id="colFolgas" prefWidth="146.4000244140625" text="Dias de folga" />
         </columns>
     </TableView>
 

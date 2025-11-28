@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import clinica.enums.DiasSemana;
+
 public class DentistaListController {
 
     @FXML private TextField txtFiltroCpf;
@@ -25,7 +27,8 @@ public class DentistaListController {
     @FXML private TableColumn<Dentista, String> colEmail;
     @FXML private TableColumn<Dentista, String> colTelefone;
     @FXML private TableColumn<Dentista, String> colEspecialidade;
-    @FXML private TableColumn<Dentista, String> colExpediente; // Nova coluna
+    @FXML private TableColumn<Dentista, String> colExpediente;
+    @FXML private TableColumn<Dentista, String> colFolgas;
 
     private DentistaRepositorio dentistaRepositorio;
 
@@ -51,6 +54,23 @@ public class DentistaListController {
                 );
             }
             return new SimpleStringProperty("-");
+        });
+
+        colFolgas.setCellValueFactory(cellData -> {
+            Dentista d = cellData.getValue();
+            List<DiasSemana> leDias = d.getDiasDeFolga();
+
+            if(!leDias.isEmpty())
+            {
+                String texto = "|";
+                for(int i = 0; i < leDias.size(); i++)
+                {
+                    texto += " " + leDias.get(i).toString() + " |";
+                }
+                return new SimpleStringProperty(texto);
+            }else{
+                return new SimpleStringProperty("Disponível todos os dias.");
+            }
         });
 
         preencherFiltroHorarios();
