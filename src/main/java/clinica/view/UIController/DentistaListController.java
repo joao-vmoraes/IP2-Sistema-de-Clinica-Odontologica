@@ -1,7 +1,6 @@
 package clinica.view.UIController;
 
 import clinica.model.Dentista;
-import clinica.repository.DentistaRepositorio;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import clinica.controller.Cadastrador;
 import clinica.enums.DiasSemana;
 
 public class DentistaListController {
@@ -30,10 +30,10 @@ public class DentistaListController {
     @FXML private TableColumn<Dentista, String> colExpediente;
     @FXML private TableColumn<Dentista, String> colFolgas;
 
-    private DentistaRepositorio dentistaRepositorio;
+    private Cadastrador cadastrador;
 
-    public void setDentistaRepositorio(DentistaRepositorio repo) {
-        this.dentistaRepositorio = repo;
+    public void setDependencies(Cadastrador cadastrador) {
+        this.cadastrador = cadastrador;
         carregarListaDentistas();
     }
 
@@ -86,9 +86,9 @@ public class DentistaListController {
 
     @FXML
     private void aplicarFiltros() {
-        if (dentistaRepositorio == null) return;
+        if (cadastrador == null) return;
 
-        List<Dentista> todos = dentistaRepositorio.listarTodos();
+        List<Dentista> todos = cadastrador.listarDentistas();
         List<Dentista> filtrados = new ArrayList<>(todos);
 
         //  Filtro por CPF
@@ -124,9 +124,9 @@ public class DentistaListController {
     }
 
     public void carregarListaDentistas() {
-        if (dentistaRepositorio != null) {
+        if (cadastrador != null) {
             tableViewDentistas.setItems(
-                    FXCollections.observableArrayList(dentistaRepositorio.listarTodos())
+                    FXCollections.observableArrayList(cadastrador.listarDentistas())
             );
         }
     }

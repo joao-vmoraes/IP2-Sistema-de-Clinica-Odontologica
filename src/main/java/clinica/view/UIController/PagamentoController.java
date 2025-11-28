@@ -43,6 +43,9 @@ public class PagamentoController {
             @Override public Paciente fromString(String s) { return null; }
         });
 
+        atualizarAgendamentosPaciente();
+        datePickerData.setValue(LocalDate.now());
+
         // Quando selecionar paciente, filtrar agendamentos pendentes
         comboPaciente.setOnAction(e -> atualizarAgendamentosPaciente());
 
@@ -59,12 +62,17 @@ public class PagamentoController {
     private void atualizarAgendamentosPaciente() {
         Paciente p = comboPaciente.getValue();
         if (p != null && clinicaManager != null) {
+            comboAgendamento.setDisable(false);
+            comboAgendamento.promptTextProperty().set("Selecione a pendência.");
             List<Agendamento> agendamentos = clinicaManager.buscarAgendamentosPorCpfPaciente(p.getCpf())
                     .stream()
                     .filter(a -> !a.isPago()) // Só mostra o que não foi pago
                     .collect(Collectors.toList());
 
             comboAgendamento.setItems(FXCollections.observableArrayList(agendamentos));
+        }else{
+            comboAgendamento.promptTextProperty().set("Selecione um paciente.");
+            comboAgendamento.setDisable(true);
         }
     }
 
