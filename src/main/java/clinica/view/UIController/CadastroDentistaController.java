@@ -46,7 +46,7 @@ public class CadastroDentistaController {
     private void carregarDados()
     {
         List<String> horarios = new ArrayList<>();
-        for (int h = 8; h < 18; h++) {
+        for (int h = 0; h < 24; h++) {
             horarios.add(String.format("%02d:00", h));
             horarios.add(String.format("%02d:30", h));
         }
