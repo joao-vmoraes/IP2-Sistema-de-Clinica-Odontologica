@@ -12,7 +12,7 @@ public class Pagamento {
     private Agendamento referenciaAgendamento;
 
     //CONSTRUTOR
-    public Pagamento(double valor, MetodoPagamento metodo, Agendamento referenciaProcedimento) {
+    public Pagamento(double valor, MetodoPagamento metodo, Agendamento referenciaAgendamento) {
         this.valor = valor;
         this.metodo = metodo;
         this.confirmado = false;

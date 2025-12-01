@@ -12,7 +12,8 @@ import javafx.scene.control.*;
 import javafx.util.StringConverter;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.stream.Collectors;
 
 public class PagamentoController {
@@ -22,6 +23,11 @@ public class PagamentoController {
     @FXML private TextField txtValor;
     @FXML private ComboBox<MetodoPagamento> comboMetodo;
     @FXML private DatePicker datePickerData;
+
+    // MUDANÇA: Substituímos o ComboBox por dois Spinners
+    @FXML private Spinner<Integer> spinnerHora;
+    @FXML private Spinner<Integer> spinnerMinuto;
+
     @FXML private TextArea txtObs;
 
     private ClinicaManager clinicaManager;
@@ -37,19 +43,27 @@ public class PagamentoController {
     public void initialize() {
         comboMetodo.setItems(FXCollections.observableArrayList(MetodoPagamento.values()));
 
-        // Conversor para exibir nome do paciente corretamente
         comboPaciente.setConverter(new StringConverter<Paciente>() {
             @Override public String toString(Paciente p) { return p == null ? "" : p.getNome(); }
             @Override public Paciente fromString(String s) { return null; }
         });
 
+        // 1. CONFIGURAÇÃO DOS SPINNERS (Hora e Minuto)
+        // Configura Hora: 0 a 23, valor inicial = hora atual
+        SpinnerValueFactory<Integer> valFactoryHora =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, LocalTime.now().getHour());
+        spinnerHora.setValueFactory(valFactoryHora);
+
+        // Configura Minuto: 0 a 59, valor inicial = minuto atual
+        SpinnerValueFactory<Integer> valFactoryMinuto =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, LocalTime.now().getMinute());
+        spinnerMinuto.setValueFactory(valFactoryMinuto);
+
         atualizarAgendamentosPaciente();
         datePickerData.setValue(LocalDate.now());
 
-        // Quando selecionar paciente, filtrar agendamentos pendentes
+        // Listeners
         comboPaciente.setOnAction(e -> atualizarAgendamentosPaciente());
-
-        // Quando selecionar agendamento, preencher o valor automaticamente
         comboAgendamento.setOnAction(e -> preencherValorAgendamento());
     }
 
@@ -64,13 +78,13 @@ public class PagamentoController {
         if (p != null && clinicaManager != null) {
             comboAgendamento.setDisable(false);
             comboAgendamento.promptTextProperty().set("Selecione a pendência.");
-            List<Agendamento> agendamentos = clinicaManager.buscarAgendamentosPorCpfPaciente(p.getCpf())
+            var agendamentos = clinicaManager.buscarAgendamentosPorCpfPaciente(p.getCpf())
                     .stream()
-                    .filter(a -> !a.isPago()) // Só mostra o que não foi pago
+                    .filter(a -> !a.isPago())
                     .collect(Collectors.toList());
 
             comboAgendamento.setItems(FXCollections.observableArrayList(agendamentos));
-        }else{
+        } else {
             comboAgendamento.promptTextProperty().set("Selecione um paciente.");
             comboAgendamento.setDisable(true);
         }
@@ -91,14 +105,21 @@ public class PagamentoController {
             Agendamento agendamentoAlvo = comboAgendamento.getValue();
 
             if (metodo == null || agendamentoAlvo == null) {
-                mostrarAlerta(Alert.AlertType.WARNING, "Atenção", "Selecione o método e o agendamento.");
+                mostrarAlerta(Alert.AlertType.WARNING, "Atenção", "Preencha todos os campos.");
                 return;
             }
 
-            Pagamento novoPagamento = new Pagamento(valor, metodo, agendamentoAlvo);
-            novoPagamento.setDataPagamento(datePickerData.getValue() != null ? datePickerData.getValue().atStartOfDay() : LocalDate.now().atStartOfDay());
+            // 2. CAPTURA DA HORA PRECISA
+            LocalDate data = datePickerData.getValue();
+            int h = spinnerHora.getValue(); // Pega valor do spinner
+            int m = spinnerMinuto.getValue(); // Pega valor do spinner
+            LocalTime horaSelecionada = LocalTime.of(h, m);
 
-            // O Manager cuida de salvar e dar baixa no agendamento
+            LocalDateTime dataHoraPagamento = LocalDateTime.of(data, horaSelecionada);
+
+            Pagamento novoPagamento = new Pagamento(valor, metodo, agendamentoAlvo);
+            novoPagamento.setDataPagamento(dataHoraPagamento);
+
             clinicaManager.registrarPagamento(novoPagamento);
 
             mostrarAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Pagamento registrado! Agendamento quitado.");
@@ -108,6 +129,7 @@ public class PagamentoController {
             mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Valor inválido.");
         } catch (Exception e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Falha ao salvar: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -123,6 +145,10 @@ public class PagamentoController {
         comboMetodo.getSelectionModel().clearSelection();
         txtObs.clear();
         datePickerData.setValue(LocalDate.now());
+
+        // Reseta os spinners para a hora atual
+        spinnerHora.getValueFactory().setValue(LocalTime.now().getHour());
+        spinnerMinuto.getValueFactory().setValue(LocalTime.now().getMinute());
     }
 
     private void mostrarAlerta(Alert.AlertType type, String title, String msg) {
