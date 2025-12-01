@@ -82,7 +82,7 @@ public class CadastroDentistaController {
         try {
             Dentista novoDentista = new Dentista(nome, cpf, telefone, email, endereco, especialidade, dataInicial, dataFinal);
 
-            //Adição dos dias de folga k
+            //Adição dos dias de folg
             if(checkDom.isSelected())
                 novoDentista.AdicionarDiaDeFolga(DiasSemana.Domingo);
             if(checkSeg.isSelected())

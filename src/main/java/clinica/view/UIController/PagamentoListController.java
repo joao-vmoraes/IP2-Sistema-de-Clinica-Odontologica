@@ -28,7 +28,6 @@ public class PagamentoListController {
 
     @FXML
     public void initialize() {
-        // 1. ALTERADO: Adicionado HH:mm para exibir a hora
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"); // MUDANÇA AQUI
 
         colData.setCellValueFactory(cellData ->
@@ -43,7 +42,7 @@ public class PagamentoListController {
         colMetodo.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getMetodo().toString()));
 
-        // 2. ALTERADO: Exibir o nome do Procedimento em vez do nome do Paciente
+        // FIX: Exibir o nome do Procedimento em vez do nome do Paciente
         colAgendamento.setCellValueFactory(cellData ->
                 new SimpleStringProperty(
                         cellData.getValue().getReferenciaAgendamento() != null ?

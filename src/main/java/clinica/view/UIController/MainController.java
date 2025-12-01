@@ -15,7 +15,6 @@ public class MainController {
 
     @FXML private BorderPane borderPane;
 
-    // Apenas Managers, sem Repositórios aqui!
     private Cadastrador cadastrador;
     private ClinicaManager clinicaManager;
 

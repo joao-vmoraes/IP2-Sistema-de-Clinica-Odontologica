@@ -91,7 +91,7 @@ public class DentistaListController {
         List<Dentista> todos = cadastrador.listarDentistas();
         List<Dentista> filtrados = new ArrayList<>(todos);
 
-        //  Filtro por CPF
+        //  Filtro por CPf
         String termoCpf = txtFiltroCpf.getText();
         if (termoCpf != null && !termoCpf.isEmpty()) {
             String termoLimpo = termoCpf.replaceAll("[^0-9]", "");

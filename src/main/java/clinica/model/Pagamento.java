@@ -11,7 +11,6 @@ public class Pagamento {
     private LocalDateTime dataPagamento;
     private Agendamento referenciaAgendamento;
 
-    //CONSTRUTOR
     public Pagamento(double valor, MetodoPagamento metodo, Agendamento referenciaAgendamento) {
         this.valor = valor;
         this.metodo = metodo;
@@ -72,7 +71,6 @@ public class Pagamento {
         }
 
 
-        //Realiza pagamento
         this.dataPagamento = LocalDateTime.now();
         System.err.println("model.Pagamento realizado");
     }

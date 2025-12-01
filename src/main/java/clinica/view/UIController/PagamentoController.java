@@ -24,7 +24,7 @@ public class PagamentoController {
     @FXML private ComboBox<MetodoPagamento> comboMetodo;
     @FXML private DatePicker datePickerData;
 
-    // MUDANÇA: Substituímos o ComboBox por dois Spinners
+    // MUDANÇA: o ComboBox por dois Spinners
     @FXML private Spinner<Integer> spinnerHora;
     @FXML private Spinner<Integer> spinnerMinuto;
 
@@ -48,13 +48,10 @@ public class PagamentoController {
             @Override public Paciente fromString(String s) { return null; }
         });
 
-        // 1. CONFIGURAÇÃO DOS SPINNERS (Hora e Minuto)
-        // Configura Hora: 0 a 23, valor inicial = hora atual
         SpinnerValueFactory<Integer> valFactoryHora =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, LocalTime.now().getHour());
         spinnerHora.setValueFactory(valFactoryHora);
 
-        // Configura Minuto: 0 a 59, valor inicial = minuto atual
         SpinnerValueFactory<Integer> valFactoryMinuto =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, LocalTime.now().getMinute());
         spinnerMinuto.setValueFactory(valFactoryMinuto);
@@ -109,7 +106,7 @@ public class PagamentoController {
                 return;
             }
 
-            // 2. CAPTURA DA HORA PRECISA
+            // ge para fazer spinner no horario e correção de bug
             LocalDate data = datePickerData.getValue();
             int h = spinnerHora.getValue(); // Pega valor do spinner
             int m = spinnerMinuto.getValue(); // Pega valor do spinner
