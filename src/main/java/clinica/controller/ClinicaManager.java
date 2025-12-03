@@ -52,6 +52,7 @@ public class ClinicaManager {
         System.out.println("model.Pagamento registrado: " + pagamento.getValor());
     }
 
+<<<<<<< Updated upstream
     // Lógica de disponibilidade ajustada para buscar no Repositório
     private boolean verificarDisponibilidadeDentista(Dentista dentista, LocalDateTime dataHora, int duracaoMinutos) {
         // 1. Verificar folgas e ausências do objeto model.Dentista
@@ -67,6 +68,18 @@ public class ClinicaManager {
         }
 
         // 3. Verificar conflito com outros agendamentos NO REPOSITÓRIO
+=======
+    public boolean verificarDisponibilidadeDentista(Dentista dentista, LocalDateTime dataHora, int duracaoMinutos) {
+        // --- MUDANÇA AQUI: Verificação pela Grade ---
+        
+        // Antes: Verificava se estava entre Inicio e Fim (Range)
+        // Agora: Verifica se o horário específico existe na grade de horários do dentista
+        if (!dentista.atendeNesteHorario(dataHora.getDayOfWeek(), dataHora.toLocalTime())) {
+            return false; // O dentista não marcou este horário como disponível na grade
+        }
+
+        // 2. Verificar conflitos com outros agendamentos (Logica Mantida)
+>>>>>>> Stashed changes
         List<Agendamento> todosAgendamentos = agendamentoRepo.listarTodos();
         LocalDateTime fimNovo = dataHora.plusMinutes(duracaoMinutos);
 
@@ -82,9 +95,15 @@ public class ClinicaManager {
                 LocalDateTime inicioExistente = a.getDataHora();
                 LocalDateTime fimExistente = inicioExistente.plusMinutes(duracaoExistente);
 
+<<<<<<< Updated upstream
                 // Lógica de intersecção de horários
                 if (dataHora.isBefore(fimExistente) && fimNovo.isAfter(inicioExistente)) {
                     return false; // Colisão encontrada
+=======
+                // Verifica intersecção de horários
+                if (dataHora.isBefore(fimExistente) && fimNovo.isAfter(inicioExistente)) {
+                    return false; // Conflito encontrado
+>>>>>>> Stashed changes
                 }
             }
         }
