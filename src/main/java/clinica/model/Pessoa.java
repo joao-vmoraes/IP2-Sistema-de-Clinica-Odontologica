@@ -18,8 +18,13 @@ public abstract class Pessoa {
         this.inativo = false;
     }
     
-    public void desativarCadastro() {
-        this.inativo = true;
+    public void setInatividade(Boolean val) {
+        this.inativo = val;
+    }
+
+    public Boolean taInativo()
+    {
+        return this.inativo;
     }
 
     public String getNome() {

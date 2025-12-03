@@ -1,6 +1,7 @@
 package clinica.repository;
 
 import clinica.model.Dentista;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,8 @@ public class DentistaRepositorio {
     }
 
     public List<Dentista> listarTodos() {
-        return new ArrayList<>(dentistas);
+        List<Dentista> dentistasFiltrados = dentistas.stream().filter(a -> !a.taInativo()).collect(Collectors.toList());
+        return new ArrayList<>(dentistasFiltrados);
     }
 
     public Dentista buscarPorCpf(String cpf) {
@@ -56,6 +58,6 @@ public class DentistaRepositorio {
     }
 
     public void deletar(Dentista dentista) {
-        dentistas.remove(dentista);
+        dentista.setInatividade(true);
     }
 }

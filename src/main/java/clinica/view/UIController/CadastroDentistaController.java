@@ -58,7 +58,7 @@ public class CadastroDentistaController {
     @FXML
     private void acaoSalvar() {
         if (cadastrador == null) {
-            mostrarAlerta("Erro Crítico", "O serviço Cadastrador não foi injetado!");
+            mostrarAlerta("Erro Crítico", "O serviço Cadastrador não foi injetado!", AlertType.ERROR);
             return;
         }
 
@@ -75,7 +75,7 @@ public class CadastroDentistaController {
         LocalTime dataFinal = LocalTime.parse(horaFinal);
 
         if (nome.isEmpty() || cpf.isEmpty()) {
-            mostrarAlerta("Atenção", "Nome e CPF são obrigatórios.");
+            mostrarAlerta("Atenção", "Nome e CPF são obrigatórios.", AlertType.INFORMATION);
             return;
         }
 
@@ -98,13 +98,16 @@ public class CadastroDentistaController {
             if(checkSab.isSelected())
                 novoDentista.AdicionarDiaDeFolga(DiasSemana.Sábado);
 
-            cadastrador.cadastrar(novoDentista);
-
-            mostrarAlerta("Sucesso", "Dentista " + nome + " cadastrado com sucesso!");
-            limparCampos();
+            if(cadastrador.cadastrar(novoDentista))
+            {
+                mostrarAlerta("Sucesso", "Dentista " + nome + " cadastrado com sucesso!", AlertType.INFORMATION);
+                limparCampos();
+            }else{
+                mostrarAlerta("Erro", "Falha ao cadastrar " + nome + "!", AlertType.ERROR);
+            }
 
         } catch (Exception e) {
-            mostrarAlerta("Erro", "Falha ao cadastrar: " + e.getMessage());
+            mostrarAlerta("Erro", "Falha ao cadastrar: " + e.getMessage(), AlertType.ERROR);
             e.printStackTrace();
         }
     }
@@ -118,8 +121,8 @@ public class CadastroDentistaController {
         txtEspecialidade.clear();
     }
 
-    private void mostrarAlerta(String titulo, String mensagem) {
-        Alert alert = new Alert(AlertType.INFORMATION);
+    private void mostrarAlerta(String titulo, String mensagem, AlertType tipo) {
+        Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensagem);

@@ -63,7 +63,8 @@
             <TableColumn fx:id="colEspecialidade" prefWidth="150.0" text="Especialidade" />
             <TableColumn fx:id="colTelefone" prefWidth="120.0" text="Telefone" />
             <TableColumn fx:id="colExpediente" prefWidth="111.20001220703125" text="Expediente" />
-         <TableColumn fx:id="colFolgas" prefWidth="146.4000244140625" text="Dias de folga" />
+         <TableColumn fx:id="colFolgas" prefWidth="108.0" text="Dias de folga" />
+         <TableColumn fx:id="colAcoes" prefWidth="70.0" text="Ações" />
         </columns>
     </TableView>
 

@@ -6,6 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +31,7 @@ public class DentistaListController {
     @FXML private TableColumn<Dentista, String> colEspecialidade;
     @FXML private TableColumn<Dentista, String> colExpediente;
     @FXML private TableColumn<Dentista, String> colFolgas;
+    @FXML private TableColumn<Dentista, Void> colAcoes;
 
     private Cadastrador cadastrador;
 
@@ -74,6 +77,8 @@ public class DentistaListController {
         });
 
         preencherFiltroHorarios();
+
+        adicionarBotoesAcao();
     }
 
     private void preencherFiltroHorarios() {
@@ -137,5 +142,33 @@ public class DentistaListController {
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
+    }
+
+    private void adicionarBotoesAcao() {
+        Callback<TableColumn<Dentista, Void>, TableCell<Dentista, Void>> cellFactory = param -> new TableCell<>() {
+            private final Button btnDeletar = new Button("Deletar");
+            private final HBox pane = new HBox(5, btnDeletar);
+
+            {
+                btnDeletar.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+
+                btnDeletar.setOnAction(event -> {
+                    Dentista d = getTableView().getItems().get(getIndex());
+                    d.setInatividade(true);
+                    carregarListaDentistas();
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(pane);
+                }
+            }
+        };
+        colAcoes.setCellFactory(cellFactory);
     }
 }

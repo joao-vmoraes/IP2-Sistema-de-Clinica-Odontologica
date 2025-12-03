@@ -5,6 +5,7 @@ public class Procedimento {
     private String descricao;
     private double preco;
     private int duracaoEmMinutos;
+    private Boolean disponivel;
 
     //CONSTRUTORES
     public Procedimento(String nome, String descricao, double preco, int duracaoEmMinutos) {
@@ -12,6 +13,7 @@ public class Procedimento {
         this.descricao = descricao;
         this.preco = preco;
         this.duracaoEmMinutos = duracaoEmMinutos;
+        this.disponivel = true;
     }
 
     public Procedimento(String nome, double preco, int duracaoEmMinutos) {
@@ -19,6 +21,7 @@ public class Procedimento {
         this.descricao = null;
         this.preco = preco;
         this.duracaoEmMinutos = duracaoEmMinutos;
+        this.disponivel = true;
     }
 
     //MÉTODOS
@@ -36,5 +39,13 @@ public class Procedimento {
 
     public int getDuracaoEmMinutos() {
         return this.duracaoEmMinutos;
+    }
+
+    public Boolean taDisponivel() {
+        return this.disponivel;
+    }
+
+    public void setDisponibilidade(Boolean val) {
+        this.disponivel = val;
     }
 }

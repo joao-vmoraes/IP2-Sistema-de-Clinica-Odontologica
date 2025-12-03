@@ -5,7 +5,6 @@ import clinica.model.Paciente;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class CadastroPacienteController {
@@ -15,7 +14,6 @@ public class CadastroPacienteController {
     @FXML private TextField txtTelefone;
     @FXML private TextField txtEmail;
     @FXML private TextField txtEndereco;
-    @FXML private Button btnDeletar;
     
     private Cadastrador cadastrador;
 
@@ -26,7 +24,7 @@ public class CadastroPacienteController {
     @FXML
     private void acaoSalvar() {
         if (cadastrador == null) {
-            mostrarAlerta("Erro Crítico", "O serviço Cadastrador não foi injetado!");
+            mostrarAlerta("Erro Crítico", "O serviço Cadastrador não foi injetado!", AlertType.ERROR);
             return;
         }
 
@@ -37,32 +35,25 @@ public class CadastroPacienteController {
         String endereco = txtEndereco.getText();
 
         if (nome.isEmpty() || cpf.isEmpty()) {
-            mostrarAlerta("Atenção", "Nome e CPF são obrigatórios.");
+            mostrarAlerta("Atenção", "Nome e CPF são obrigatórios.", AlertType.INFORMATION);
             return;
         }
 
         try {
             Paciente novoPaciente = new Paciente(nome, cpf, telefone, email, endereco);
 
-            cadastrador.cadastrar(novoPaciente);
-
-            mostrarAlerta("Sucesso", "Paciente " + nome + " cadastrado com sucesso!");
-            limparCampos();
+            if(cadastrador.cadastrar(novoPaciente))
+            {
+                mostrarAlerta("Sucesso", "Paciente " + nome + " cadastrado com sucesso!", AlertType.INFORMATION);
+                limparCampos();
+            }else{
+                mostrarAlerta("Erro", "Falha ao cadastrar " + nome + "!", AlertType.ERROR);
+            }
 
         } catch (Exception e) {
-            mostrarAlerta("Erro", "Falha ao cadastrar: " + e.getMessage());
+            mostrarAlerta("Erro", "Falha ao cadastrar: " + e.getMessage(), AlertType.ERROR);
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    private void acaoDeletar() {
-        if (cadastrador == null) {
-            mostrarAlerta("Erro Crítico", "O serviço Cadastrador não foi injetado!");
-            return;
-        }
-        
-
     }
 
     private void limparCampos() {
@@ -73,8 +64,8 @@ public class CadastroPacienteController {
         txtEndereco.clear();
     }
 
-    private void mostrarAlerta(String titulo, String mensagem) {
-        Alert alert = new Alert(AlertType.INFORMATION);
+    private void mostrarAlerta(String titulo, String mensagem, AlertType tipo) {
+        Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensagem);

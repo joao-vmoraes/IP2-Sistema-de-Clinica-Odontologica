@@ -2,19 +2,28 @@ package clinica.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import clinica.model.Paciente;
 import clinica.model.Procedimento;
 
 public class ProcedimentoRepositorio {
     private List<Procedimento> procedimentos = new ArrayList<>();
 
     public void salvar(Procedimento procedimento) {
-        procedimentos.add(procedimento);
+        Procedimento existente = procurarProcedimento(procedimento.getNome());
+        if(existente == null)
+        {
+            procedimentos.add(procedimento);
+        }
+        else if(!existente.taDisponivel())
+        {
+            existente.setDisponibilidade(true);
+        }
     }
 
     public List<Procedimento> listarProcedimentos() {
-        return procedimentos;
+        List<Procedimento> procedimentosFiltrados = procedimentos.stream().filter(a -> a.taDisponivel()).collect(Collectors.toList());
+        return procedimentosFiltrados;
     }
 
     public Procedimento procurarProcedimento(String nomeProcedimento) {
@@ -27,7 +36,8 @@ public class ProcedimentoRepositorio {
     }
 
     public List<Procedimento> listarTodos() {
-        return new ArrayList<>(procedimentos);
+        List<Procedimento> procedimentosFiltrados = procedimentos.stream().filter(a -> a.taDisponivel()).collect(Collectors.toList());
+        return new ArrayList<>(procedimentosFiltrados);
     }
 
     public void atualizarProcedimento(Procedimento procedimento) {
@@ -39,6 +49,6 @@ public class ProcedimentoRepositorio {
     }
 
     public void deletarProcedimento(Procedimento procedimento) {
-        procedimentos.remove(procedimento);
+        procedimento.setDisponibilidade(false);
     }
 }

@@ -24,17 +24,20 @@ public class Cadastrador {
 
     // --- PACIENTE ---
 
-    public void cadastrar(Paciente paciente) {
+    public Boolean cadastrar(Paciente paciente) {
         if (paciente == null) {
             System.err.println("Erro: Paciente inválido.");
-            return;
+            return false;
         }
         Paciente existente = pacienteRepositorio.buscarPorCpf(paciente.getCpf());
-        if (existente == null) {
+        if (existente == null || existente.taInativo()) {
+            paciente.setInatividade(false);
             pacienteRepositorio.salvar(paciente);
             System.out.println("Paciente " + paciente.getNome() + " cadastrado com sucesso.");
+            return true;
         } else {
             System.err.println("Erro: Paciente com CPF " + paciente.getCpf() + " já existe.");
+            return false;
         }
     }
 
@@ -56,17 +59,19 @@ public class Cadastrador {
 
     // --- DENTISTA ---
 
-    public void cadastrar(Dentista dentista) {
+    public Boolean cadastrar(Dentista dentista) {
         if (dentista == null) {
             System.err.println("Erro: Dentista inválido.");
-            return;
+            return false;
         }
         Dentista existente = dentistaRepositorio.buscarPorCpf(dentista.getCpf());
         if (existente == null) {
             dentistaRepositorio.salvar(dentista);
             System.out.println("Dentista " + dentista.getNome() + " cadastrado com sucesso.");
+            return true;
         } else {
             System.err.println("Erro: Dentista com CPF " + dentista.getCpf() + " já existe.");
+            return false;
         }
     }
 
@@ -97,8 +102,8 @@ public class Cadastrador {
             System.err.println("Erro: Procedimento inválido.");
             return;
         }
+        
         procedimentoRepositorio.salvar(procedimento);
-        System.out.println("Procedimento adicionado ao catálogo.");
     }
 
     public void remover(Procedimento procedimento) {

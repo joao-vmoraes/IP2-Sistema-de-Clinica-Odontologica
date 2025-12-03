@@ -7,22 +7,21 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="clinica.view.UIController.PacienteListController">
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.PacienteListController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
-    <Label text="Pacientes Cadastrados" style="-fx-font-size: 18px;" />
+    <Label style="-fx-font-size: 18px;" text="Pacientes Cadastrados" />
 
     <TableView fx:id="tableViewPacientes" prefHeight="300.0" prefWidth="550.0">
         <columns>
             <TableColumn fx:id="colNome" prefWidth="150.0" text="Nome" />
             <TableColumn fx:id="colCpf" prefWidth="100.0" text="CPF" />
-            <TableColumn fx:id="colEmail" prefWidth="200.0" text="E-mail" />
+            <TableColumn fx:id="colEmail" prefWidth="169.5999755859375" text="E-mail" />
+         <TableColumn fx:id="colAcoes" prefWidth="129.5999755859375" text="Ações" />
         </columns>
     </TableView>
 
-    <Button text="Atualizar Lista" onAction="#carregarListaPacientes" />
+    <Button onAction="#carregarListaPacientes" text="Atualizar Lista" />
 </VBox>

@@ -17,9 +17,10 @@
     <TableView fx:id="tableViewProcedimentos" prefHeight="300.0" prefWidth="550.0">
         <columns>
             <TableColumn fx:id="colNome" prefWidth="117.60000228881836" text="Nome" />
-            <TableColumn fx:id="colDesc" prefWidth="182.3999786376953" text="Descricao" />
-         <TableColumn fx:id="colPreco" prefWidth="89.60003662109375" text="Preço" />
-            <TableColumn fx:id="colTempo" prefWidth="158.39999999999998" text="Tempo" />
+            <TableColumn fx:id="colDesc" prefWidth="161.6000518798828" text="Descricao" />
+         <TableColumn fx:id="colPreco" prefWidth="103.99993896484375" text="Preço" />
+            <TableColumn fx:id="colTempo" prefWidth="101.5999755859375" text="Tempo" />
+         <TableColumn fx:id="colAcoes" prefWidth="70.0" text="Ações" />
         </columns>
     </TableView>
 

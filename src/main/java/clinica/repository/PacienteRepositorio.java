@@ -2,6 +2,7 @@ package clinica.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import clinica.model.Paciente;
 
@@ -15,12 +16,14 @@ public class PacienteRepositorio {
     }
 
     public List<Paciente> listarTodos() {
-        return new ArrayList<>(pacientes);
+        List<Paciente> pacientesFiltrados = pacientes.stream().filter(a -> !a.taInativo()).collect(Collectors.toList());
+        return new ArrayList<>(pacientesFiltrados);
     }
 
     public Paciente buscarPorCpf(String cpf) {
         for (Paciente p : pacientes) {
-            if (p.getCpf().equals(cpf)) return p;
+            if (p.getCpf().equals(cpf))
+                return p;
         }
         return null;
     }
@@ -34,6 +37,6 @@ public class PacienteRepositorio {
     }
 
     public void deletar(Paciente paciente) {
-        paciente.desativarCadastro();
+        paciente.setInatividade(true);
     }
 }
