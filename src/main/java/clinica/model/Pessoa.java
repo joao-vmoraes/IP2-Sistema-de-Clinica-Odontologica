@@ -6,6 +6,7 @@ public abstract class Pessoa {
     protected String email;
     protected String endereco;
     protected String telefone;
+    protected Boolean inativo;
 
     // CONSTRUTOR
     public Pessoa(String nome, String cpf, String telefone, String email, String endereco) {
@@ -14,6 +15,11 @@ public abstract class Pessoa {
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
+        this.inativo = false;
+    }
+    
+    public void desativarCadastro() {
+        this.inativo = true;
     }
 
     public String getNome() {

@@ -34,6 +34,6 @@ public class PacienteRepositorio {
     }
 
     public void deletar(Paciente paciente) {
-        pacientes.remove(paciente);
+        paciente.desativarCadastro();
     }
 }

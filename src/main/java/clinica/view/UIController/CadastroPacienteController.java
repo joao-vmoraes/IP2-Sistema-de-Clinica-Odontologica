@@ -5,6 +5,7 @@ import clinica.model.Paciente;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class CadastroPacienteController {
@@ -14,7 +15,8 @@ public class CadastroPacienteController {
     @FXML private TextField txtTelefone;
     @FXML private TextField txtEmail;
     @FXML private TextField txtEndereco;
-
+    @FXML private Button btnDeletar;
+    
     private Cadastrador cadastrador;
 
     public void setCadastrador(Cadastrador cadastrador) {
@@ -51,6 +53,16 @@ public class CadastroPacienteController {
             mostrarAlerta("Erro", "Falha ao cadastrar: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void acaoDeletar() {
+        if (cadastrador == null) {
+            mostrarAlerta("Erro Crítico", "O serviço Cadastrador não foi injetado!");
+            return;
+        }
+        
+
     }
 
     private void limparCampos() {
