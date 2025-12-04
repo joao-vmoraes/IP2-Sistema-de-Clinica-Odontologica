@@ -56,7 +56,7 @@ public class CadastroPacienteController {
             return;
         }
 
-        if(!email.endsWith(".com") && !email.endsWith(".br") && !email.endsWith(".org"))
+        if((!email.endsWith(".com") && !email.endsWith(".br") && !email.endsWith(".org")) || !email.contains("@"))
         {
             mostrarAlerta("Atenção", "Email Inválido", AlertType.ERROR);
             return;
