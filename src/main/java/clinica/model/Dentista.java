@@ -2,6 +2,7 @@ package clinica.model;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,9 +15,6 @@ import clinica.enums.StatusDentista;
 public class Dentista extends Pessoa {
     private String especialidade;
     private StatusDentista status;
-    private LocalTime horarioTrabalhoInicio;
-    private LocalTime horarioTrabalhoFim;
-    private List<DayOfWeek> diasDeFolga = new ArrayList<>();
 
     private Map<DayOfWeek, List<LocalTime>> gradeDisponibilidade = new HashMap<>();
     private Map<LocalDate, String> periodosAusencia = new HashMap<>();
@@ -26,15 +24,6 @@ public class Dentista extends Pessoa {
         super(nome, cpf, telefone, email, endereco);
         this.especialidade = especialidade;
         this.status = StatusDentista.DISPONIVEL;
-    }
-
-    public Dentista(String nome, String cpf, String telefone, String email, String endereco, String especialidade, LocalTime inicio, LocalTime fim, DayOfWeek folga) {
-        super(nome, cpf, telefone, email, endereco);
-        this.especialidade = especialidade;
-        this.status = StatusDentista.DISPONIVEL;
-        this.horarioTrabalhoInicio = inicio;
-        this.horarioTrabalhoFim = fim;
-        this.diasDeFolga.add(folga);
     }
 
     public void configurarHorarios(List<String> listaHorariosTexto) {
@@ -84,16 +73,36 @@ public class Dentista extends Pessoa {
     }
 
 
-    public LocalTime getHorarioTrabalhoInicio() {
-        return this.horarioTrabalhoInicio;
+    public LocalTime getHorarioTrabalhoInicio(DayOfWeek leDia) {
+        
+        List<LocalTime> hora = this.gradeDisponibilidade.get(leDia);
+        return hora == null ? null : hora.getFirst();
     }
 
-    public LocalTime getHorarioTrabalhoFim() {
-        return this.horarioTrabalhoFim;
+    public LocalTime getHorarioTrabalhoFim(DayOfWeek leDia) {
+        List<LocalTime> hora = this.gradeDisponibilidade.get(leDia);
+        return hora == null ? null : hora.getLast();
     }
 
     public List<DayOfWeek> getDiasDeFolga() {
-        return this.diasDeFolga;
+        List<DayOfWeek> dias = new ArrayList();
+        dias.add(DayOfWeek.MONDAY);
+        dias.add(DayOfWeek.TUESDAY);
+        dias.add(DayOfWeek.WEDNESDAY);
+        dias.add(DayOfWeek.THURSDAY);
+        dias.add(DayOfWeek.FRIDAY);
+        dias.add(DayOfWeek.SATURDAY);
+        dias.add(DayOfWeek.SUNDAY);
+
+        List<DayOfWeek> diasFaltano = new ArrayList();
+        for(int i = 0; i < 6; i++)
+        {
+            if(!this.gradeDisponibilidade.containsKey(dias.get(i)))
+            {
+                diasFaltano.add(dias.get(i));
+            }
+        }
+        return diasFaltano;
     }
 
     public StatusDentista getStatus() {
@@ -104,7 +113,7 @@ public class Dentista extends Pessoa {
 
 
 
-    public void AdicionarDiaDeFolga(DayOfWeek leDia) {
+    /*public void AdicionarDiaDeFolga(DayOfWeek leDia) {
         if(!this.diasDeFolga.contains(leDia))
             this.diasDeFolga.add(leDia);
         else
@@ -116,7 +125,7 @@ public class Dentista extends Pessoa {
             this.diasDeFolga.remove(leDia);
         else
             System.err.println("Dia nao esta registrado como folga.");
-    }
+    }*/
 
     public void setStatus(StatusDentista status) {
         this.status = status;
@@ -132,5 +141,16 @@ public class Dentista extends Pessoa {
 
     public boolean estaAusente(LocalDate data) {
         return periodosAusencia.containsKey(data);
+    }
+
+    public boolean estaDisponivel(LocalTime hora, DayOfWeek dia) {
+        if(!this.gradeDisponibilidade.containsKey(dia))
+            return false;
+
+        List<LocalTime> laHora = this.gradeDisponibilidade.get(dia);
+        if(!laHora.contains(hora))
+            return false;
+
+        return true;
     }
 }

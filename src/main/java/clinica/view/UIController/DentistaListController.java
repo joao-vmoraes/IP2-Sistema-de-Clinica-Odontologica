@@ -119,13 +119,17 @@ public class DentistaListController {
                     .collect(Collectors.toList());
         }
 
-        String horaSelecionada = comboFiltroHorario.getValue();
-        if (horaSelecionada != null) {
-            LocalTime horario = LocalTime.parse(horaSelecionada);
-            filtrados = filtrados.stream()
-                    .filter(d -> !horario.isBefore(d.getHorarioTrabalhoInicio()) &&
-                            horario.isBefore(d.getHorarioTrabalhoFim()))
-                    .collect(Collectors.toList());
+        DayOfWeek[] diasSemana = DayOfWeek.values();
+        for(DayOfWeek dia : diasSemana)
+        {
+            String horaSelecionada = comboFiltroHorario.getValue();
+            if (horaSelecionada != null) {
+                LocalTime horario = LocalTime.parse(horaSelecionada);
+                filtrados = filtrados.stream()
+                        .filter(d -> !horario.isBefore(d.getHorarioTrabalhoInicio(dia)) &&
+                                horario.isBefore(d.getHorarioTrabalhoFim(dia)))
+                        .collect(Collectors.toList());
+            }
         }
 
         tableViewDentistas.setItems(FXCollections.observableArrayList(filtrados));

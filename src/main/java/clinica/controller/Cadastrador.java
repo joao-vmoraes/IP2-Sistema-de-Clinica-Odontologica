@@ -1,5 +1,7 @@
 package clinica.controller;
 
+import java.time.DayOfWeek;
+
 import clinica.model.Dentista;
 import clinica.model.Paciente;
 import clinica.model.Procedimento;
@@ -87,8 +89,8 @@ public class Cadastrador {
         return dentistaRepositorio.listarTodos();
     }
 
-    public List<Dentista> buscarDentistasPorDisponibilidade(LocalTime horario) {
-        return dentistaRepositorio.buscarPorDisponibilidadeHorario(horario);
+    public List<Dentista> buscarDentistasPorDisponibilidade(LocalTime horario, DayOfWeek dia) {
+        return dentistaRepositorio.buscarPorDisponibilidadeHorario(horario, dia);
     }
 
     public List<Dentista> buscarDentistasPorCpfParcial(String termo) {

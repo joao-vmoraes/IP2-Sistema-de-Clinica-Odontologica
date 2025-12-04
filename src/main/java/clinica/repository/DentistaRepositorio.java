@@ -1,5 +1,7 @@
 package clinica.repository;
 
+import java.time.DayOfWeek;
+
 import clinica.model.Dentista;
 
 import java.time.LocalTime;
@@ -38,13 +40,13 @@ public class DentistaRepositorio {
 
     // NOVO: Busca por disponibilidade de horário
     // Verifica se o dentista trabalha naquele horário (não verifica agendamentos aqui, apenas expediente)
-    public List<Dentista> buscarPorDisponibilidadeHorario(LocalTime horario) {
+    public List<Dentista> buscarPorDisponibilidadeHorario(LocalTime horario, DayOfWeek dia) {
         return dentistas.stream()
                 .filter(d -> {
                     // Se o horário buscado está dentro do expediente
                     // (horario >= inicio E horario < fim)
-                    return !horario.isBefore(d.getHorarioTrabalhoInicio()) &&
-                            horario.isBefore(d.getHorarioTrabalhoFim());
+                    return !horario.isBefore(d.getHorarioTrabalhoInicio(dia)) &&
+                            horario.isBefore(d.getHorarioTrabalhoFim(dia));
                 })
                 .collect(Collectors.toList());
     }

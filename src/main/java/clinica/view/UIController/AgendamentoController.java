@@ -78,7 +78,8 @@ public class AgendamentoController {
                 comboDentista.getValue(),
                 comboProcedimento.getValue(),
                 dataHora,
-                sala
+                sala,
+                data.getDayOfWeek()
         );
 
         if (sucesso) {

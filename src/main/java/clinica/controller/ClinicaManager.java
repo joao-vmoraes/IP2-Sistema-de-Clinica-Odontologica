@@ -1,5 +1,7 @@
 package clinica.controller;
 
+import java.time.DayOfWeek;
+
 import clinica.enums.StatusAgendamento;
 import clinica.model.*;
 import clinica.repository.AgendamentoRepositorio;
@@ -24,8 +26,8 @@ public class ClinicaManager {
 
     // --- AGENDAMENTOS ---
 
-    public boolean marcarAgendamento(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String sala) {
-        if (!verificarDisponibilidadeDentista(dentista, dataHora, procedimento.getDuracaoEmMinutos())) {
+    public boolean marcarAgendamento(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String sala, DayOfWeek dia) {
+        if (!verificarDisponibilidadeDentista(dentista, dataHora, procedimento.getDuracaoEmMinutos(), dia)) {
             System.out.println("Erro: Dentista indisponível neste horário.");
             return false;
         }
@@ -40,10 +42,10 @@ public class ClinicaManager {
         agendamento.setStatus(StatusAgendamento.CANCELADO);
     }
 
-    public boolean verificarDisponibilidadeDentista(Dentista dentista, LocalDateTime dataHora, int duracaoMinutos) {
+    public boolean verificarDisponibilidadeDentista(Dentista dentista, LocalDateTime dataHora, int duracaoMinutos, DayOfWeek dia) {
         // 1. Verificar horário de expediente
-        if (dataHora.toLocalTime().isBefore(dentista.getHorarioTrabalhoInicio()) ||
-                dataHora.toLocalTime().plusMinutes(duracaoMinutos).isAfter(dentista.getHorarioTrabalhoFim())) {
+        if (dataHora.toLocalTime().isBefore(dentista.getHorarioTrabalhoInicio(dia)) ||
+                dataHora.toLocalTime().plusMinutes(duracaoMinutos).isAfter(dentista.getHorarioTrabalhoFim(dia))) {
             return false;
         }
 

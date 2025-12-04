@@ -50,24 +50,24 @@ public class App extends Application {
 
 
         Paciente p1 = new Paciente("João da Silva", "111.222.333-44", "9999-8888", "clinicaufrpeodontologica@email.com", "Rua Alfa");
-        Dentista d1 = new Dentista("Dra. Ana", "555.666.777-88", "8888-9999", "ana@clinica.com", "Rua Beta", "Clínico Geral", LocalTime.of(8,0), LocalTime.of(17,0), DayOfWeek.SUNDAY);
+        //Dentista d1 = new Dentista("Dra. Ana", "555.666.777-88", "8888-9999", "ana@clinica.com", "Rua Beta", "Clínico Geral");
         Procedimento proc = new Procedimento("Extração", 150.00, 60);
 
         cadastrador.cadastrar(p1);
-        cadastrador.cadastrar(d1);
+        //cadastrador.cadastrar(d1);
         cadastrador.cadastrar(proc);
 
         // Marcação do Agendamento (para amanhã)
         LocalDateTime dataConsulta = LocalDate.now().plusDays(1).atTime(LocalTime.of(10, 0));
 
         System.out.println("\nTentando marcar agendamento de teste para: " + dataConsulta);
-        boolean sucesso = clinicaManager.marcarAgendamento(p1, d1, proc, dataConsulta, "Consultório 1");
+        /*boolean sucesso = clinicaManager.marcarAgendamento(p1, d1, proc, dataConsulta, "Consultório 1", DayOfWeek.MONDAY);
 
         if (sucesso) {
             System.out.println("Agendamento de teste criado e salvo no repositório.");
         } else {
             System.err.println("Falha ao criar o agendamento de teste.");
-        }
+        }*/
 
         System.out.println("Executando o Notificador para enviar e-mail...");
         notificador.verificarEEnviarLembretes();
