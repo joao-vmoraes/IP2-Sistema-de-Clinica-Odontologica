@@ -10,11 +10,14 @@ C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\App.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Atendimento.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\MainLauncher.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\controller\Cadastrador.java
+C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\controller\Notificador.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\CadastroPacienteController.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\PacienteListController.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Pessoa.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\repository\PacienteRepositorio.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\CadastroDentistaController.java
+C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\RelatorioController.java
+C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\controller\Exportador.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\CadastroProcedimentoController.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\enums\MetodoPagamento.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\PagamentoController.java
@@ -24,6 +27,7 @@ C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\repository\DentistaReposit
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\AgendamentoController.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Dentista.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\repository\ProcedimentoRepositorio.java
+C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\controller\EmailService.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\enums\StatusAgendamento.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\view\UIController\MainController.java
 C:\Users\JM\Desktop\IP2 Clinica\src\main\java\clinica\model\Pagamento.java

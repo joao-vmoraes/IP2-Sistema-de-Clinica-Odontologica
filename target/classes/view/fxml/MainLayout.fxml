@@ -35,11 +35,6 @@
                   <MenuItem mnemonicParsing="false" onAction="#loadPagamentoList" text="Consultar Pagamentos" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Ajuda">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Sobre" />
-                    </items>
-                </Menu>
                 <Menu mnemonicParsing="false" text="Relatórios">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#loadRelatorios" text="Central de Relatórios" />
