@@ -1,5 +1,6 @@
 package clinica;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import javafx.application.Application;
@@ -41,7 +42,7 @@ public class App extends Application {
         ClinicaManager clinicaManager = new ClinicaManager(agendamentoRepo, dentistaRepo, pacienteRepo, atendimentoRepo, pagamentoRepo);
 
         Paciente p1 = new Paciente("João da Silva", "111.222.333-44", "9999-8888", "joao@email.com", "Rua Alfa");
-        Dentista d1 = new Dentista("Dra. Ana", "555.666.777-88", "8888-9999", "ana@clinica.com", "Rua Beta", "Clínico Geral", LocalTime.of(8,0), LocalTime.of(17,0), DiasSemana.Domingo);
+        Dentista d1 = new Dentista("Dra. Ana", "555.666.777-88", "8888-9999", "ana@clinica.com", "Rua Beta", "Clínico Geral", LocalTime.of(8,0), LocalTime.of(17,0), DayOfWeek.SUNDAY);
         Procedimento proc = new Procedimento("Extração", 150.00, 60);
 
         cadastrador.cadastrar(p1);

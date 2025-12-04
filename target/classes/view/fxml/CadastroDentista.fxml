@@ -2,19 +2,15 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.CadastroDentistaController">
+<AnchorPane prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.CadastroDentistaController">
     <children>
-        <VBox alignment="TOP_CENTER" layoutX="100.0" layoutY="20.0" prefHeight="360.0" prefWidth="400.0" spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="20.0">
+        <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="20.0" spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
             <children>
                 <Label text="Novo Cadastro de Dentista">
                     <font>
@@ -27,169 +23,28 @@
                 <TextField fx:id="txtTelefone" promptText="Telefone" />
                 <TextField fx:id="txtEmail" promptText="E-mail" />
                 <TextField fx:id="txtEndereco" promptText="Endereço Residencial" />
-            <TextField fx:id="txtEspecialidade" layoutX="30.0" layoutY="239.0" promptText="Especialidade" />
-            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <VBox prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <VBox prefHeight="83.0" prefWidth="213.0">
-                           <children>
-                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label contentDisplay="CENTER" text="Horarios" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label alignment="CENTER_RIGHT" prefHeight="22.0" prefWidth="62.0" text="Inicial" textAlignment="RIGHT">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Label>
-                                    <ComboBox fx:id="timeInicial" prefWidth="150.0">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                    </ComboBox>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label alignment="CENTER_RIGHT" prefHeight="22.0" prefWidth="58.0" text="Final">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </Label>
-                                    <ComboBox fx:id="timeFinal" prefHeight="26.0" prefWidth="150.0">
-                                       <HBox.margin>
-                                          <Insets left="15.0" />
-                                       </HBox.margin>
-                                    </ComboBox>
-                                 </children>
-                                 <padding>
-                                    <Insets top="10.0" />
-                                 </padding>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="73.0" prefWidth="150.0">
-                     <children>
-                        <Label alignment="CENTER" prefHeight="22.0" prefWidth="188.0" text="Dias de Folga" textAlignment="CENTER">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <VBox prefHeight="33.0" prefWidth="1.0">
-                                 <children>
-                                    <Label alignment="CENTER" prefHeight="15.0" prefWidth="16.0" text="D" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="10.0" />
-                                       </font>
-                                    </Label>
-                                    <Separator prefWidth="200.0" />
-                                    <CheckBox fx:id="checkDom" mnemonicParsing="false" selected="true" />
-                                 </children>
-                              </VBox>
-                              <Separator opacity="0.0" orientation="VERTICAL" prefHeight="200.0" />
-                              <VBox layoutX="10.0" layoutY="10.0" prefHeight="33.0" prefWidth="1.0">
-                                 <children>
-                                    <Label alignment="CENTER" prefHeight="15.0" prefWidth="16.0" text="S" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="10.0" />
-                                       </font>
-                                    </Label>
-                                    <Separator prefWidth="200.0" />
-                                    <CheckBox fx:id="checkSeg" mnemonicParsing="false" />
-                                 </children>
-                              </VBox>
-                              <Separator opacity="0.0" orientation="VERTICAL" prefHeight="200.0" />
-                              <VBox layoutX="33.0" layoutY="10.0" prefHeight="33.0" prefWidth="1.0">
-                                 <children>
-                                    <Label alignment="CENTER" prefHeight="15.0" prefWidth="16.0" text="T" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="10.0" />
-                                       </font>
-                                    </Label>
-                                    <Separator prefWidth="200.0" />
-                                    <CheckBox fx:id="checkTer" mnemonicParsing="false" />
-                                 </children>
-                              </VBox>
-                              <Separator layoutX="50.0" layoutY="10.0" opacity="0.0" orientation="VERTICAL" prefHeight="200.0" />
-                              <VBox layoutX="50.0" layoutY="10.0" prefHeight="33.0" prefWidth="1.0">
-                                 <children>
-                                    <Label alignment="CENTER" prefHeight="15.0" prefWidth="16.0" text="Q" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="10.0" />
-                                       </font>
-                                    </Label>
-                                    <Separator prefWidth="200.0" />
-                                    <CheckBox fx:id="checkQua" mnemonicParsing="false" />
-                                 </children>
-                              </VBox>
-                              <Separator layoutX="73.0" layoutY="10.0" opacity="0.0" orientation="VERTICAL" prefHeight="200.0" />
-                              <VBox layoutX="67.0" layoutY="10.0" prefHeight="33.0" prefWidth="1.0">
-                                 <children>
-                                    <Label alignment="CENTER" prefHeight="15.0" prefWidth="16.0" text="Q" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="10.0" />
-                                       </font>
-                                    </Label>
-                                    <Separator prefWidth="200.0" />
-                                    <CheckBox fx:id="checkQui" mnemonicParsing="false" />
-                                 </children>
-                              </VBox>
-                              <Separator layoutX="96.0" layoutY="10.0" opacity="0.0" orientation="VERTICAL" prefHeight="200.0" />
-                              <VBox layoutX="84.0" layoutY="10.0" prefHeight="33.0" prefWidth="1.0">
-                                 <children>
-                                    <Label alignment="CENTER" prefHeight="15.0" prefWidth="16.0" text="S" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="10.0" />
-                                       </font>
-                                    </Label>
-                                    <Separator prefWidth="200.0" />
-                                    <CheckBox fx:id="checkSex" mnemonicParsing="false" />
-                                 </children>
-                              </VBox>
-                              <Separator layoutX="120.0" layoutY="10.0" opacity="0.0" orientation="VERTICAL" prefHeight="200.0" />
-                              <VBox layoutX="100.0" layoutY="10.0" prefHeight="33.0" prefWidth="1.0">
-                                 <children>
-                                    <Label alignment="CENTER" prefHeight="15.0" prefWidth="16.0" text="S" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="10.0" />
-                                       </font>
-                                    </Label>
-                                    <Separator prefWidth="200.0" />
-                                    <CheckBox fx:id="checkSab" mnemonicParsing="false" />
-                                 </children>
-                              </VBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets top="5.0" />
-                           </VBox.margin>
-                        </HBox>
-                     </children>
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </VBox>
-               </children>
-            </HBox>
+                <TextField fx:id="txtEspecialidade" promptText="Especialidade" />
 
-                <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#acaoSalvar" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="SALVAR CADASTRO">
+                <Label text="Grade de Disponibilidade" textFill="#666666">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Label>
+
+                <!-- AQUI É ONDE A MÁGICA ACONTECE -->
+                <!-- Este container receberá a tabela gerada pelo Java -->
+                <VBox fx:id="containerGradeHorarios" alignment="CENTER" prefHeight="300.0" prefWidth="400.0" style="-fx-border-color: #dddddd; -fx-border-radius: 5;" />
+                
+                <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#acaoSalvar" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="SALVAR CADASTRO">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
                 </Button>
             </children>
             <padding>

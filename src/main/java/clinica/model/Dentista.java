@@ -16,25 +16,66 @@ public class Dentista extends Pessoa {
     private StatusDentista status;
     private LocalTime horarioTrabalhoInicio;
     private LocalTime horarioTrabalhoFim;
-    private List<DiasSemana> diasDeFolga = new ArrayList<>();
+    private List<DayOfWeek> diasDeFolga = new ArrayList<>();
+
+    private Map<DayOfWeek, List<LocalTime>> gradeDisponibilidade = new HashMap<>();
     private Map<LocalDate, String> periodosAusencia = new HashMap<>();
 
     //CONSTRUTOR
-    public Dentista(String nome, String cpf, String telefone, String email, String endereco, String especialidade, LocalTime inicio, LocalTime fim) {
+    public Dentista(String nome, String cpf, String telefone, String email, String endereco, String especialidade) {
         super(nome, cpf, telefone, email, endereco);
         this.especialidade = especialidade;
         this.status = StatusDentista.DISPONIVEL;
-        this.horarioTrabalhoInicio = inicio;
-        this.horarioTrabalhoFim = fim;
     }
 
-    public Dentista(String nome, String cpf, String telefone, String email, String endereco, String especialidade, LocalTime inicio, LocalTime fim, DiasSemana folga) {
+    public Dentista(String nome, String cpf, String telefone, String email, String endereco, String especialidade, LocalTime inicio, LocalTime fim, DayOfWeek folga) {
         super(nome, cpf, telefone, email, endereco);
         this.especialidade = especialidade;
         this.status = StatusDentista.DISPONIVEL;
         this.horarioTrabalhoInicio = inicio;
         this.horarioTrabalhoFim = fim;
         this.diasDeFolga.add(folga);
+    }
+
+    public void configurarHorarios(List<String> listaHorariosTexto) {
+        // Limpa horários antigos
+        this.gradeDisponibilidade.clear();
+
+        for (String item : listaHorariosTexto) {
+            // item vem como "Seg;08:00" ou "Qui;14:00"
+            String[] partes = item.split(";");
+            if (partes.length < 2) continue;
+
+            String diaTexto = partes[0];
+            String horaTexto = partes[1];
+
+            DayOfWeek diaSemana = converterDia(diaTexto);
+            LocalTime horario = LocalTime.parse(horaTexto);
+
+            // Adiciona na lista correta dentro do Mapa
+            this.gradeDisponibilidade.putIfAbsent(diaSemana, new ArrayList<>());
+            this.gradeDisponibilidade.get(diaSemana).add(horario);
+        }
+    }
+
+    public boolean atendeNesteHorario(DiasSemana dia, LocalTime hora) {
+        if (!gradeDisponibilidade.containsKey(dia)) {
+            return false;
+        }
+        return gradeDisponibilidade.get(dia).contains(hora);
+    }
+
+    private DayOfWeek converterDia(String diaCurto) {
+        switch (diaCurto) {
+            case "Seg": return DayOfWeek.MONDAY;
+            case "Ter": return DayOfWeek.TUESDAY;
+            case "Qua": return DayOfWeek.WEDNESDAY;
+            case "Qui": return DayOfWeek.THURSDAY;
+            case "Sex": return DayOfWeek.FRIDAY;
+            case "Sáb": return DayOfWeek.SATURDAY;
+            case "Dom": return DayOfWeek.SUNDAY;
+            default: return DayOfWeek.MONDAY; // Fallback
+        }
     }
 
     //Getters e Setters
@@ -51,7 +92,7 @@ public class Dentista extends Pessoa {
         return this.horarioTrabalhoFim;
     }
 
-    public List<DiasSemana> getDiasDeFolga() {
+    public List<DayOfWeek> getDiasDeFolga() {
         return this.diasDeFolga;
     }
 
@@ -63,7 +104,7 @@ public class Dentista extends Pessoa {
 
 
 
-    public void AdicionarDiaDeFolga(DiasSemana leDia) {
+    public void AdicionarDiaDeFolga(DayOfWeek leDia) {
         if(!this.diasDeFolga.contains(leDia))
             this.diasDeFolga.add(leDia);
         else
@@ -75,6 +116,14 @@ public class Dentista extends Pessoa {
             this.diasDeFolga.remove(leDia);
         else
             System.err.println("Dia nao esta registrado como folga.");
+    }
+
+    public void setStatus(StatusDentista status) {
+        this.status = status;
+    }
+
+    public Map<DayOfWeek, List<LocalTime>> getGradeDisponibilidade() {
+        return this.gradeDisponibilidade;
     }
 
     public void registrarAusencia(LocalDate data, String motivo) {

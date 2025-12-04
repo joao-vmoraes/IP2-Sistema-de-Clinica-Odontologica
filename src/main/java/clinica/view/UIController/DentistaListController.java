@@ -9,10 +9,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import clinica.controller.Cadastrador;
@@ -47,33 +51,43 @@ public class DentistaListController {
         colTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
         colEspecialidade.setCellValueFactory(new PropertyValueFactory<>("especialidade"));
 
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm");
         colExpediente.setCellValueFactory(cellData -> {
             Dentista d = cellData.getValue();
-            if (d.getHorarioTrabalhoInicio() != null && d.getHorarioTrabalhoFim() != null) {
-                return new SimpleStringProperty(
-                        d.getHorarioTrabalhoInicio().format(fmt) + " às " +
-                                d.getHorarioTrabalhoFim().format(fmt)
-                );
-            }
-            return new SimpleStringProperty("-");
-        });
+            Map<DayOfWeek, List<LocalTime>> grade = d.getGradeDisponibilidade();
 
+            if (grade == null || grade.isEmpty()) {
+                return new SimpleStringProperty("Sem grade");
+            }
+
+            String diasTrabalhados = grade.keySet().stream()
+                .sorted()
+                .map(dia -> dia.getDisplayName(TextStyle.SHORT, new Locale("pt", "BR")))
+                .collect(Collectors.joining(", "));
+
+            return new SimpleStringProperty(diasTrabalhados);
+        });
+        
         colFolgas.setCellValueFactory(cellData -> {
             Dentista d = cellData.getValue();
-            List<DiasSemana> leDias = d.getDiasDeFolga();
-
-            if(!leDias.isEmpty())
-            {
-                String texto = "|";
-                for(int i = 0; i < leDias.size(); i++)
-                {
-                    texto += " " + leDias.get(i).toString() + " |";
+            Map<DayOfWeek, List<LocalTime>> grade = d.getGradeDisponibilidade();
+            
+            List<String> diasFolga = new ArrayList<>();
+            
+            // Verifica todos os dias da semana
+            for (DayOfWeek dia : DayOfWeek.values()) {
+                // Se o dia NÃO está na grade, é folga
+                if (grade == null || !grade.containsKey(dia)) {
+                    diasFolga.add(dia.getDisplayName(TextStyle.SHORT, new Locale("pt", "BR")));
                 }
-                return new SimpleStringProperty(texto);
-            }else{
-                return new SimpleStringProperty("Disponível todos os dias.");
             }
+
+            if (diasFolga.isEmpty()) {
+                return new SimpleStringProperty("Atende todos os dias");
+            } else if (diasFolga.size() == 7) {
+                return new SimpleStringProperty("Sem expediente");
+            }
+
+            return new SimpleStringProperty(String.join(", ", diasFolga));
         });
 
         preencherFiltroHorarios();
