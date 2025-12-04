@@ -4,23 +4,25 @@ import clinica.enums.StatusAgendamento;
 import java.time.LocalDateTime;
 
 public class Agendamento {
-    private Integer id; // Opcional, mas útil
+    private Integer id;
     private Paciente paciente;
     private Dentista dentista;
     private Procedimento procedimento;
     private LocalDateTime dataHora;
+    private LocalDateTime dataHoraConclusao;
     private StatusAgendamento status;
     private String sala;
-    private boolean pago; // NOVO CAMPO: Status financeiro deste agendamento específico
+    private boolean pago;
 
     public Agendamento(Paciente paciente, Dentista dentista, Procedimento procedimento, LocalDateTime dataHora, String sala) {
         this.paciente = paciente;
         this.dentista = dentista;
         this.procedimento = procedimento;
         this.dataHora = dataHora;
+        this.dataHoraConclusao = null;
         this.sala = sala;
         this.status = StatusAgendamento.PLANEJADO;
-        this.pago = false; // Todo agendamento começa como não pago
+        this.pago = false;
     }
 
     // --- Getters e Setters ---
@@ -61,6 +63,10 @@ public class Agendamento {
         return dataHora;
     }
 
+    public LocalDateTime getDataHoraDone() {
+        return this.dataHoraConclusao;
+    }
+
     public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
@@ -81,10 +87,12 @@ public class Agendamento {
         this.sala = sala;
     }
 
-    // Sobrescreve toString para facilitar exibição em ComboBoxes (usado no PagamentoController)
+    public void AnotarDataConclusao() {
+        this.dataHoraConclusao = LocalDateTime.now();
+    }
+
     @Override
     public String toString() {
-        // Exemplo: "10/12 - Canal (João Silva)"
         return dataHora.getDayOfMonth() + "/" + dataHora.getMonthValue() + " - " +
                 (procedimento != null ? procedimento.getNome() : "Consulta") +
                 " (" + paciente.getNome() + ")";

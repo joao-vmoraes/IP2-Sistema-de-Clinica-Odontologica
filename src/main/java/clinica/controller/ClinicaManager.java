@@ -13,15 +13,11 @@ import java.util.List;
 
 public class ClinicaManager {
     private AgendamentoRepositorio agendamentoRepo;
-    private DentistaRepositorio dentistaRepo;
-    private PacienteRepositorio pacienteRepo;
     private AtendimentoRepositorio atendimentoRepo;
     private PagamentoRepositorio pagamentoRepo;
 
     public ClinicaManager(AgendamentoRepositorio agendamentoRepo, DentistaRepositorio dentistaRepo, PacienteRepositorio pacienteRepo, AtendimentoRepositorio atendimentoRepo, PagamentoRepositorio pagamentoRepo) {
         this.agendamentoRepo = agendamentoRepo;
-        this.dentistaRepo = dentistaRepo;
-        this.pacienteRepo = pacienteRepo;
         this.atendimentoRepo = atendimentoRepo;
         this.pagamentoRepo = pagamentoRepo;
     }

@@ -14,11 +14,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class AgendamentoListController {
 
     @FXML private TextField txtPesquisaCpf;
     @FXML private TableView<Agendamento> tableViewAgendamentos;
     @FXML private TableColumn<Agendamento, String> colDataHora;
+    @FXML private TableColumn<Agendamento, String> colDataHoraDone;
     @FXML private TableColumn<Agendamento, String> colPaciente;
     @FXML private TableColumn<Agendamento, String> colDentista;
     @FXML private TableColumn<Agendamento, String> colProcedimento;
@@ -41,6 +44,13 @@ public class AgendamentoListController {
 
         colDataHora.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleStringProperty(cellData.getValue().getDataHora().format(dtf)));
+
+        colDataHoraDone.setCellValueFactory(cellData -> {
+                if(cellData.getValue().getDataHoraDone() == null)
+                    return new SimpleStringProperty("N/A");
+                else
+                    return new SimpleStringProperty(cellData.getValue().getDataHoraDone().format(dtf));
+            });
 
         colPaciente.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleStringProperty(cellData.getValue().getPaciente().getNome()));
@@ -72,16 +82,19 @@ public class AgendamentoListController {
 
                 btnAtender.setOnAction(event -> {
                     Agendamento ag = getTableView().getItems().get(getIndex());
-                    if(ag.getStatus() != StatusAgendamento.CANCELADO) {
+                    if(ag.getStatus() != StatusAgendamento.CANCELADO && ag.getStatus() != StatusAgendamento.CONCLUIDO) {
                         mainController.loadAtendimento(ag);
                     } else {
-                        mostrarAlerta("Aviso", "Não é possível atender agendamento cancelado.");
+                        mostrarAlerta("Aviso", "Não é possível atender o agendamento.");
                     }
                 });
 
                 btnCancelar.setOnAction(event -> {
                     Agendamento ag = getTableView().getItems().get(getIndex());
-                    confirmarCancelamento(ag);
+                    if(ag.getStatus() != StatusAgendamento.CANCELADO && ag.getStatus() != StatusAgendamento.CONCLUIDO && !ag.isPago())
+                        confirmarCancelamento(ag);
+                    else
+                        mostrarAlerta("Aviso", "Não é possível cancelar o agendamento.");
                 });
             }
 

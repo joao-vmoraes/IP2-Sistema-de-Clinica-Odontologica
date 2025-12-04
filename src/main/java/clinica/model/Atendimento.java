@@ -21,6 +21,7 @@ public class Atendimento {
         this.procedimentoRealizado = procedimento;
         this.horaFimReal = LocalDateTime.now();
         this.agendamentoOriginal.setStatus(StatusAgendamento.CONCLUIDO);
+        this.agendamentoOriginal.AnotarDataConclusao();
     }
 
     public Agendamento getAgendamentoOriginal() {
