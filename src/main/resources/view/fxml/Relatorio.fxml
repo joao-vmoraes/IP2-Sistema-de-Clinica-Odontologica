@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clinica.view.UIController.RelatorioController">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+
+    <Label text="Gerador de Relatórios" textFill="#2c3e50">
+        <font>
+            <Font name="System Bold" size="22.0" />
+        </font>
+    </Label>
+
+    <Separator prefWidth="200.0" />
+
+    <VBox spacing="5.0" alignment="CENTER_LEFT" maxWidth="400.0">
+        <Label text="1. Tipo de Relatório:" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="comboTipoRelatorio" prefWidth="400.0" promptText="Selecione o tipo..." />
+    </VBox>
+
+    <VBox spacing="5.0" alignment="CENTER_LEFT" maxWidth="400.0">
+        <Label text="2. Filtros (Opcional):" style="-fx-font-weight: bold;"/>
+        <Label text="Dentista (apenas para relatório de consultas):" />
+        <ComboBox fx:id="comboDentista" prefWidth="400.0" promptText="Todos os Dentistas" />
+
+        <Label text="Período:" />
+        <DatePicker fx:id="dateInicio" prefWidth="400.0" promptText="Data Início" />
+        <DatePicker fx:id="dateFim" prefWidth="400.0" promptText="Data Fim" />
+    </VBox>
+
+    <VBox spacing="5.0" alignment="CENTER_LEFT" maxWidth="400.0">
+        <Label text="3. Formato de Exportação:" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="comboFormato" prefWidth="400.0" />
+    </VBox>
+
+    <Separator prefWidth="200.0" />
+
+    <Button fx:id="btnGerar" onAction="#handleGerarRelatorio" prefHeight="45.0" prefWidth="200.0"
+            style="-fx-background-color: #2980b9; -fx-text-fill: white;" text="GERAR E EXPORTAR">
+        <font>
+            <Font name="System Bold" size="14.0" />
+        </font>
+    </Button>
+</VBox>

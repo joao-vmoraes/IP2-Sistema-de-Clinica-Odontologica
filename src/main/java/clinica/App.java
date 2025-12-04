@@ -22,6 +22,7 @@ import clinica.enums.DiasSemana;
 import clinica.model.Dentista;
 import clinica.model.Paciente;
 import clinica.model.Procedimento;
+import clinica.controller.Relatoriador;
 import clinica.view.UIController.MainController;
 
 public class App extends Application {
@@ -38,8 +39,8 @@ public class App extends Application {
 
 
         Cadastrador cadastrador = new Cadastrador(pacienteRepo, dentistaRepo, procedimentoRepo);
-
         ClinicaManager clinicaManager = new ClinicaManager(agendamentoRepo, dentistaRepo, pacienteRepo, atendimentoRepo, pagamentoRepo);
+        Relatoriador relatoriador = new Relatoriador(agendamentoRepo, pagamentoRepo);
 
         Paciente p1 = new Paciente("João da Silva", "111.222.333-44", "9999-8888", "joao@email.com", "Rua Alfa");
         Dentista d1 = new Dentista("Dra. Ana", "555.666.777-88", "8888-9999", "ana@clinica.com", "Rua Beta", "Clínico Geral", LocalTime.of(8,0), LocalTime.of(17,0), DayOfWeek.SUNDAY);
@@ -53,7 +54,7 @@ public class App extends Application {
         BorderPane root = loader.load();
 
         MainController mainController = loader.getController();
-        mainController.setServices(cadastrador, clinicaManager);
+        mainController.setServices(cadastrador, clinicaManager, relatoriador);
 
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setTitle("Sistema Clínica Odontológica");

@@ -2,6 +2,7 @@ package clinica.view.UIController;
 
 import clinica.controller.Cadastrador;
 import clinica.controller.ClinicaManager;
+import clinica.controller.Relatoriador;
 import clinica.model.Agendamento;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,10 +18,20 @@ public class MainController {
 
     private Cadastrador cadastrador;
     private ClinicaManager clinicaManager;
+    private Relatoriador relatoriador;
 
-    public void setServices(Cadastrador cadastrador, ClinicaManager clinicaManager) {
+    public void setServices(Cadastrador cadastrador, ClinicaManager clinicaManager, Relatoriador relatoriador) {
         this.cadastrador = cadastrador;
         this.clinicaManager = clinicaManager;
+        this.relatoriador = relatoriador;
+    }
+
+    @FXML public void loadRelatorios() {
+        carregarTela("/view/fxml/Relatorio.fxml", c -> {
+            if (c instanceof RelatorioController) {
+                ((RelatorioController) c).setDependencies(relatoriador, cadastrador);
+            }
+        });
     }
 
     @FXML public void loadCadastroPaciente() {

@@ -40,6 +40,11 @@
                         <MenuItem mnemonicParsing="false" text="Sobre" />
                     </items>
                 </Menu>
+                <Menu mnemonicParsing="false" text="Relatórios">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#loadRelatorios" text="Central de Relatórios" />
+                    </items>
+                </Menu>
             </menus>
         </MenuBar>
     </top>
