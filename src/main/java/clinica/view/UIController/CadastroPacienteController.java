@@ -1,11 +1,16 @@
 package clinica.view.UIController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import clinica.controller.Cadastrador;
 import clinica.model.Paciente;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.util.converter.DateTimeStringConverter;
 
 public class CadastroPacienteController {
 
@@ -36,6 +41,24 @@ public class CadastroPacienteController {
 
         if (nome.isEmpty() || cpf.isEmpty()) {
             mostrarAlerta("Atenção", "Nome e CPF são obrigatórios.", AlertType.INFORMATION);
+            return;
+        }
+
+        if(!cpf.matches("\\d*\\d*\\d*.\\d*\\d*\\d*.\\d*\\d*\\d*-\\d*\\d*"))
+        {
+            mostrarAlerta("Atenção", "CPF Inválido", AlertType.ERROR);
+            return;
+        }
+
+        if(!telefone.matches("\\d*"))
+        {
+            mostrarAlerta("Atenção", "Número Inválido", AlertType.ERROR);
+            return;
+        }
+
+        if(!email.endsWith(".com") && !email.endsWith(".br") && !email.endsWith(".org"))
+        {
+            mostrarAlerta("Atenção", "Email Inválido", AlertType.ERROR);
             return;
         }
 
